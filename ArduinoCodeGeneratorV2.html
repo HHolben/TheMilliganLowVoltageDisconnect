@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Arduino Code Generator</title>
+    <script>
+        function generateArduinoCode() {
+            // Get form values
+            var maximumBatteryVoltage = document.getElementById("MaximumBatteryVoltage").value;
+            var turnOffVoltage = document.getElementById("TurnOffVoltage").value;
+            var turnBackOnVoltage = document.getElementById("TurnBackOnVoltage").value;
+            var timeDelay = document.getElementById("TimeDelay").value;
+            var sensorValue = document.getElementById("sensorValue").value;
+            var languageSetting = document.querySelector('input[name="LanguageSetting"]:checked').value;
+            
+            // Generate Arduino code
+            var arduinoCode = `
+                // Arduino code generated from the form
+                float maximumBatteryVoltage = ${maximumBatteryVoltage}F; // Assuming it's a float
+                float turnOffVoltage = ${turnOffVoltage}F; // Assuming it's a float
+                float turnBackOnVoltage = ${turnBackOnVoltage}F; // Assuming it's a float
+                int timeDelay = ${timeDelay}; // Assuming it's an integer
+                int sensorValue = ${sensorValue}; // Assuming it's an integer
+                String languageSetting = "${languageSetting}";
+                
+                // Your Arduino program here
+                
+                
+                
+          
+            `;
+            
+            // Create a Blob with the Arduino code
+            var blob = new Blob([arduinoCode], { type: 'text/plain' });
+
+            // Create a URL for the Blob
+            var url = window.URL.createObjectURL(blob);
+
+            // Create a download link
+            var a = document.createElement('a');
+            a.href = url;
+            a.download = 'arduino_code.ino'; // Set the filename
+            a.style.display = 'none';
+
+            // Add the link to the document and trigger a click event
+            document.body.appendChild(a);
+            a.click();
+
+            // Clean up
+            window.URL.revokeObjectURL(url);
+        }
+    </script>
+</head>
+<body>
+    <form>
+        <h3>Nominal Voltage</h3>
+        <label for="MaximumBatteryVoltage">Default nominal battery bank voltage:</label> 
+        <input type="number" id="MaximumBatteryVoltage" name="MaximumBatteryVoltage" step="0.01" required> volts
+        <br> 
+        <input type="checkbox" id="EnableNominalVoltageInterface" name="EnableNominalVoltageInterface" value="TRUE">
+        <label for="EnableNominalVoltageInterface">Allow the user to change the nominal voltage</label>
+        <br> 
+        
+        <h3>Shut-off Voltage</h3>
+        <label for="TurnOffVoltage">Default Turn-off voltage:</label>
+        <input type="number" id="TurnOffVoltage" name="TurnOffVoltage" step="0.01" required> volts<br>
+        <input type="checkbox" id="EnableTurnOffVoltageInterface" name="EnableTurnOffVoltageInterface" value="TRUE">
+        <label for="EnableTurnOffVoltageInterface">Allow the user to change the Turn-off voltage</label><br>
+        
+        <h3>Turn-back on voltage</h3>
+        <label for="TurnBackOnVoltage">Default turn back on voltage:</label> volts
+        <input type="number" id="TurnBackOnVoltage" name="TurnBackOnVoltage" step="0.01" required> volts
+        <br>
+        <input type="checkbox" id="EnableTurnBackOnVoltageInterface" name="EnableTurnBackOnVoltageInterface" value="TRUE">
+        <label for="EnableTurnBackOnVoltageInterface">Allow the user to change the turn-back-on voltage</label><br>
+        
+        <h3>Override:</h3>
+        <input type="checkbox" id="Override" name="Override" value="TRUE">
+        <label for="Override">Check to enable override</label><br>
+
+<h3>Language:</h3>
+<input type="checkbox" id="EnableLanguageSelection" name="EnableLanguageSelection" value="TRUE">
+<label for="EnableLanguageSelection">Check to enable language selection</label><br>
+<br>
+Default Language:<br>
+<input type="radio" id="Spanish" name="LanguageSetting" value="Spanish">
+<label for="Spanish">Spanish</label><br>
+<input type="radio" id="English" name="LanguageSetting" value="English">
+<label for="English">English</label><br>
+
+        <h3>Time delay</h3>
+        <label for="TimeDelay">Time delay:</label> 
+        <input type="number" id="TimeDelay" name="TimeDelay" step="1" required> seconds
+        <br>
+        
+        <label for="sensorValue">Enter Sensor Value:</label>
+        <input type="number" id="sensorValue" name="sensorValue" step="1" required>
+        <br>
+        
+     <button type="button" onclick="generateArduinoCode()">Generate Arduino Code</button>
+    </form>
+</body>
+</html>
