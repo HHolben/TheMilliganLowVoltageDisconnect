@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arduino Code Generator</title>
+</head>
+<body>
+    <h1>Arduino Code Generator</h1>
+    <img src="LVDCpreliminarylogoV2.png" alt="LVDC Team Logo: A buff, happy battery in a life saver float" style="width:500px">
+    
+    <form id="codeForm">
+		
+
+        
+                <!--Nominal Voltage-->
+                 <h3>Nominal voltage</h3>
+
+        <label for="NominalVoltage">Enter NominalVoltage Value:</label>
+        <input type="number" id="NominalVoltage" name="NominalVoltage" value="12" required> volts
+        <br>
+        <input type="checkbox" id="EnableNominalVoltageInterface" name="EnableNominalVoltageInterface" value="true" checked="checked">Allow the user to change the nominal voltage <br>
+        <br>
+        
+                <!--Shut off Voltage Form-->
+                 <h3>Shut Off voltage</h3>
+        <label for="ShutOffVoltage">Enter ShutOffVoltage Value:</label> volts
+        <input type="number" id="ShutOffVoltage" name="ShutOffVoltage" value="6" required> volts
+        <br>
+       <input type="checkbox" id="EnableShutOffVoltageInterface" name="EnableShutOffVoltageInterface" value="ShutOffEnabled">Allow the user to change the turn-back-on voltage <br>
+<br>
+            
+        
+                <!--Turn Back on Voltage Form-->
+         <h3>Turn-back on Voltage:</h3>
+          <label for="TurnBackOnVoltage">Default turn back on voltage:</label> volts
+          <input type="number" id="TurnBackOnVoltage" name="TurnBackOnVoltage" value="10"> volts
+          <br>
+       <input type="checkbox" id="EnableTurnBackOnVoltageInterface" name="EnableTurnBackOnVoltageInterface" value="TurnBackOnEnabled">Allow the user to change the turn-back-on voltage <br>
+        <br>
+        
+       
+
+        <!-- Override-->
+              <h3>Overide:</h3>
+              <input type="checkbox" id="override" name="override" value="TRUE">
+              <label for="override">Check to enable overide</label><br>
+
+        
+        
+        <!-- Time Delay-->
+              <h3>Time delay</h3>
+              <label for="number">Time delay:</label> 
+              <input type="number" id="TimeDelay" name="TimeDelay" value="0"> seconds
+              <br>
+        
+        
+        
+        <!-- Language-->
+            <h3>Language:</h3>
+             
+                Default Language:
+              <br>
+              <input type="radio" id="english" name="LanguageSetting" value="english" checked="checked">
+              <label for="english">English</label> 
+              <input type="radio" id="spanish" name="LanguageSetting" value="spanish">
+              <label for="spanish">Spanish</label><br>
+
+              <br>
+              <br>
+  
+        <input type="checkbox" id="EnableLanguageInterface" name="EnableLanguageInterface" value="LanguageChoiceEnabled">
+              <label for="EnableLanguageInterface">Check to enable language selection</label><br>
+              <br>
+ 
+            
+
+  
+            
+
+
+            
+                        
+            <br>         
+   
+        
+        
+        
+        
+        
+        
+        
+        <!--Buttons to begin the generation of the arduino file:-->
+        <button type="button" onclick="generateCode()">Generate Arduino Code</button>
+    </form>
+    <br>
+    <a id="downloadLink" style="display: none" download="arduino_code.ino">Download Arduino Code</a>
+
+    <script>
+        function generateCode() {
+            
+            //Extract Variables From the Form
+            
+            
+            //Nominal Battery Voltage JS Variable
+            const NominalVoltage = document.getElementById("NominalVoltage").value;
+            const EnableNominalVoltageBoolean=(document.getElementById("EnableNominalVoltageInterface").checked);
+                  
+            //Shut off Voltage JS Variable
+            const ShutOffVoltage = document.getElementById("ShutOffVoltage").value;
+            const EnableShutOffVoltageBoolean=(document.getElementById("EnableShutOffVoltageInterface").checked);
+            
+            
+            //Turn back on voltage JS Variables
+            const TurnBackOnVoltage = document.getElementById("TurnBackOnVoltage").value; //Turn Back on Voltage JS Variable
+            const EnableTurnBackOnVoltageBoolean=(document.getElementById("EnableTurnBackOnVoltageInterface").checked);
+           
+  
+            //Override JS Variables
+            const Override=(document.getElementById("override").checked);
+           
+            //Time Delay
+            const TimeDelay = document.getElementById("TimeDelay").value;
+            
+            
+
+            
+            //Language JS Variables
+            if(document.getElementById("english").checked==true)
+            {
+
+                var LanguageSetting = 1;
+
+
+            }
+            if(document.getElementById("spanish").checked == true)
+            {
+                var LanguageSetting = 2;
+
+
+            }
+
+                
+            const EnableLanguageOption=(document.getElementById("EnableLanguageInterface").checked);
+           
+          
+            
+            
+            // Generate Arduino code based on user input
+            const arduinoCode = 
+                  `//Global Variables:`
+                  +
+                  `\n \t`                  
+                  +
+                  `float NominalVoltage = ${NominalVoltage};`
+                  +
+                  `\n \t`  
+                  +
+                  `bool EnableNominalVoltageInterface = ${EnableNominalVoltageBoolean};`
+                  +
+                  `\n \t`  
+                  +
+                  `float ShutOffVoltage = ${ShutOffVoltage};`
+                  +
+                  `\n \t`  
+                  +
+                  `bool EnableShutOffVoltageInterface = ${EnableShutOffVoltageBoolean};`
+                  +
+                  `\n \t`  
+                  +
+                  `float TurnBackOnVoltage = ${TurnBackOnVoltage};`
+                  +
+                  `\n \t`  
+                  +
+                  `bool EnableTurnBackOnVoltageInterface = ${EnableTurnBackOnVoltageBoolean};`
+                  +
+                  `\n \t`  
+                  +
+                  `bool Override = ${Override};`
+                  +
+                  `\n \t`
+                  +
+                  `int TimeDelay = ${TimeDelay};`
+                  +
+                  `\n \t`
+                  +
+                  `int LanguageSetting = ${LanguageSetting};`
+                  +
+                  `\n \t`
+                  +
+                  `bool EnableLanguageInterface = ${EnableLanguageOption};`
+
+            
+            
+            
+            
+              +
+                  `\n`  
+                  +
+                  `\n`
+                  +
+                  `void setup()`
+                  +
+                  `\n`
+                  +
+                  `{`
+                  +
+                  `\n`
+                  +
+                  `// Initialize serial communication`
+                  +
+                  `\n \t`
+                  +
+                  `Serial.begin(9600);`
+                  +
+                  `\n`
+                  +
+                  `}`
+                  +
+                  `\n \n`
+                  +
+                  `void loop()`
+                  +
+                  `\n`
+                  +
+                  `{`
+                  +
+                  `\n`
+                  +
+                  `// Read sensor value and print it`
+                  +
+                  `\n \t`
+                  +
+                  `int reading = analogRead(A0);`
+                  +
+                  `\n \t`
+                  +
+                  `Serial.println(reading);`
+                  +
+                  `\n \t`
+                  +
+                  `delay(1000);`
+                  +
+                  `\n`
+                  +
+                  `}`;
+
+            // Create a Blob containing the Arduino code
+            const AssembledArduinoCode = new Blob([arduinoCode], { type: 'text/plain' });
+
+            // Create a download link
+            const downloadLink = document.getElementById("downloadLink");
+            downloadLink.href = URL.createObjectURL(AssembledArduinoCode);
+            downloadLink.style.display = "block";
+            
+            /*
+            
+            //Open a new window
+            // Create a new window and get a reference to it
+            var newWindow = window.open('', '_blank', 'width=400,height=200');
+
+            // Write the string content to the new window
+            newWindow.document.write(AssembledArduinoCode).value;
+
+
+            // Close the document to ensure proper rendering
+            newWindow.document.close();
+            */
+        }
+    </script>
+</body>
+</html>
