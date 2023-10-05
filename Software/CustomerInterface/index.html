@@ -285,7 +285,18 @@
                   +
                   `\n \n`
                   +
-/*Timer Related*/ `//Timer related variables`
+/*Voltage Probe Related*/`//Voltage Probe related variables`
+                  +
+                  `\n \t`
+                  +
+                  `const float Resistor1 = 1.35*(10^6); //ohms`
+                  +
+                  `\n \t`
+                  +
+                  `const float Resistor2 = 750*(10^3); //ohms`
+                  +
+                  `\n \n`
+                  +/*Timer Related*/ `//Timer related variables`
                   +
                   `\n \t`
                   +
@@ -380,6 +391,22 @@
                   `\n \t`
                   +
                   `int RelayOutput = ${PinData[DeviceSelection-1].RelayOutput};`
+                  +
+                  `\n \n`
+                  +
+/*States*/        `//Initialize States`
+                  +
+                  `\n \t`
+                  +
+                  `bool VoltageDisconnectState = true;`
+                  +
+                  `\n \t`
+                  +
+                  `bool LoadOnState = false;`
+                  +
+                  `\n \t`
+                  +
+                  `bool CurrentDisconnectState = false;`
                   +
                   `\n \n`
                   +
@@ -503,7 +530,41 @@
                   +
                   `\n \t`
                   +
-                  `Serial.print("Voltage measured at probe = " && VoltageMeasurement);`
+                  `float BatteryVoltage = VoltageMeasurement*(Resistor1+Resistor2)/(Resistor2); //This uses voltage divider math to caclulate the battery voltage.`
+                  +
+                  `\n \t`
+                  +
+                  `Serial.print("Voltage measured at probe = ");`
+                  +
+                  `\n \t`
+                  +
+                   `Serial.print(VoltageMeasurement);`
+                  +
+                  `\n \t`
+                  +
+                  `\n \t`
+                  +
+                  `Serial.print(`
+                  +
+                  String.raw`'\n'`
+                  +
+                  `);`
+                  +
+                  `\n \t`
+                  +
+                  `Serial.print("Battery Voltage = ");` 
+                  +
+                  `\n \t`
+                  +
+                  `Serial.print(BatteryVoltage);`
+                  +
+                  `\n \t`
+                  +
+                  `Serial.print(`
+                  +
+                  String.raw`'\n'`
+                  +
+                  `);`
                   +
                   `\n`
                   +
@@ -553,6 +614,8 @@
                   +
 /*Start Timer*/   `void StartTimer() `
                   +
+                  `\n`
+                  +
                   `{`
                   +
                   `\n \t`
@@ -581,33 +644,9 @@
                   +
                   `} //end of StartTimer()`
                   +
-                  `\n`
-                  +
-/*Void Setup*/    `void setup()`
-                  +
-                  `\n`
-                  +
-                  `{`
-                  +
-                  `\n \t`
-                  +
-                  `// Initialize serial communication`
-                  +
-                  `\n \t`
-                  +
-                  `Serial.begin(9600);`
-                  +
-                  `\n \t`
-                  +
-                  `readUserInput();`
-                  +
-                  `\n`
-                  +
-                  `} //End of void setup`
-                  +
                   `\n \n`
                   +
-/*Void Loop*/     `void loop()`
+/*Check For User Input*/`void SerialInput()`
                   +
                   `\n`
                   +
@@ -670,6 +709,42 @@
                   `\n \t`
                   +
                   `} //End of if statement`
+                  +
+                  `\n`
+                  +
+                  `} //End of SerialInput()`
+                  +
+                  `\n \n`
+                  +
+/*Void Setup*/    `void setup()`
+                  +
+                  `\n`
+                  +
+                  `{`
+                  +
+                  `\n \t`
+                  +
+                  `// Initialize serial communication`
+                  +
+                  `\n \t`
+                  +
+                  `Serial.begin(9600);`
+                  +
+                  `\n \t`
+                  +
+                  `readUserInput();`
+                  +
+                  `\n`
+                  +
+                  `} //End of void setup`
+                  +
+                  `\n \n`
+                  +
+/*Void Loop*/     `void loop()`
+                  +
+                  `\n`
+                  +
+                  `{`
                   +
                   `\n`
                   +
