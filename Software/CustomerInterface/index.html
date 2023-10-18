@@ -17,7 +17,6 @@
     <img src="LVDCpreliminarylogoV2.png" alt="LVDC Team Logo: A buff, happy battery in a life saver float" style="width:500px">
     
     <form id="codeForm">
-		
 
         
                 <!--Nominal Voltage-->
@@ -46,21 +45,26 @@
        <input type="checkbox" id="EnableTurnBackOnVoltageInterface" name="EnableTurnBackOnVoltageInterface" value="TurnBackOnEnabled">Allow the user to change the turn-back-on voltage <br>
         <br>
         
-       
+        
+                <!--Current Range-->
+         <h3>Current Range:</h3>
+          <label for="LowCurrent">Minimum current:</label> amps
+          <input type="number" id="LowCurrent" name="LowCurrent" value="10"> amps
+          <br>
+        
+        
+       <input type="checkbox" id="EnableCurrentRange" name="EnableCurrentRange" value="CurrentEditingEnabled">Allow the user to change the current range. <br>
+        <br>       
 
+        
+        
         <!-- Override-->
               <h3>Overide:</h3>
-              <input type="checkbox" id="override" name="override" value="TRUE">
-              <label for="override">Check to enable overide</label><br>
-
-        
-        
-        <!-- Time Delay-->
-              <h3>Time delay</h3>
-              <label for="number">Time delay:</label> 
-              <input type="number" id="TimeDelay" name="TimeDelay" value="0"> seconds
+              <input type="number" id="OverrideDelay" name="OverrideDelay" value="20"> minutes
               <br>
-        
+              Override Delay Time: <input type="checkbox" id="override" name="override" value="TRUE">
+              <label for="override">Check to change overide delay time</label><br>
+
         
         
         <!-- Language-->
@@ -121,7 +125,7 @@
    
         
         
-        
+            <p id="exampleElement">Hover over me</p>
         
         
         
@@ -133,7 +137,38 @@
     <a id="downloadLink" style="display: none" download="arduino_code.ino">Download Arduino Code</a>
 
     <script>
+        
+        //Explanations
+            
+        const tooltipText = "This is a tooltip text.";
+
+        // Get the HTML element by its ID
+        const exampleElement = document.getElementById("exampleElement");
+
+        // Set the tooltip text using the `title` attribute
+        exampleElement.title = tooltipText;
+
+           
+        
+        // explanations are given as arrays: ["English version", "Spanish version"];
+        ExplanationNominalVoltage = ["This is the expected voltage of the battery when fully charged",""];
+        ExplanationShutOffVoltage = ["This is the battery voltage at which the device will disconnect the load and the inverter from battery power.",""];
+        ExplanationTurnBackOnVoltage = ["This is the battery voltage at which the device will reconnect the iinverter and the load if previously disconnected",""];
+        ExplanationCurrentRange = ["",""];
+        ExplanationOverride = ["This is the period of time the device will provide power to the inverter and the load, even with a battery voltage that is less than the set shut-off voltage if the end-user manually opts to reconnect after the load and the inverter have been disconnected by the device",""];
+        ExplanationLanguage = ["This is the language that the end-user interface will appear in on the device.",""];
+        ExplanationBoard = ["This is the microncontroller your low voltage disconnect is to be based upon.",""];
+        
+        
+        
+        
+        
         function generateCode() {
+            
+            
+
+            
+            
             
             //Extract Variables From the Form
             
@@ -151,13 +186,16 @@
             const TurnBackOnVoltage = document.getElementById("TurnBackOnVoltage").value; //Turn Back on Voltage JS Variable
             const EnableTurnBackOnVoltageBoolean=(document.getElementById("EnableTurnBackOnVoltageInterface").checked);
            
+            //Current Range
+            
+            
+            const LowCurrent = document.getElementById("LowCurrent").value; //Turn Back on Voltage JS Variable
+
   
             //Override JS Variables
+            const OverrideDelay = document.getElementById("OverrideDelay").value; //Turn Back on Voltage JS Variable
             const Override=(document.getElementById("override").checked);
            
-            //Time Delay
-            const TimeDelay = document.getElementById("TimeDelay").value;
-            
             
 
             
@@ -296,7 +334,8 @@
                   `const float Resistor2 = 750*(10^3); //ohms`
                   +
                   `\n \n`
-                  +/*Timer Related*/ `//Timer related variables`
+                  +
+/*Timer Related*/ `//Timer related variables`
                   +
                   `\n \t`
                   +
@@ -342,7 +381,11 @@
                   +
                   `\n \t`
                   +
-                  `int TimeDelay = ${TimeDelay};`
+                  `bool OverrideDelay = ${OverrideDelay}*60000; //milliseconds`
+                  +
+                  `\n \t`
+                  +
+                  `int TimeDelay = 30000; //Delay for turning back on or off`
                   +
                   `\n \t`
                   +
@@ -518,7 +561,7 @@
                   +
                   `\n \n`
                   +
-/*Voltage Measurement*/`void MeasureVoltage() `
+/*Voltage Measurement*/`float MeasureVoltage() `
                   +
                   `\n`
                   +
@@ -565,6 +608,10 @@
                   String.raw`'\n'`
                   +
                   `);`
+                  +
+                  `\n \t`
+                  +
+                  `return(BatteryVoltage);`
                   +
                   `\n`
                   +
@@ -745,6 +792,80 @@
                   `\n`
                   +
                   `{`
+                  +
+                  `\n \t`
+                  +
+                  `if ((MeasureVoltage()<ShutOffVoltage) && (Override=false))`
+                  +
+                  `\n \t`
+                  +
+                  `{`
+                  +
+                  `\n \t \t`
+                  +
+                  `TurnOffOutput();`
+                  +
+                  `\n \t \t`
+                  +
+                  `\n \t`
+                  +
+                  `} //end of if statement`
+                  +
+                   `if ((MeasureVoltage()<ShutOffVoltage) && (Override=true))`
+                  +
+                  `\n \t`
+                  +
+                  `{`
+                  +
+                  `\n \t \t`
+                  +
+                  `TurnOnOutput();`
+                  +
+                  `\n \t \t`
+                  +
+                  `\n \t`
+                  +
+                  `} //end of if statement`
+                  +
+                  `\n \t`
+                  +
+                  `if (MeasureVoltage()>TurnBackOnVoltage)`
+                  +
+                  `\n \t`
+                  +
+                  `{`
+                  +
+                  `\n \t \t`
+                  +
+                  `TurnOnOutput();`
+                  +
+                  `\n \t \t`
+                  +
+                  `\n \t`
+                  +
+                  `} //end of if statement`
+                  +
+                   `\n \t`
+                  +
+                  `if (MeasureVoltage()>ShutOffVoltage)`
+                  +
+                  `\n \t`
+                  +
+                  `{`
+                  +
+                  `\n \t \t`
+                  +
+                  `TurnOnOutput();`
+                  +
+                  `\n \t \t`
+                  +
+                  `\n \t`
+                  +
+                  `} //end of if statement`
+                  +
+                  `\n \t`
+                  +
+                  `\n \t`
                   +
                   `\n`
                   +
