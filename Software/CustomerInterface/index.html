@@ -65,6 +65,21 @@
               Override Delay Time: <input type="checkbox" id="override" name="override" value="TRUE">
               <label for="override">Check to change overide delay time</label><br>
 
+              <br>
+              <br>
+
+        <!-- TimerOffset-->
+              <h3>Timer Offset:</h3>
+              <input type="number" id="TimerOffset" name="TimerOffset" value="0"> seconds
+              <br>
+              Enable the user to change the timer offset: <input type="checkbox" id="EnableTimerOffsetBoolean" name="EnableTimerOffsetBoolean" value="TRUE">
+              <label for="EnableTimerOffsetBoolean">Check to enable changing of the timer offset</label><br>
+
+                
+        
+        
+        
+        
         
         
         <!-- Language-->
@@ -189,14 +204,16 @@
             //Current Range
             
             
-            const LowCurrent = document.getElementById("LowCurrent").value; //Turn Back on Voltage JS Variable
+            const LowCurrent = document.getElementById("LowCurrent").value; //Low Current JS Variable
 
   
             //Override JS Variables
-            const OverrideDelay = document.getElementById("OverrideDelay").value; //Turn Back on Voltage JS Variable
+            const OverrideDelay = document.getElementById("OverrideDelay").value; //Override Delay JS Variable
             const Override=(document.getElementById("override").checked);
            
-            
+            //Timer Offset
+            const TimerOffset = document.getElementById("TimerOffset").value; //Turn Back on Voltage JS Variable
+            const EnableTimerOffsetBoolean=(document.getElementById("EnableTimerOffsetBoolean").checked);
 
             
             //Language JS Variables
@@ -284,14 +301,14 @@
     },
     {
         "Name": "ArduinoMega",
-        "VoltageProbe": "14", //"Pin A0"
+        "VoltageProbe": "A0", //"Pin A0"
         "lcdSDA": "27",//"Pin A4"
         "lcdSCL": "19",//"Pin A5"
         "EncoderCLK": "12",//"Pin D6"
         "EncoderDT": "13",//"Pin D7"
         "EncoderSW": "14",//"Pin D8"
         "PushButton": "10",//"Pin D10"
-        "RelayOutput": "6"//"Pin D2"
+        "RelayOutput": "2"//"Pin D2 (digital pin 2)"
     }
 ];
 
@@ -327,29 +344,15 @@
                   +
                   `\n \t`
                   +
-                  `const float Resistor1 = 1.35*(10^6); //ohms`
+                  `const float Resistor1 = 1.35e6; //ohms`
                   +
                   `\n \t`
                   +
-                  `const float Resistor2 = 750*(10^3); //ohms`
+                  `const float Resistor2 = 750e3; //ohms`
                   +
                   `\n \n`
                   +
-/*Timer Related*/ `//Timer related variables`
-                  +
-                  `\n \t`
-                  +
-                  `unsigned long previousMillis = 0;`
-                  +
-                  `\n \t`
-                  +
-                  `const unsigned long TimerSafetyInterval = 600000;`
-                  +
-                  `// Set an interval in milliseconds to ensure that millis() rollover (happens once approximately every 50 days when millis() resets to zero) is never an issue for more than 10 minutes`
-                  +
-                  `\n \n`
-                  +
-/*Global Variables*/`//Global Variables:`
+/*Customer-set Variables*/`//Global Variables:`
                   +
                   `\n \t`
                   +
@@ -381,7 +384,15 @@
                   +
                   `\n \t`
                   +
-                  `bool OverrideDelay = ${OverrideDelay}*60000; //milliseconds`
+                  `unsigned long OverrideDelay = ${OverrideDelay}*60000; //milliseconds`
+                  +
+                  `\n \t`
+                  +
+                  `bool EnableTimerOffsetBoolean = ${EnableTimerOffsetBoolean};`
+                  +
+                  `\n \t`
+                  +
+                  `unsigned long TimerOffset = ${TimerOffset}*1000; //milliseconds`
                   +
                   `\n \t`
                   +
@@ -400,6 +411,26 @@
                   `int DeviceSetting = ${DeviceSelection};`
                   +
                   `\n \n \t`
+                  +
+/*Timer Related*/ `//Timer-related variables`
+                  +
+                  `\n \t`
+                  +
+                  `unsigned long previousMillis = 0;`
+                  +
+                  `\n \t`
+                  +
+                  `unsigned long RolloverTime = (pow(2,32)-1);// Set an interval in milliseconds to ensure that millis() rollover (happens once approximately every 50 days when millis() resets to zero) is never an issue for more than 10 minutes`                 
+                  +
+                  `\n \t`
+                  +
+                  `\n \t`
+                  +
+                  `bool TimerHasStarted = false;`
+                  +
+                  `\n \t`
+                  +
+                  `\n \n`
                   +
 /*Pin Assignments*/`//Get Pin Assignments:`
                   +
@@ -557,11 +588,109 @@
                   +
                   `\n \n`
                   +
-                  `//Measure Voltage Function`
+/*TimeSinceBoot*/ `//Find the time since the Low Voltage Disconnect was turned on`
+                  +
+                  `\n \t`
+                  +
+                  `unsigned long TimeSinceBoot()`
+                  +
+                  `\n \t`
+                  +
+                  `{`
+                  +
+                  `\n \t`
+                  +
+                  `unsigned long SystemTime = millis()+TimerOffset; // TimerOffset allows manipulating timers for testing purposes (you can start the timer at a much later time than the actual time since starting)`
+                  +
+                  `\n \t`
+                  +
+                  `Serial.print("System Time: ");`
+                  +
+                  `\n \t`
+                  +
+                  `Serial.print(SystemTime/1000);`
+                  +
+                  `\n \t`
+                  +
+                  `Serial.print(" seconds");`
+                  +
+                  `\n \t`
+                  +
+                  `Serial.print(`
+                  +
+                  String.raw`'\n'`
+                  +
+                  `);`
+                  +
+                  `\n \t`
+                  +
+                  `return(SystemTime);`
+                  +
+                  `\n \t`
+                  +
+                  `} //end of TimeSinceBoot() function`
+                  +
+/*Start Timer Function*/`//SetTimerEnd`
+                  +
+                  `\n`
+                  +
+                  `unsigned long SetTimerEnd()`
+                  +
+                  `\n \t`
+                  +
+                   `{`
+                  +
+                  `\n \t \t`
+                  +
+                  `unsigned long ShutOffTime;`
+                  +
+                  `\n \t \t`
+                  +
+                   `if(TimeSinceBoot()>=RolloverTime-OverrideDelay)`
+                  +
+                  `\n \t \t`
+                  +
+                  `{`
+                  +
+                  `\n \t \t \t`
+                  +
+                  `ShutOffTime = (TimeSinceBoot()+OverrideDelay)-RolloverTime;`
+                  +
+                  `\n \t \t \t`
+                  +  
+                  `\n \t \t \t`
+                  +
+                  `\n \t \t`
+                  +
+                   `} //end of if statement`
+                  +
+                  `\n \t \t`                  
+                  +
+                  `else // "normal operation", when TimeSinceBoot() is not within the Override Delay's duration of the millis() rollover`
+                  +
+                  `\n \t \t`
+                  +
+                  `{`
+                  +
+                  `\n \t \t \t`
+                  +
+                  `ShutOffTime = TimeSinceBoot()+OverrideDelay;`
+                  +                  
+                  `\n \t \t`
+                  +
+                  `} //end of else statement`
+                  +
+                  `\n \t`
+                  +
+                  `return(ShutOffTime);`
+                  +
+                  `\n`
+                  +
+                   `} //end of SetTimerEnd() function`
                   +
                   `\n \n`
                   +
-/*Voltage Measurement*/`float MeasureVoltage() `
+/*Voltage Measurement*/`float MeasureVoltage()`
                   +
                   `\n`
                   +
@@ -569,7 +698,7 @@
                   +
                   `\n \t`
                   +
-                  `float VoltageMeasurement = analogRead(VoltageProbe)*(5/1023); //The ratio is 5 Volts (max voltage that can go into a pin)/ 1023 (AnalogRead() measures between 0 and 1023`
+                  `float VoltageMeasurement = analogRead(VoltageProbe)*5/1023; //The ratio is 5 Volts (max voltage that can go into a pin)/ 1023 (AnalogRead() measures between 0 and 1023`
                   +
                   `\n \t`
                   +
@@ -656,40 +785,6 @@
                   `\n`
                   +
                   `} //end of function, TurnOnOutput()`
-                  +
-                  `\n \n`
-                  +
-/*Start Timer*/   `void StartTimer() `
-                  +
-                  `\n`
-                  +
-                  `{`
-                  +
-                  `\n \t`
-                  +
-                  `unsigned long currentMillis = millis();`
-                  +
-                  `\n \t`
-                  +
-                  `if (currentMillis - previousMillis >= TimerSafetyInterval)`
-                  +
-                  `\n \t`
-                  +
-                  `{`
-                  +
-                  `\n \t \t`
-                  +
-                  `previousMillis = currentMillis;`
-                  +
-                  `\n \t \t`
-                  +
-                  `\n \t`
-                  +
-                  `} // end of if statment`
-                  +
-                  `\n`
-                  +
-                  `} //end of StartTimer()`
                   +
                   `\n \n`
                   +
@@ -781,6 +876,10 @@
                   +
                   `readUserInput();`
                   +
+                  `\n \t`
+                  +
+                  `TurnOnOutput(); //we want to start the microcontroller with the output on`
+                  +
                   `\n`
                   +
                   `} //End of void setup`
@@ -793,39 +892,151 @@
                   +
                   `{`
                   +
+                  `\n`
+                  +
                   `\n \t`
                   +
-                  `if ((MeasureVoltage()<ShutOffVoltage) && (Override=false))`
+                  `//Low voltage disconnection: If the battery voltage is lower than the cut off voltage, turn off the load when the override period expires`
+                  +
+                  `\n \t`
+                  +
+                  `if (MeasureVoltage() < ShutOffVoltage)`
                   +
                   `\n \t`
                   +
                   `{`
                   +
                   `\n \t \t`
+                  +
+                  `if(TimerHasStarted == false)`
+                  +
+                  `\n \t \t`
+                  +
+                  `{`
+                  +
+                  `\n \t \t \t`
+                  +
+                  `static unsigned long StartTime = 0;`
+                  +
+                  `\n \t \t \t`
+                  +
+                  `static unsigned long EndTime = 0;`
+                  +
+                  `\n \t \t \t`
+                  +
+                  `static bool timerStarted = false;`
+                  +
+                  `\n \t \t \t`
+                  +
+                  `if (!timerStarted)`
+                  +
+                  `\n \t \t \t`
+                  +
+                  `{`
+                  +
+                  `\n \t \t \t`
+                  +
+                  `StartTime = TimeSinceBoot();`
+                  +
+                  `\n \t \t \t`
+                  +
+                  `EndTime = SetTimerEnd();`
+                  +
+                  `\n \t \t \t`
+                  +
+                  `timerStarted = true;`
+                  +
+                  `\n \t \t \t`
+                  +
+                  `Serial.print("Timer started at: ");`
+                  +
+                  `\n \t \t \t`
+                  +
+                  `Serial.print(StartTime / 1000); // Convert milliseconds to seconds`
+                  +
+                  `\n \t \t \t`
+                  +
+                  `Serial.println(" seconds");`
+                  +
+                  `\n \t \t \t`
+                  +
+                  `Serial.print("Timer will end at: ");`
+                  +
+                  `\n \t \t \t`
+                  +
+                  `Serial.print(EndTime / 1000); // Convert milliseconds to seconds`
+                  +
+                  `\n \t \t \t`
+                  +
+                  `Serial.println(" seconds");`
+                  +
+                  `\n \t \t \t`
+                  +
+                  `Serial.println("Countdown:");`
+                  +
+                  `\n \t \t`
+                  +
+                  `} // end of if !timerStarted statement`
+                  +
+                  `\n \t \t`
+                  +
+                  `unsigned long currentTime = TimeSinceBoot();`
+                  +
+                  `\n \t \t`
+                  +
+                  `if (currentTime < EndTime)`
+                  +
+                  `\n \t \t`
+                  +
+                  `{`
+                  +
+                  `\n \t \t \t`
+                  +
+                  `unsigned long remainingTime = EndTime - currentTime;`
+                  +
+                  `\n \t \t \t`
+                  +
+                  `Serial.print(remainingTime / 1000); // Convert milliseconds to seconds`
+                  +
+                  `\n \t \t \t`
+                  +
+                  `Serial.println(" seconds remaining");`
+                  +
+                  `\n \t \t \t`
+                  +
+                  `// Other tasks can run here while the timer is active`
+                  +
+                  `\n \t \t`
+                  +
+                  `} // end of if(currentTime < EndTime)`
+                  +
+                  `\n \t \t`
+                  +
+                  `else`
+                  +
+                  `\n \t \t`
+                  +
+                  `{`
+                  +
+                  `\n \t \t \t`
+                  +
+                  `Serial.println("Timer completed. Load can be turned off.");`
+                  +
+                  `\n \t \t \t`
+                  +
+                  `timerStarted = false;`
+                  +
+                  `\n \t \t \t`
                   +
                   `TurnOffOutput();`
                   +
                   `\n \t \t`
                   +
-                  `\n \t`
-                  +
-                  `} //end of if statement`
-                  +
-                   `if ((MeasureVoltage()<ShutOffVoltage) && (Override=true))`
-                  +
-                  `\n \t`
-                  +
-                  `{`
+                  `} // end of else statement`
                   +
                   `\n \t \t`
                   +
-                  `TurnOnOutput();`
-                  +
-                  `\n \t \t`
-                  +
-                  `\n \t`
-                  +
-                  `} //end of if statement`
+                  `//Reconnection: If the battery voltage has been recharged over the set reconnect voltage, turn the load back on`
                   +
                   `\n \t`
                   +
@@ -840,28 +1051,16 @@
                   `TurnOnOutput();`
                   +
                   `\n \t \t`
+                  +  
+                  `TimerHasStarted = false;`
                   +
                   `\n \t`
                   +
                   `} //end of if statement`
                   +
-                   `\n \t`
-                  +
-                  `if (MeasureVoltage()>ShutOffVoltage)`
+                  `\n \n \t`
                   +
                   `\n \t`
-                  +
-                  `{`
-                  +
-                  `\n \t \t`
-                  +
-                  `TurnOnOutput();`
-                  +
-                  `\n \t \t`
-                  +
-                  `\n \t`
-                  +
-                  `} //end of if statement`
                   +
                   `\n \t`
                   +
@@ -869,25 +1068,18 @@
                   +
                   `\n`
                   +
-                  `} //End of Void Loop`
-
+                  `}}} //End of Void Loop`
             ;//end of arduinoCode constant
+        // Create a Blob containing the Arduino code
+        const blob = new Blob([arduinoCode], { type: 'text/plain' });
 
-            // Create a Blob containing the Arduino code
-            const AssembledArduinoCode = new Blob([arduinoCode], { type: 'text/plain' });
+        // Create a download link
+        const downloadLink = document.getElementById("downloadLink");
+        downloadLink.href = URL.createObjectURL(blob);
+        downloadLink.download = "arduino_code.ino"; // Set the filename
 
+        downloadLink.style.display = "block";
 
-            
-            
-            // Create a download link
-            const downloadLink = document.getElementById("downloadLink");
-            downloadLink.href = URL.createObjectURL(AssembledArduinoCode);
-            downloadLink.style.display = "block";
-            a.click();
-    setTimeout(function(){
-        document.body.removeChild(a);
-        window.URL.revokeObjectURL(url);  
-    }, 100); 
             /*
             
             //Open a new window
@@ -901,7 +1093,7 @@
             // Close the document to ensure proper rendering
             newWindow.document.close();
             */
-        }
+        }//end function generate code
     </script>
 </body>
 </html>
