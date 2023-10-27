@@ -1,0 +1,35 @@
+List of functions that are defined in the Low voltage disconnect arduino code:
+	______________________________________________________________________
+    
+readUserInput():
+This is a function for pulling data out of the arduino's EEPROM memory. This is meant to be used to retrieve information that the user has set after the device was first turned on.
+    
+writeUserInput():
+This function is meant to save information given by the user in the arduino's EEPROM memory.
+   	 
+SerialInput()
+This is a function which remains in the code, but which I have decided not to use. I just haven't gotten around to deleting it. It was originally meant to use the serial monitor and input as a prototype user interface. I later decided that developing this would be a waste of time and that the serial monitor should only be used to log the arduino's actions.
+   	 
+TimeSinceBoot()
+This uses the millis() function to produce the time in milliseconds since the microcontroller was turned on. It also adds a "Timer Offset" time. The timer offset can be configured in the customer interface. It gives a "head start" to the output of this function for testing purposes- specifically for testing the microcontroller's behavior when nearing the millis rollover time. The millis rollover is when the internal clock runs out of bits to store the number of milliseconds since the device was turned on and goes back to zero. This happens about once every 50 days that the microcontroller has gone without being reset.
+   	 
+SetTimerEnd()
+This function is meant to be used for setting timers. It takes the current time and uses it to predict the correct end time for a timer. It also takes the millis rollover into account when doing this.
+    
+MeasureVoltage()
+This function measures the voltage at a designated pin and uses that value and the characteristics of the voltage sensor to calculate the voltage of the battery.
+    
+    
+TurnOffOutput()
+This function sets the pin connected to the input of the relay low.
+    
+    
+TurnOnOutput()
+This function sets the pin connected to the input of the relay high.
+    
+Setup()
+This function sets the serial monitor baud rate (9600 bits per second), calls the readUserInput() function and calls the TurnOnOutput() function.
+
+
+Loop()
+This function calls other functions in this list to read the battery voltage, compare it to the shut off voltage and the reconnect voltage and either turn off or on the load based on the logic of a low voltage disconnect system.

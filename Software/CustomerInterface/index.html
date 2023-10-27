@@ -426,8 +426,6 @@
                   +
                   `\n \t`
                   +
-                  `bool TimerHasStarted = false;`
-                  +
                   `\n \t`
                   +
                   `\n \n`
@@ -900,6 +898,18 @@
                   +
                   `\n \t`
                   +
+                  `static unsigned long StartTime = 0;`
+                  +
+                  `\n \t`
+                  +
+                  `static unsigned long EndTime = 0;`
+                  +
+                  `\n \t`
+                  +
+                  `static bool TimerHasStarted = false;`
+                  +
+                  `\n \t`
+                  +
                   `if (MeasureVoltage() < ShutOffVoltage)`
                   +
                   `\n \t`
@@ -916,26 +926,6 @@
                   +
                   `\n \t \t \t`
                   +
-                  `static unsigned long StartTime = 0;`
-                  +
-                  `\n \t \t \t`
-                  +
-                  `static unsigned long EndTime = 0;`
-                  +
-                  `\n \t \t \t`
-                  +
-                  `static bool timerStarted = false;`
-                  +
-                  `\n \t \t \t`
-                  +
-                  `if (!timerStarted)`
-                  +
-                  `\n \t \t \t`
-                  +
-                  `{`
-                  +
-                  `\n \t \t \t`
-                  +
                   `StartTime = TimeSinceBoot();`
                   +
                   `\n \t \t \t`
@@ -944,7 +934,7 @@
                   +
                   `\n \t \t \t`
                   +
-                  `timerStarted = true;`
+                  `TimerHasStarted = true;`
                   +
                   `\n \t \t \t`
                   +
@@ -976,99 +966,103 @@
                   +
                   `\n \t \t`
                   +
-                  `} // end of if !timerStarted statement`
+                  `} // end of if TimerHasStarted == false statement`
                   +
-                  `\n \t \t`
+                  `\n \t \t \t`
                   +
                   `unsigned long currentTime = TimeSinceBoot();`
                   +
-                  `\n \t \t`
+                  `\n \t \t \t`
                   +
                   `if (currentTime < EndTime)`
                   +
-                  `\n \t \t`
+                  `\n \t \t \t`
                   +
                   `{`
                   +
-                  `\n \t \t \t`
+                  `\n \t \t \t \t`
                   +
                   `unsigned long remainingTime = EndTime - currentTime;`
                   +
-                  `\n \t \t \t`
+                  `\n \t \t \t \t`
                   +
                   `Serial.print(remainingTime / 1000); // Convert milliseconds to seconds`
                   +
-                  `\n \t \t \t`
+                  `\n \t \t \t \t`
                   +
                   `Serial.println(" seconds remaining");`
                   +
-                  `\n \t \t \t`
+                  `\n \t \t \t \t`
                   +
                   `// Other tasks can run here while the timer is active`
                   +
-                  `\n \t \t`
+                  `\n \t \t \t`
                   +
                   `} // end of if(currentTime < EndTime)`
                   +
-                  `\n \t \t`
+                  `\n \t \t \t`
                   +
                   `else`
                   +
-                  `\n \t \t`
+                  `\n \t \t \t`
                   +
                   `{`
                   +
-                  `\n \t \t \t`
+                  `\n \t \t \t \t`
                   +
                   `Serial.println("Timer completed. Load can be turned off.");`
                   +
-                  `\n \t \t \t`
+                  `\n \t \t \t \t`
                   +
-                  `timerStarted = false;`
+                  `TimerHasStarted = false;`
                   +
-                  `\n \t \t \t`
+                  `\n \t \t \t \t`
                   +
                   `TurnOffOutput();`
                   +
-                  `\n \t \t`
+                  `\n \t \t \t`
                   +
                   `} // end of else statement`
                   +
-                  `\n \t \t`
+                  `\n \t \t \t`
+                   +
+                  `} // end of if MeasureVoltage()<ShutOffVoltage`
+                  +
+                  `\n \t \t \t`
                   +
                   `//Reconnection: If the battery voltage has been recharged over the set reconnect voltage, turn the load back on`
                   +
-                  `\n \t`
+                  `\n \t \t`
                   +
                   `if (MeasureVoltage()>TurnBackOnVoltage)`
                   +
-                  `\n \t`
+                  `\n \t \t`
                   +
                   `{`
                   +
-                  `\n \t \t`
+                  `\n \t \t \t`
                   +
                   `TurnOnOutput();`
                   +
-                  `\n \t \t`
+                  `\n \t \t \t`
                   +  
                   `TimerHasStarted = false;`
                   +
-                  `\n \t`
+                  `\n \t \t`
                   +
                   `} //end of if statement`
                   +
-                  `\n \n \t`
+                  `\n \n \t \t`
+                  +
+                  `\n \t \t`
+                  +
+                  `\n \t \t`
+                  +
+                  `\n \t \t`
                   +
                   `\n \t`
                   +
-                  `\n \t`
-                  +
-                  `\n \t`
-                  +
-                  `\n`
-                  +
-                  `}}} //End of Void Loop`
+                  `} //End of Void Loop`
             ;//end of arduinoCode constant
         // Create a Blob containing the Arduino code
         const blob = new Blob([arduinoCode], { type: 'text/plain' });
