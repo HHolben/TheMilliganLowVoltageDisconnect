@@ -33,3 +33,10 @@ This function sets the serial monitor baud rate (9600 bits per second), calls th
 
 Loop()
 This function calls other functions in this list to read the battery voltage, compare it to the shut off voltage and the reconnect voltage and either turn off or on the load based on the logic of a low voltage disconnect system.
+
+Screens()
+This function uses case statements to divide up possible screens
+
+Select()
+Allows the value of a variable selected in the interface to be changed by increments of 0.1 after the select button has been pressed
+
