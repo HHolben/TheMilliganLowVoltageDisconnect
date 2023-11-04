@@ -304,12 +304,12 @@
         "lcdSCL": "19",//"Pin A5"
         "EncoderCLK": "12",//"Pin D6"
         "EncoderDT": "13",//"Pin D7"
-        "EncoderSW": "14",//"Pin D8"
-        "PushButton": "15",//"Pin D9"
+        "EncoderSW": "8",//"Pin D8"
+        "PushButton": "13",//"Pin D9"
         "RelayOutput": "4",//"Pin 10"
         "InputUp": "2",//Pin 2
         "InputDown": "3",//Pin 3   
-        "InputRight": "4",//Pin 4
+        "InputRight": "10",//Pin 4
         "InputLeft": "5",//Pin 5     
         "InputSelect": "6"//Pin 6
         
@@ -332,15 +332,24 @@
             }
 ];
 
+            
+            
+            const CodeHead = document.createElement('script');
+CodeHead.src = 'ArduinoFileSections/CodeHead.js';
+document.head.appendChild(CodeHead);
+
+            
             // Generate Arduino code based on user input
-             const arduinoCode =
-/*Start*/        `//Milligan Engineering Low Voltage Disconnect Arduino Code`
-                  +
-                  `\n`
-                  +
-                  `\n \t`
-                  +
-/*Libraries*/     `//Specify Libraries`
+/*Start*///const CodeHead =
+           //// `//Milligan Engineering Low Voltage Disconnect Arduino Code`
+               //   +
+             //     `\n`
+                //  +
+                 // `\n \t`
+                //  ;
+    /*Libraries*/const LibrariesSection =
+
+                  `//Specify Libraries`
                   +
                   `\n \t`
                   +
@@ -348,7 +357,11 @@
                   +
                   `\n \t`
                   +
-                  `#include <LiquidCrystal_I2C.h> //This library is necesary for memory management`
+                  `#include <LiquidCrystal_I2C.h> //This library is necesary for LCD display management`
+                  +
+                  `\n \t`
+                  +
+                  `#include <Encoder.h> //This library is necesary for using rotary encoders as inputs`
                   +
                   `\n \t`
                   +
@@ -367,8 +380,9 @@
                   `char userInput[MAX_INPUT_LENGTH] = {0}; // Buffer to store user input`
                   +
                   `\n \n`
-                  +
-/*LCD Related*/`//Liquid crystal display related variables`
+                  ;            
+/*LCD Related*/const LiquidCrystalDisplayVariablesSection =
+            `//Liquid crystal display related variables`
                   +
                   `\n \n`
                   +
@@ -379,7 +393,8 @@
                   `bool selectPressed = false; // Select button latch`
                   +
                   `\n \n`
-                  +
+                  ;       
+            const VoltageProbeSpecifications =
 /*Voltage Probe Related*/`//Voltage Probe related variables`
                   +
                   `\n \t`
@@ -391,8 +406,9 @@
                   `const float Resistor2 = 750e3; //ohms`
                   +
                   `\n \n`
-                  +
-/*Customer-set Variables*/`//Global Variables:`
+                  ;
+/*Customer-set Variables*/const GlobalVariables =
+                  `//Global Variables:`
                   +
                   `\n \t`
                   +
@@ -451,8 +467,9 @@
                   `int DeviceSetting = ${DeviceSelection};`
                   +
                   `\n \n \t`
-                  +
-/*Timer Related*/ `//Timer-related variables`
+                  ;
+/*Timer Related*/ const TimerRelatedVariables =
+                  `//Timer-related variables`
                   +
                   `\n \t`
                   +
@@ -469,8 +486,9 @@
                   `\n \t`
                   +
                   `\n \n`
-                  +
-/*Pin Assignments*/`//Get Pin Assignments:`
+                  ;
+/*Pin Assignments*/const GetPinAssignments =
+            `//Get Pin Assignments:`
                   +
                   `\n \t`
                   +
@@ -525,24 +543,10 @@
                   `int InputSelect = ${PinData[DeviceSelection-1].InputSelect};`
                   +
                   `\n `
-                  +                                
-/*States*/        `//Initialize States`
-                  +
-                  `\n \t`
-                  +
-                  `bool VoltageDisconnectState = true;`
-                  +
-                  `\n \t`
-                  +
-                  `bool LoadOnState = false;`
-                  +
-                  `\n \t`
-                  +
-                  `bool CurrentDisconnectState = false;`
-                  +
-                  `\n \n`
-                  +
-/*Screen Case Statements*/`//All Possible Screens`
+                  ;                                
+
+/*Screen Case Statements*/const LCDScreenCaseStatements =
+                  `//All Possible Screens`
                   +
                   `\n \t`
                   +
@@ -610,11 +614,15 @@
                   +
                   `\n \t \t \t \t`
                   +
-                  `lcd.print(" Override T:    ");`
+                  `lcd.print(" Override T:   ");`
                   +
                   `\n \t \t \t \t`
                   +
-                  `lcd.print(OverrideDelay,1);`
+                  `lcd.print(OverrideDelay/60000);`
+                  +
+                  `\n \t \t \t \t`
+                  +
+                  `lcd.print("min");`
                   +
                   `\n \t \t \t \t`
                   +
@@ -674,11 +682,15 @@
                   +
                   `\n \t \t \t \t`
                   +
-                  `lcd.print(" Override T:    ");`
+                  `lcd.print(" Override T:   ");`
                   +
                   `\n \t \t \t \t`
                   +
-                  `lcd.print(OverrideDelay,1);`
+                  `lcd.print(OverrideDelay/60000);`
+                  +
+                  `\n \t \t \t \t`
+                  +
+                  `lcd.print("min");`
                   +
                   `\n \t \t \t \t`
                   +
@@ -738,11 +750,15 @@
                   +
                   `\n \t \t \t \t`
                   +
-                  `lcd.print(" Override T:    ");`
+                  `lcd.print(" Override T:   ");`
                   +
                   `\n \t \t \t \t`
                   +
-                  `lcd.print(OverrideDelay,1);`
+                  `lcd.print(OverrideDelay/60000);`
+                  +
+                  `\n \t \t \t \t`
+                  +
+                  `lcd.print("min");`
                   +
                   `\n \t \t \t \t`
                   +
@@ -802,15 +818,19 @@
                   +
                   `\n \t \t \t \t`
                   +
-                  `lcd.print(">Override T:    ");`
+                  `lcd.print(">Override T:   ");`
                   +
                   `\n \t \t \t \t`
                   +
-                  `lcd.print(OverrideDelay, 1);`
+                  `lcd.print(OverrideDelay/60000);`
                   +
                   `\n \t \t \t \t`
                   +
-                  `break; //The reason I didn't just have cases to only change the position of the arrow is the screen will have to be cleared to get rid of the arrows or a space would be needed to overwrite this.  It was just as easy to do this.`
+                  `lcd.print("min");`
+                  +
+                  `\n \t \t \t \t`
+                  +
+                  `break;`
                   +
                   `\n \t \t \t`
                   +
@@ -822,7 +842,7 @@
                   +
                   `\n \t`
                   +
-                  `}//End of Screens()     Alternatively do this:     setCursor(0,0)`
+                  `}//End of Screens()`
                   +
                   `\n \t`
                   +      
@@ -833,8 +853,9 @@
                   `//Allows ">" character to change lines`
                   +
                   `\n \t`
-                  +
-/*Void Scroll*/`void Scroll()`
+                  ;
+/*Void Scroll*/   const ScrollFunction =
+                  `void Scroll()`
                   +
                   `\n \t`
                   +
@@ -893,8 +914,9 @@
                    `} // end void Scroll()`
                    + 
                    `\n \t`
-                   +
-/*Void Select*/    `void Select()`
+                   ;
+/*Void Select*/    const SelectFunction =
+                   `void Select()`
                    +
                    `\n \t`
                    +
@@ -909,8 +931,6 @@
                    `int LEFT_State = digitalRead(InputLeft);`
                    +
                    `\n \t \t`
-                   +
-                   `//I think I should add a timer to get out of select state in case user leaves it, battery voltage would not be updated on LCD`
                    +
                    `\n \t \t`
                    +
@@ -1030,7 +1050,7 @@
                    +
                    `\n \t \t \t \t`
                    +
-                   `OverrideDelay = OverrideDelay + 5;`
+                   `OverrideDelay = OverrideDelay + (5*60000);`
                    +
                    `\n \t \t \t`
                    +
@@ -1046,7 +1066,7 @@
                    +
                    `\n \t \t \t \t`
                    +
-                   `OverrideDelay = OverrideDelay - 5;`
+                   `OverrideDelay = OverrideDelay - (5*60000);`
                    +
                    `\n \t \t \t`
                    +
@@ -1054,21 +1074,16 @@
                    +
                    `\n \t \t`
                    +
-                   `}   //end of else if (scrollPosition == 3)  NEED SOMETHING THAT DOESN"T LET THESE NUMBERS GO NEGATIVE`
-                   +
-                   `\n \t \t \t \t`
-                   +
-                   `//might could do if cursor is here, add 10 instead of 0.1, but would likely mess up wording.`
-                   +
-                   `\n \t \t \t \t`
+                   `}   //end of else if (scrollPosition == 3)`
                    +
                    `\n \t`
                    +
                    `} //end void Select()` 
                    +
                    `\n \t`
-                   +
-/*Void Read User Input*/`void readUserInput()`
+                   ;
+/*Void Read User Input*/const ReadUserInputMemoryFunction =
+                   `void readUserInput()`
                    +
                    `\n`
                    +
@@ -1121,8 +1136,9 @@
                   `} //end of Read User Input`
                   +
                   `\n \n`
-                  +
-/*Void Write User Input*/`void writeUserInput()`
+                  ;
+/*Void Write User Input*/const WriteUserInputMemoryFunction =
+                  `void writeUserInput()`
                   +
                   `\n`
                   +
@@ -1183,8 +1199,9 @@
                   `\n`
                   +
                   `\n \n`
-                  +
-/*TimeSinceBoot*/ `//Find the time since the Low Voltage Disconnect was turned on`
+                  ;
+/*TimeSinceBoot*/ const TimeSinceBootFunction =
+                  `//Find the time since the Low Voltage Disconnect was turned on`
                   +
                   `\n \t`
                   +
@@ -1225,8 +1242,9 @@
                   `\n \t`
                   +
                   `} //end of TimeSinceBoot() function`
-                  +
-/*Start Timer Function*/`//SetTimerEnd`
+                  ;
+/*Start Timer Function*/const StartTimerFunction =
+                  `//SetTimerEnd`
                   +
                   `\n`
                   +
@@ -1285,8 +1303,9 @@
                    `} //end of SetTimerEnd() function`
                   +
                   `\n \n`
-                  +
-/*Voltage Measurement*/`float MeasureVoltage()`
+                  ;
+/*Voltage Measurement*/const VoltageMeasurementFunction =
+                  `float MeasureVoltage()`
                   +
                   `\n`
                   +
@@ -1343,8 +1362,9 @@
                   `} //end of function, MeasureVoltage()`
                   +
                   `\n \n`
-                  +
-/*Turn off output*/`void TurnOffOutput()`
+                  ;
+/*Turn off output*/const TurnOffOutputFunction =
+                  `void TurnOffOutput()`
                   +
                   `\n`
                   +
@@ -1363,8 +1383,9 @@
                   `} //end of function, TurnOffOutput()`
                   +
                   `\n \n`
-                  +
-/*Turn on output*/`void TurnOnOutput() `
+                  ;
+/*Turn on output*/const TurnOnOutputFunction =
+                  `void TurnOnOutput() `
                   +
                   `\n`
                   +
@@ -1383,8 +1404,9 @@
                   `} //end of function, TurnOnOutput()`
                   +
                   `\n \n`
-                  +
-/*Void Setup*/    `void setup()`
+                  ;
+/*Void Setup*/    const SetupFunction =
+                  `void setup()`
                   +
                   `\n`
                   +
@@ -1449,8 +1471,9 @@
                   `} //End of void setup`
                   +
                   `\n \n`
-                  +
-/*Void Loop*/     `void loop()`
+                  ;
+/*Void Loop*/     const LoopFunction =
+                  `void loop()`
                   +
                   `\n`
                   +
@@ -1704,7 +1727,7 @@
 
             
         // Create a Blob containing the Arduino code
-        const blob = new Blob([arduinoCode], { type: 'text/plain' });
+        const blob = new Blob([CodeHead + LibrariesSection + LiquidCrystalDisplayVariablesSection + VoltageProbeSpecifications + GlobalVariables + TimerRelatedVariables + GetPinAssignments + LCDScreenCaseStatements + ScrollFunction + SelectFunction + ReadUserInputMemoryFunction + WriteUserInputMemoryFunction + TimeSinceBootFunction + StartTimerFunction + VoltageMeasurementFunction + TurnOffOutputFunction + TurnOnOutputFunction + SetupFunction + LoopFunction], { type: 'text/plain' });
 
         // Create a download link
         const downloadLink = document.getElementById("downloadLink");
@@ -1728,5 +1751,11 @@
             */
         }//end function generate code
     </script>
+    
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
 </body>
 </html>
