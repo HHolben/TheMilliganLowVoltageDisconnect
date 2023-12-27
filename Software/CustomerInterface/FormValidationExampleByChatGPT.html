@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Form Validation Example</title>
+  <style>
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Form Validation Example</h1>
+
+<form id="myForm">
+  <label for="integerMultiple">Positive Integer Multiple of 12:</label>
+  <input type="text" id="integerMultiple" name="integerMultiple" required>
+  <span class="error" id="integerMultipleError"></span><br><br>
+
+  <label for="positiveNumber">Positive Number (Decimal Allowed):</label>
+  <input type="number" id="positiveNumber" name="positiveNumber" step="any" required>
+  <span class="error" id="positiveNumberError"></span><br><br>
+
+  <input type="submit" value="Submit">
+</form>
+
+<script>
+  document.getElementById('myForm').addEventListener('submit', function(event) {
+    const integerMultiple = parseInt(document.getElementById('integerMultiple').value);
+    const positiveNumber = parseFloat(document.getElementById('positiveNumber').value);
+
+    const integerMultipleError = document.getElementById('integerMultipleError');
+    const positiveNumberError = document.getElementById('positiveNumberError');
+
+    integerMultipleError.textContent = '';
+    positiveNumberError.textContent = '';
+
+    if (!integerMultiple) {
+      integerMultipleError.textContent = 'Please enter a positive integer multiple of 12.';
+      event.preventDefault();
+    } else if (integerMultiple % 12 !== 0) {
+      integerMultipleError.textContent = 'Input must be a positive integer multiple of 12.';
+      event.preventDefault();
+    }
+
+    if (isNaN(positiveNumber) || positiveNumber <= 0) {
+      positiveNumberError.textContent = 'Please enter a positive number (decimal values allowed).';
+      event.preventDefault();
+    }
+  });
+</script>
+
+</body>
+</html>
