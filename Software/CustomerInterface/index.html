@@ -59,14 +59,7 @@
             <input type="checkbox" id="EnableTurnBackOnVoltageInterface" name="EnableTurnBackOnVoltageInterface" value="TurnBackOnEnabled">
             <label for="TurnBackOnVoltage">Allow the user to change the turn-back-on voltage</label><br>
         
-        <!--Current Range-->
-            <h3>Current Range:</h3>
-            <label for="LowCurrent">Minimum current:</label> amps
-            <input type="number" id="LowCurrent" name="LowCurrent" value="10"> amps
-            <br>
-            <input type="checkbox" id="EnableCurrentRange" name="EnableCurrentRange" value="CurrentEditingEnabled">Allow the user to change the current range. <br>
-            <br>
-        
+
         <!-- Override-->
             <h3>Overide:</h3>
             <input type="number" id="OverrideDelay" name="OverrideDelay" value="20"> minutes
@@ -155,78 +148,122 @@
             //Extract Variables From the Form
                 //Nominal Battery Voltage JS Variable
                     const DeviceName = document.getElementById("DeviceName").value;
-                    const EnableNameChange=(document.getElementById("EnableNameChange").checked);
             
                 //Nominal Battery Voltage JS Variable
                     const NominalVoltage = document.getElementById("NominalVoltage").value;
-                    const EnableNominalVoltageBoolean=(document.getElementById("EnableNominalVoltageInterface").checked);
+
                   
                 //Shut off Voltage JS Variable
                     const ShutOffVoltage = document.getElementById("ShutOffVoltage").value;
-                    const EnableShutOffVoltageBoolean=(document.getElementById("EnableShutOffVoltageInterface").checked);
             
             
                 //Turn back on voltage JS Variables
                     const TurnBackOnVoltage = document.getElementById("TurnBackOnVoltage").value; //Turn Back on Voltage JS Variable
-                    const EnableTurnBackOnVoltageBoolean=(document.getElementById("EnableTurnBackOnVoltageInterface").checked);
            
-                //Current Range
-                    const LowCurrent = document.getElementById("LowCurrent").value; //Low Current JS Variable
-
-  
                 //Override JS Variables
                     const OverrideDelay = document.getElementById("OverrideDelay").value; //Override Delay JS Variable
-                    const EnableOverrideChange=(document.getElementById("override").checked);
            
                 //Timer Offset
                     const TimerOffset = document.getElementById("TimerOffset").value; //Turn Back on Voltage JS Variable
-                    const EnableTimerOffsetBoolean=(document.getElementById("EnableTimerOffsetBoolean").checked);
 
                 //Language JS Variables
                     if(document.getElementById("english").checked==true)
                     {
                         var LanguageSetting = 1;
-                    }
+                    }// end if
             
                     if(document.getElementById("spanish").checked == true)
                     {
                         var LanguageSetting = 2;
-                    }
-                
-                    const EnableLanguageOption=(document.getElementById("EnableLanguageInterface").checked);
-           
+                    }// end if
+                           
                 //Device JS Variables
                     if(document.getElementById("ArduinoNano").checked==true)
                     {
                         var DeviceSelection = 1;
-                    }
+                    }// end if
             
                     if(document.getElementById("ArduinoNanoESP32").checked == true)
                     {
                         var DeviceSelection = 2;
-                    }
+                    }// end if
                     
                     if(document.getElementById("ArduinoUno").checked==true)
                     {
                         var DeviceSelection = 3;
-                    }
+                    }// end if
             
                     if(document.getElementById("ArduinoMega").checked == true)
                     {
                         var DeviceSelection = 4;
-                    }
+                    }// end if
             
                 //Control Type JS Variables
                     if(document.getElementById("ButtonArray").checked == true)
                     {
                         var ControlSelection = 1;
-                    }
+                    }// end if
             
                     if(document.getElementById("Encoder").checked == true)
                     {
                         var ControlSelection = 2;
-                    }
+                    }// end if
                     
+            
+            
+            //User-adjustables: in this section, we will create an array to represent all items the customer has decided to allow the end user to change using the end-user interface. We wil then create a string full of arduino code related to creating the end-user interface's menu which we can later inject into the final arduino program
+            
+            
+          var Adjustables = [];
+                       
+            if(document.getElementById("EnableNameChange").checked == true)
+            {
+                 Adjustables.push(["Device Name", "Nombre Dispositivo"]);
+            }// end if
+            
+            if(document.getElementById("EnableNominalVoltageInterface").checked == true)
+            {
+                 Adjustables.push(["Battery Voltage", "Voltaje Batería"]);
+            }// end if
+            
+            if(document.getElementById("EnableShutOffVoltageInterface").checked == true)
+            {
+                 Adjustables.push(["CutOff Voltage", "Corte Voltaje"]);
+            }// end if
+            
+            if(document.getElementById("EnableTurnBackOnVoltageInterface").checked == true)
+            {
+                 Adjustables.push(["CutOn Voltage", "Encendido Voltaje"]);
+            }// end if
+            
+            if(document.getElementById("override").checked == true)
+            {
+                 Adjustables.push(["Override Time", "Anulación Tiempo"]);
+            }// end if
+            
+            if(document.getElementById("EnableTimerOffsetBoolean").checked == true)
+            {
+                 Adjustables.push(["Timer Offset", "Despl. Temporizador"]);
+            }// end if
+            
+            if(document.getElementById("EnableLanguageInterface").checked == true)
+            {
+                 Adjustables.push(["Language/Lengua", "Language/Lengua"]);
+            }//end if
+
+
+            // Convert the array to a string representation
+            var MenuItems = "//Menu Items: \n \t String MenuItems[][2] = {";
+            for (var i = 0; i < Adjustables.length; i++) {
+                MenuItems += "{\"" + Adjustables[i][0] + "\", \"" + Adjustables[i][1] + "\"}";
+                if (i < Adjustables.length - 1) 
+                {
+                    MenuItems += ", ";
+                }//end if
+            }//end for
+            MenuItems += "\n \n";
+            
+            
             
                      //Check that inputs are valid       
                                 const NominalVoltageError = document.getElementById('NominalVoltageError');
@@ -448,15 +485,7 @@
                       +
                       `\n \t`
                       +
-                      `bool EnableNameChange = ${EnableNameChange};`
-                      +
-                      `\n \t`
-                      +
                       `float NominalVoltage = ${NominalVoltage};`
-                      +
-                      `\n \t`
-                      +
-                      `bool EnableNominalVoltageInterface = ${EnableNominalVoltageBoolean};`
                       +
                       `\n \t`
                       +
@@ -464,30 +493,12 @@
                       +
                       `\n \t`
                       +
-                      `bool EnableShutOffVoltageBoolean = ${EnableShutOffVoltageBoolean};`
-                      +
-                      `\n \t`
-                      +
                       `float TurnBackOnVoltage = ${TurnBackOnVoltage};`
                       +
                       `\n \t`
                       +
-                      `bool EnableTurnBackOnVoltageInterface = ${EnableTurnBackOnVoltageBoolean};`
-                      +
-                      `\n \t`
-                      +                      
-                      `\n \t`
-                      +
                       `unsigned long OverrideDelay = ${OverrideDelay}*60000; //milliseconds`
                       +                      
-                      `\n \t`
-                      +
-                      `bool EnableOverrideChange = ${EnableOverrideChange};`
-                      +
-                      `\n \t`
-                      +
-                      `bool EnableTimerOffsetBoolean = ${EnableTimerOffsetBoolean};`
-                      +
                       `\n \t`
                       +
                       `unsigned long TimerOffset = ${TimerOffset}*1000; //milliseconds`
@@ -499,10 +510,6 @@
                       `\n \t`
                       +
                       `int LanguageSetting = ${LanguageSetting};`
-                      +
-                      `\n \t`
-                      +
-                      `bool EnableLanguageInterface = ${EnableLanguageOption};`
                       +
                       `\n \t`
                       +
@@ -2134,7 +2141,7 @@
         }
             
         // Create a Blob containing the Arduino code
-        const blob = new Blob([CodeHead + LibrariesSection + LiquidCrystalDisplayVariablesSection + VoltageProbeSpecifications + GlobalVariables + TimerRelatedVariables + GetPinAssignments + EncoderSetup + LCDScreenCaseStatements + ScrollFunction + SelectFunction + ReadUserInputMemoryFunction + WriteUserInputMemoryFunction + TimeSinceBootFunction + StartTimerFunction + VoltageMeasurementFunction + TurnOffOutputFunction + TurnOnOutputFunction + SetupFunction + DefaultScreenState + LoopFunction], { type: 'text/plain' });
+        const blob = new Blob([CodeHead + LibrariesSection + MenuItems + LiquidCrystalDisplayVariablesSection + VoltageProbeSpecifications + GlobalVariables + TimerRelatedVariables + GetPinAssignments + EncoderSetup + LCDScreenCaseStatements + ScrollFunction + SelectFunction + ReadUserInputMemoryFunction + WriteUserInputMemoryFunction + TimeSinceBootFunction + StartTimerFunction + VoltageMeasurementFunction + TurnOffOutputFunction + TurnOnOutputFunction + SetupFunction + DefaultScreenState + LoopFunction], { type: 'text/plain' });
 
         // Create a download link
         const downloadLink = document.getElementById("downloadLink");
