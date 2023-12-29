@@ -170,12 +170,12 @@
                 //Language JS Variables
                     if(document.getElementById("english").checked==true)
                     {
-                        var LanguageSetting = 1;
+                        var LanguageSetting = 0;
                     }// end if
             
                     if(document.getElementById("spanish").checked == true)
                     {
-                        var LanguageSetting = 2;
+                        var LanguageSetting = 1;
                     }// end if
                            
                 //Device JS Variables
@@ -215,6 +215,8 @@
             //User-adjustables: in this section, we will create an array to represent all items the customer has decided to allow the end user to change using the end-user interface. We wil then create a string full of arduino code related to creating the end-user interface's menu which we can later inject into the final arduino program
             
             
+            const MaximumRowNumber = 4;//this is because we are using an LCD screen with 4 rows. If that changes, you will want to change this constant right here.
+            
           var Adjustables = [];
                        
             if(document.getElementById("EnableNameChange").checked == true)
@@ -253,9 +255,10 @@
             }//end if
 
 
-            // Convert the array to a string representation
+            // Convert the array of adjustable menu items to a string representation
             var MenuItems = "//Menu Items: \n \t String InterfaceItems[][2] = {";
-            for (var i = 0; i < Adjustables.length; i++) {
+            for (var i = 0; i < Adjustables.length; i++) 
+            {
                 MenuItems += "{\"" + Adjustables[i][0] + "\", \"" + Adjustables[i][1] + "\"}";
                 if (i < Adjustables.length - 1) 
                 {
@@ -265,13 +268,11 @@
             MenuItems += "}; \n \n";
             
             
-            const MaximumRowNumber = 4;
+            
+                   
+            
              
-            
-            
 
-            
-            
                      //Check that inputs are valid       
                                 const NominalVoltageError = document.getElementById('NominalVoltageError');
                                 const ShutOffVoltageError = document.getElementById('ShutOffVoltageError');
@@ -305,7 +306,8 @@
                                 {
                                      alert("Please enter a positive number for override delay (decimal values allowed");
                                 }
-                                else{
+                                else
+                                {
             
              //Set up pin assignments
                 const PinData = 
@@ -627,7 +629,7 @@
                        ;
                                     
 /*Screen Case Statements*/    
-            var LCDScreenCaseStatements=`\n`
+            var LCDScreenCaseStatements = `\n`
                        +
                        `//LCD Screen Case Statements: `
                        +
@@ -684,7 +686,7 @@
                          }//end else
 
                          var LCDScreenCaseStatements = LCDScreenCaseStatements+
-                         `InterfaceItems[`+j+`][LanguageSetting-1]);`
+                         `InterfaceItems[`+j+`][LanguageSetting]);`
                          +
                          `\n \t \t \t`
                          ;
@@ -730,7 +732,7 @@
                              }//end else
 
                              var LCDScreenCaseStatements = LCDScreenCaseStatements+
-                             `InterfaceItems[`+j+`][LanguageSetting-1]);`
+                             `InterfaceItems[`+j+`][LanguageSetting]);`
                              +
                              `\n \t \t \t`
                              ;
@@ -761,9 +763,110 @@
                          ;
       
       
+/*Nominal Voltage End-user interface menu*/    
+            var NominalVoltageMenu = `\n`
+                         +
+                         `//Adjust Nominal Voltage: `
+                         +
+                         `\n \t`
+                         +
+                         `void AdustNominalVoltage()`
+                         +
+                         `\n \t`
+                         +
+                         `{`
+                         +
+                         `\n \t \t`
+                         +
+                         `String NominalVoltageMenuItems[][2] = `
+                         +
+                         `{`
+                         +
+                         `{"Battery Voltage", "Voltaje Batería"},`//Name of the setting
+                         +
+                         `{"volts", "voltios"},`//Name of the unit
+                         +
+                         `{"Cancel", "Cancelar"},`//"Cancel": What the user will select to discard a change they have indicated
+                         +
+                         `{"Confirm", "Confirmar"}`//"Confirm": What the user will select to save a changed value
+                         +
+                         `};`
+                         +
+                         `\n \t \t`
+                         +
+                         `lcd.setCursor(0,0);`
+                         +
+                         `\n \t \t`
+                         +
+                         `lcd.print(NominalVoltageMenuItems[0][LanguageSetting]+":");`//print the menu title "Battery Voltage"
+                         +
+                         `\n \t \t`
+                         +
+                         `lcd.setCursor(0,1);`
+                         +
+                         `\n \t \t`
+                         +
+                         `lcd.print(NominalVoltage);`//print the current nominal voltage setting
+                         +
+                         `\n \t \t`
+                         +
+                         `lcd.setCursor(0,2);`
+                         +
+                         `\n \t \t`
+                         +
+                         `lcd.print(NominalVoltageMenuItems[1][LanguageSetting]);`//give the unit in volts
+                         +
+                         `\n \t \t`
+                         +
+                         `lcd.setCursor(0,3);`
+                         +
+                         `\n \t \t`
+                         +
+                         `lcd.print(NominalVoltageMenuItems[2][LanguageSetting]);`//print "Cancel"
+                         +
+                         `\n \t \t`
+                         +
+                         `lcd.setCursor(11,3);`
+                         +
+                         `\n \t \t`
+                         +
+                         `lcd.print(NominalVoltageMenuItems[2][LanguageSetting]);`//print "Confirm"
+                         +
+                         `\n \t \t`
+                         +
+                         `} //end Adjust Nominal Voltage`
+                         +
+                         `\n \n`
+                         ;
       
       
-      
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
       
       
     /*Void Scroll*/   const ButtonScrollFunction =
@@ -2079,7 +2182,7 @@
         }
             
         // Create a Blob containing the Arduino code
-        const blob = new Blob([CodeHead + LibrariesSection + MenuItems + LiquidCrystalDisplayVariablesSection + VoltageProbeSpecifications + GlobalVariables + TimerRelatedVariables + GetPinAssignments + EncoderSetup + LCDScreenCaseStatements + ScrollFunction + SelectFunction + ReadUserInputMemoryFunction + WriteUserInputMemoryFunction + TimeSinceBootFunction + StartTimerFunction + VoltageMeasurementFunction + TurnOffOutputFunction + TurnOnOutputFunction + SetupFunction + DefaultScreenState + LoopFunction], { type: 'text/plain' });
+        const blob = new Blob([CodeHead + LibrariesSection + MenuItems + LiquidCrystalDisplayVariablesSection + VoltageProbeSpecifications + GlobalVariables + TimerRelatedVariables + GetPinAssignments + EncoderSetup + LCDScreenCaseStatements + NominalVoltageMenu + ScrollFunction + SelectFunction + ReadUserInputMemoryFunction + WriteUserInputMemoryFunction + TimeSinceBootFunction + StartTimerFunction + VoltageMeasurementFunction + TurnOffOutputFunction + TurnOnOutputFunction + SetupFunction + DefaultScreenState + LoopFunction], { type: 'text/plain' });
 
         // Create a download link
         const downloadLink = document.getElementById("downloadLink");
@@ -2087,7 +2190,6 @@
         downloadLink.download = "arduino_code.ino"; // Set the filename
 
         downloadLink.style.display = "block";
-                           
         }//end else
     }//end function generate code     
     </script>
