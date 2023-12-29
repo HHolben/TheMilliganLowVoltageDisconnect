@@ -143,7 +143,8 @@
             ExplanationBoard = ["This is the microncontroller your low voltage disconnect is to be based upon.",""];
         
         //Generate the arduino Code
-        function generateCode() {
+        function generateCode() 
+        {
 
             //Extract Variables From the Form
                 //Nominal Battery Voltage JS Variable
@@ -253,7 +254,7 @@
 
 
             // Convert the array to a string representation
-            var MenuItems = "//Menu Items: \n \t String MenuItems[][2] = {";
+            var MenuItems = "//Menu Items: \n \t String InterfaceItems[][2] = {";
             for (var i = 0; i < Adjustables.length; i++) {
                 MenuItems += "{\"" + Adjustables[i][0] + "\", \"" + Adjustables[i][1] + "\"}";
                 if (i < Adjustables.length - 1) 
@@ -261,8 +262,14 @@
                     MenuItems += ", ";
                 }//end if
             }//end for
-            MenuItems += "\n \n";
+            MenuItems += "}; \n \n";
             
+            
+            const MaximumRowNumber = 4;
+             
+            
+            
+
             
             
                      //Check that inputs are valid       
@@ -615,238 +622,153 @@
                        `\n \t`
                        +
                        `int ChangeInPosition = 0;`
+                       +
+                       `\n`
                        ;
                                     
-/*Screen Case Statements*/const LCDScreenCaseStatements =
-                      `//All Possible Screens`
+/*Screen Case Statements*/    
+            var LCDScreenCaseStatements=`\n`
+                       +
+                       `//LCD Screen Case Statements: `
+                       +
+                       `\n \t`
+                       +
+                       `void Screens(int scrollPosition)`
+                       +
+                       `\n \t`
+                       +
+                       `{`
+                       +
+                       `\n \t \t`
+                       +
+                       `switch(scrollPosition)`
+                       +
+                       `\n \t \t \t`
+                       +
+                       `{`
+                       +
+                       `\n \t \t \t`
+                       ;
+                      
+             for (var i = 0; i < Adjustables.length; i++) 
+             {
+                if(i<MaximumRowNumber)
+                {
+                               
+                         var LCDScreenCaseStatements = LCDScreenCaseStatements+
+                        `case ` + i +`:`
+                         +
+                         `\n \t \t \t`
+                         ;
+                     for (var j = 0; j < MaximumRowNumber; j++) 
+                     {
+
+
+                         var LCDScreenCaseStatements = LCDScreenCaseStatements+
+                         `lcd.setCursor(0,`+j+`);`
+                         +
+                         `\n \t \t \t`
+                         ;
+
+                         if (j==i)
+                         {
+                             var LCDScreenCaseStatements = LCDScreenCaseStatements+
+                            `lcd.print(">"+`
+                             ;
+                         }//end if j=i
+                         else
+                         {
+                             var LCDScreenCaseStatements = LCDScreenCaseStatements+
+                            `lcd.print(" "+`
+                             ;                     
+                         }//end else
+
+                         var LCDScreenCaseStatements = LCDScreenCaseStatements+
+                         `InterfaceItems[`+j+`][LanguageSetting-1]);`
+                         +
+                         `\n \t \t \t`
+                         ;
+
+                     }//end for j = 0
+                         var LCDScreenCaseStatements = LCDScreenCaseStatements
+                         +
+                         `break;`
+                         +
+                         `\n \n \t \t \t`
+                         ;
+                 }//end if i<4
+                 else
+                 {
+                      var LCDScreenCaseStatements = LCDScreenCaseStatements
                       +
-                      `\n \t`
-                      +
-                      `void Screens(int scrollPosition)`
-                      +
-                      `\n \t`
-                      +
-                      `{`
-                      +
-                      `\n \t \t`
-                      +
-                      `switch(scrollPosition)`
-                      +
-                      `\n \t \t`
-                      +
-                      `{`
-                      +
-                      `\n \t \t \t`
-                      +
-                      `case 0:`/* Case 0 Starts Here*/
-                      +
-                      `\n \t \t \t`
-                      +
-                      `{`
-                      +
-                      `\n \t \t \t \t`
-                      +
-                      `lcd.setCursor(0,0);`
-                      +
-                      `\n \t \t \t \t`
-                      +
-                      `lcd.print(">Battery Voltage");`
-                      +
-                      `\n \t \t \t \t`
-                      +
-                      `lcd.setCursor(0,1);`
-                      +
-                      `\n \t \t \t \t`
-                      +
-                      `lcd.print(" CutOff Voltage");`
-                      +
-                      `\n \t \t \t \t`
-                      +
-                      `lcd.setCursor(0,2);`
-                      +
-                      `\n \t \t \t \t`
-                      +
-                      `lcd.print(" CutOn Voltage");`
-                      +
-                      `\n \t \t \t \t`
-                      +
-                      `lcd.setCursor(0,3);`
-                      +
-                      `\n \t \t \t \t`
-                      +
-                      `lcd.print(" Override Time");`
-                      +
-                      `\n \t \t \t \t`
-                      +
-                      `break;`
-                      +
-                      `\n \t \t \t`
-                      +
-                      `}`                   
-                      +
-                      `\n \t \t \t`
-                      +
-                      `case 1:`
-                      +
-                      `\n \t \t \t`
-                      +
-                      `{`/* Case 1 Starts Here*/
-                      +
-                      `\n \t \t \t \t`
-                      +
-                      `lcd.setCursor(0,0);`
-                      +
-                      `\n \t \t \t \t`
-                      +
-                      `lcd.print(" Battery Voltage");`
-                      +
-                      `\n \t \t \t \t`
-                      +
-                      `lcd.setCursor(0,1);`
-                      +
-                      `\n \t \t \t \t`
-                      +
-                      `lcd.print(">CutOff Voltage");`
-                      +
-                      `\n \t \t \t \t`
-                      +
-                      `lcd.setCursor(0,2);`
-                      +
-                      `\n \t \t \t \t`
-                      +
-                      `lcd.print(" CutOn Voltage");`
-                      +
-                      `\n \t \t \t \t`
-                      +
-                      `lcd.setCursor(0,3);`
-                      +
-                      `\n \t \t \t \t`
-                      +
-                      `lcd.print(" Override Time");`
-                      +
-                      `\n \t \t \t \t`
-                      +
-                      `break;`
+                      `case ` + i +`:`
                       +
                       `\n \t \t \t`
-                      +
-                      `}`
-                      +
-                      `\n \t \t \t`
-                      +
-                      `case 2:`
-                      +
-                      `\n \t \t \t`
-                      +
-                      `{`/* Case 2 Starts Here*/
-                      +
-                      `\n \t \t \t \t`
-                      +
-                      `lcd.setCursor(0,0);`
-                      +
-                      `\n \t \t \t \t`
-                      +
-                      `lcd.print(" Battery Voltage");`
-                      +
-                      `\n \t \t \t \t`
-                      +
-                      `lcd.setCursor(0,1);`
-                      +
-                      `\n \t \t \t \t`
-                      +
-                      `lcd.print(" CutOff Voltage");`
-                      +
-                      `\n \t \t \t \t`
-                      +
-                      `lcd.setCursor(0,2);`
-                      +
-                      `\n \t \t \t \t`
-                      +
-                      `lcd.print(">CutOn Voltage");`
-                      +
-                      `\n \t \t \t \t`
-                      +
-                      `lcd.setCursor(0,3);`
-                      +
-                      `\n \t \t \t \t`
-                      +
-                      `lcd.print(" Override Time");`
-                      +
-                      `\n \t \t \t \t`
-                      +
-                      `break;`
-                      +
-                      `\n \t \t \t`
-                      +
-                      `}`
-                      +
-                      `\n \t \t \t`
-                      +
-                      `case 3:`
-                      +
-                      `\n \t \t \t`
-                      +
-                      `{`/* Case 3 Starts Here*/
-                      +
-                      `\n \t \t \t \t`
-                      +
-                      `lcd.setCursor(0,0);`
-                      +
-                      `\n \t \t \t \t`
-                      +
-                      `lcd.print(" Battery Voltage");`
-                      +
-                      `\n \t \t \t \t`
-                      +
-                      `lcd.setCursor(0,1);`
-                      +
-                      `\n \t \t \t \t`
-                      +
-                      `lcd.print(" CutOff Voltage");`
-                      +
-                      `\n \t \t \t \t`
-                      +
-                      `lcd.setCursor(0,2);`
-                      +
-                      `\n \t \t \t \t`
-                      +
-                      `lcd.print(" CutOn Voltage");`
-                      +
-                      `\n \t \t \t \t`
-                      +
-                      `lcd.setCursor(0,3);`
-                      +
-                      `\n \t \t \t \t`
-                      +
-                      `lcd.print(">Override Time");`
-                      +
-                      `\n \t \t \t \t`
-                      +
-                      `break;`
-                      +
-                      `\n \t \t \t`
-                      +
-                      `} //end of case 3`
-                      +
-                      `\n \t \t`
-                      +
-                      `} // end of switch`
-                      +
-                      `\n \t`
-                      +
-                      `}//End of Screens()`
-                      +
-                      `\n \t`
-                      +      
-                      `//lcd.print(" ") then next line print the arrow`
-                      +
-                      `\n \t`
-                      +
-                      `//Allows ">" character to change lines`
-                      +
-                      `\n \t`
                       ;
+                        
+                         for (var j = i-MaximumRowNumber+1; j <= i; j++) 
+                         {
+
+
+                             var LCDScreenCaseStatements = LCDScreenCaseStatements+
+                             `lcd.setCursor(0,`+j+`);`
+                             +
+                             `\n \t \t \t`
+                             ;
+
+                             if (j==i)
+                             {
+                                 var LCDScreenCaseStatements = LCDScreenCaseStatements+
+                                `lcd.print(">"+`
+                                 ;
+                             }//end if j=3
+                             else
+                             {
+                                 var LCDScreenCaseStatements = LCDScreenCaseStatements+
+                                `lcd.print(" "+`
+                                 ;                     
+                             }//end else
+
+                             var LCDScreenCaseStatements = LCDScreenCaseStatements+
+                             `InterfaceItems[`+j+`][LanguageSetting-1]);`
+                             +
+                             `\n \t \t \t`
+                             ;
+
+                         }//end for j = 0
+                         var LCDScreenCaseStatements = LCDScreenCaseStatements
+                         +
+                         `break;`
+                         +
+                         `\n \n \t \t \t`
+                         ;
+                      
+                 }//end else
+            
+             }//end for i = 0
+            
+                         var LCDScreenCaseStatements = LCDScreenCaseStatements
+                         +
+                         `\n \t \t`
+                         +
+                         `}// end switch(scrollPosition)`
+                         +
+                         `\n \t`
+                         +
+                         `}// end Screens`
+                         +
+                         `\n \n`
+                         ;
+      
+      
+      
+      
+      
+      
+      
     /*Void Scroll*/   const ButtonScrollFunction =
+                      `\t`
+                      +
                       `void Scroll()`
                       +
                       `\n \t`
@@ -921,7 +843,7 @@
                        +
                        `\n \t \t`
                        + 
-                       `scrollPosition = (myEncoder.read()/4)%4;`
+                       `scrollPosition = 3-abs((myEncoder.read()/4)%4);`
                        +
                        `\n \t`
                        + 
@@ -1816,21 +1738,10 @@
                   +
                   `\n \t`
                   ;
-                   
-/*Void Loop*/     const LoopFunction =
-                  `void loop()`
-                  +
-                  `\n`
-                  +
-                  `{`
-                  +
-                  `\n \t`
-                  +
-                  `Scroll();`
-                  +
-                  `\n \t`
-                  +
-                  `//Low voltage disconnection: If the battery voltage is lower than the cut off voltage, turn off the load when the override period expires`
+
+                                    
+/*Low Voltage Check*/const LowVoltageCheck =
+                                    `//Low voltage disconnection: If the battery voltage is lower than the cut off voltage, turn off the load when the override period expires`
                   +
                   `\n \t`
                   +
@@ -1965,7 +1876,9 @@
                   `} // end of if MeasureVoltage()<ShutOffVoltage`
                   +
                   `\n \t \t \t`
-                  +
+                  ;
+                  
+/*Reconnect Voltage Check*/const ReconnectVoltageCheck =
                   `//Reconnection: If the battery voltage has been recharged over the set reconnect voltage, turn the load back on`
                   +
                   `\n \t \t`
@@ -1989,6 +1902,30 @@
                   `} //end of if statement`
                   +
                   `\n \t \t`
+                  ;
+                                                       
+/*Void Loop*/     const LoopFunction =
+                  `void loop()`
+                  +
+                  `\n`
+                  +
+                  `{`
+                  +
+                  `\n \t`
+                  +
+                  `Scroll();`
+                  +
+                  `\n \t`
+                  +
+                  LowVoltageCheck
+                  +
+                  `Scroll();`
+                  +
+                  `\n \t`
+                  +
+                  ReconnectVoltageCheck
+                  +
+                  `Scroll();`
                   +
                   `int EncoderSelectState = digitalRead(EncoderSW);`
                   +
@@ -2013,8 +1950,9 @@
                   `selectPressed = !selectPressed;`
                   +
                   `\n \t` 
-                  +
+                  /*+
                   `delay(200); // NEEDED Delay so it doesn't think you are holding it down, or it will always allow scrolling`
+                  */
                   +
                   `\n \t` 
                   +
@@ -2151,7 +2089,7 @@
         downloadLink.style.display = "block";
                            
         }//end else
-        }//end function generate code     
+    }//end function generate code     
     </script>
     <br>
 </body>
