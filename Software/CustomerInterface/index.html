@@ -11,12 +11,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Arduino Code Generator</title>
-</head>
-<body>
-    <h1>Arduino Code Generator</h1>
-    <img src="LVDCpreliminarylogoV2.png" alt="LVDC Team Logo: A buff, happy battery in a life saver float" style="width:500px">
-    
-    <form id="codeForm">
+
+
         
         <!--Device Name-->
             <h3>Device Name</h3>
@@ -254,19 +250,34 @@
                  Adjustables.push(["Language/Lengua", "Language/Lengua"]);
             }//end if
 
-
-            // Convert the array of adjustable menu items to a string representation
-            var MenuItems = "//Menu Items: \n \t String InterfaceItems[][2] = {";
-            for (var i = 0; i < Adjustables.length; i++) 
+            if(Adjustables.length < MaximumRowNumber)
             {
-                MenuItems += "{\"" + Adjustables[i][0] + "\", \"" + Adjustables[i][1] + "\"}";
-                if (i < Adjustables.length - 1) 
+                for(i=Adjustables.length; i<MaximumRowNumber; i++)
                 {
-                    MenuItems += ", ";
-                }//end if
-            }//end for
-            MenuItems += "}; \n \n";
-            
+                    Adjustables.push(["                   ", "                   "]);
+                }
+
+            }
+
+
+                // Convert the array of adjustable menu items to a string representation
+                var MenuItems = "//Menu Items: \n \t String InterfaceItems[][2] = {";
+                for (var i = 0; i < Adjustables.length; i++) 
+                {
+      
+                        MenuItems += "{\"" + Adjustables[i][0];
+                        MenuItems += "\", \"";
+                        MenuItems += Adjustables[i][1];
+                        MenuItems += "\"}";
+                  
+
+                    if (i < Adjustables.length - 1) 
+                    {
+                        MenuItems += ", ";
+                    }//end if
+                }//end for
+                MenuItems += "}; \n \n";
+
             
             
                    
@@ -767,6 +778,8 @@
             var NominalVoltageMenu = `\n`
                          +
                          `//Adjust Nominal Voltage: `
+                         +
+                         `\n \t`
                          +
                          `\n \t`
                          +
@@ -1555,6 +1568,7 @@
                   +
                   `unsigned long SystemTime = millis()+TimerOffset; // TimerOffset allows manipulating timers for testing purposes (you can start the timer at a much later time than the actual time since starting)`
                   +
+                  /*
                   `\n \t`
                   +
                   `Serial.print(DeviceName +"System Time: ");`
@@ -1575,6 +1589,7 @@
                   +
                   `);`
                   +
+                  */
                   `\n \t`
                   +
                   `return(SystemTime);`
@@ -1661,6 +1676,7 @@
                   +
                   `\n \t`
                   +
+                  /*
                   `Serial.print(DeviceName +"Voltage measured at probe = ");`
                   +
                   `\n \t`
@@ -1679,6 +1695,7 @@
                   +
                   `\n \t`
                   +
+                  
                   `Serial.print(DeviceName +"Battery Voltage = ");` 
                   +
                   `\n \t`
@@ -1693,6 +1710,7 @@
                   +
                   `);`
                   +
+                  */
                   `\n \t`
                   +
                   `return(BatteryVoltage);`
@@ -1715,8 +1733,8 @@
                   `digitalWrite(RelayOutput, LOW);  // sets the relay output off`
                   +
                   `\n \t`
-                  +
-                  `Serial.print(DeviceName +"Output disconnected.");`
+                  //+
+                  //`Serial.print(DeviceName +"Output disconnected.");`
                   +
                   `\n`
                   +
@@ -1736,8 +1754,8 @@
                   `digitalWrite(RelayOutput, HIGH);  // sets the relay output on`
                   +
                   `\n \t`
-                  +
-                  `Serial.print(DeviceName +"Output connected.");`
+                  //+
+                  //`Serial.print(DeviceName +"Output connected.");`
                   +
                   `\n`
                   +
@@ -1888,7 +1906,7 @@
                   +
                   `\n \t \t \t`
                   +
-                  `Serial.print(DeviceName +"Timer started at: ");`
+                  /*`Serial.print(DeviceName +"Timer started at: ");`
                   +
                   `\n \t \t \t`
                   +
@@ -1916,6 +1934,7 @@
                   +
                   `\n \t \t`
                   +
+                  */
                   `} // end of if TimerHasStarted == false statement`
                   +
                   `\n \t \t \t`
@@ -1936,7 +1955,7 @@
                   +
                   `\n \t \t \t \t`
                   +
-                  `Serial.print(remainingTime / 1000); // Convert milliseconds to seconds`
+                  /*`Serial.print(remainingTime / 1000); // Convert milliseconds to seconds`
                   +
                   `\n \t \t \t \t`
                   +
@@ -1944,6 +1963,7 @@
                   +
                   `\n \t \t \t \t`
                   +
+                  */
                   `// Other tasks can run here while the timer is active`
                   +
                   `\n \t \t \t`
@@ -1960,10 +1980,11 @@
                   +
                   `\n \t \t \t \t`
                   +
-                  `Serial.println("Timer completed. Load can be turned off.");`
+                  /*`Serial.println("Timer completed. Load can be turned off.");`
                   +
                   `\n \t \t \t \t`
                   +
+                  */
                   `TimerHasStarted = false;`
                   +
                   `\n \t \t \t \t`
@@ -2143,8 +2164,8 @@
                   +
                   `\n \t` 
                   +
-                  `Serial.print(DeviceName +"Going Back to scrolling");      //Right and left buttons work, but shouldn't.`
-                  +
+                  //`Serial.print(DeviceName +"Going Back to scrolling");      //Right and left buttons work, but shouldn't.`
+                  //+
                   `\n \t` 
                   +
                   `// Additional actions or setup for entering the SCROLLING state`
