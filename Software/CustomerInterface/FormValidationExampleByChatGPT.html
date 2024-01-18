@@ -10,7 +10,7 @@
 <script>
     // Node information
     var FormValidationExampleByChatGPT = [];
-var =[];
+  
 
 var Node =
 {
@@ -24,7 +24,44 @@ var Node =
 
     // Edge information (to be filled in later)
     var FormValidationExampleByChatGPT = [];
-var Edges = [];
+  
+      // Edge information
+      var Edges = [
+            { 
+                Name: 'PreviousPage', 
+                DestinationNodeLocation: '/Not/Specified', 
+                Tags: 'TableOfContentsRelated', 
+                ImageLocation: '/var/www/html/HenryDavidHolbenJournalAndNotebook/.PreviousPageSymbol.png', 
+                HoverImageLocation: '/var/www/html/HenryDavidHolbenJournalAndNotebook/.PreviousPageSymbolHighlighted.png', 
+                ClickingImageLocation: '/var/www/html/HenryDavidHolbenJournalAndNotebook/.PreviousPageSymbolClicked.png', 
+                HoverSoundLocation: '/path/to/previous_page_hover_sound.mp3',
+                ClickSoundLocation: '/path/to/previous_page_click_sound.mp3',
+                MapDescription: 'is the subsequent page following' 
+            },
+            { 
+                Name: 'NextPage', 
+                DestinationNodeLocation: 'Path', 
+                Tags: 'TableOfContentsRelated', 
+                ImageLocation: '/var/www/html/HenryDavidHolbenJournalAndNotebook/.NextPageSymbol.png', 
+                HoverImageLocation: '/var/www/html/HenryDavidHolbenJournalAndNotebook/.NextPageSymbolHighlighted.png', 
+                ClickingImageLocation: '/var/www/html/HenryDavidHolbenJournalAndNotebook/.NextPageSymbolClicked.png', 
+                HoverSoundLocation: '/path/to/next_page_hover_sound.mp3',
+                ClickSoundLocation: '/path/to/next_page_click_sound.mp3',
+                MapDescription: 'is the page proceeding' 
+            },
+            { 
+                Name: 'TableOfContents', 
+                DestinationNodeLocation: '/var/www/html/HenryDavidHolbenJournalAndNotebook/Part0Preliminaries/TableOfContents/TableOfContents.html', 
+                Tags: 'TableOfContentsRelated', 
+                ImageLocation: '/var/www/html/HenryDavidHolbenJournalAndNotebook/.TableOfContentsSymbol.png', 
+                HoverImageLocation: '/var/www/html/HenryDavidHolbenJournalAndNotebook/.TableOfContentsSymbolHighlighted.png', 
+                ClickingImageLocation: '/var/www/html/HenryDavidHolbenJournalAndNotebook/.TableOfContentsSymbolClicked.png', 
+                HoverSoundLocation: '/path/to/table_of_contents_hover_sound.mp3',
+                ClickSoundLocation: '/path/to/table_of_contents_click_sound.mp3',
+                MapDescription: 'is accessible from' 
+            }          // Add more edge nodes as needed
+      ];
+  
 
  
   <label for="integerMultiple">Positive Integer Multiple of 12:</label>
@@ -63,5 +100,7 @@ var Edges = [];
     }
   });
 
-</body>
+<script src = "http://localhost/HenryDavidHolbenJournalAndNotebook/.UniversalFooterContent.js"></script>
+
+  </body>
 </html>

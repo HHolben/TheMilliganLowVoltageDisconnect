@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
                    +
                    `\n \t \t`
                    +
-                   `if (scrollPosition == 1)`
+                   `if (SelectedPage == 1)`
                    +
                    `\n \t \t`
                    +
@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', function() {
                    +
                    `\n \t \t \t`
                    +
-                   `Screens(scrollPosition);    // Keep updating the screen`
+                   `Screens(SelectedPage);    // Keep updating the screen`
                    +
                    `\n \t \t \t`
                    +
@@ -62,11 +62,11 @@ document.addEventListener('DOMContentLoaded', function() {
                    +
                    `\n \t \t`
                    +
-                   `} //end (if ScrollPosition==1)`
+                   `} //end (if SelectedPage==1)`
                    +  
                    `\n \t \t`
                    +
-                   `else if (scrollPosition == 2)`
+                   `else if (SelectedPage == 2)`
                    +  
                    `\n \t \t`
                    +
@@ -74,7 +74,7 @@ document.addEventListener('DOMContentLoaded', function() {
                    +
                    `\n \t \t \t`
                    +
-                   `Screens(scrollPosition);`
+                   `Screens(SelectedPage);`
                    +
                    `\n \t \t \t`
                    +
@@ -110,11 +110,11 @@ document.addEventListener('DOMContentLoaded', function() {
                    +
                    `\n \t \t`
                    +
-                   `} //end of else if (scrollPosition == 2)`
+                   `} //end of else if (SelectedPage == 2)`
                    +
                    `\n \t \t`
                    +
-                   `else if (scrollPosition == 3)`
+                   `else if (SelectedPage == 3)`
                    +
                    `\n \t \t`
                    +
@@ -122,7 +122,7 @@ document.addEventListener('DOMContentLoaded', function() {
                    +
                    `\n \t \t \t`
                    +
-                   `Screens(scrollPosition);`
+                   `Screens(SelectedPage);`
                    +
                    `\n \t \t \t`
                    +
@@ -158,7 +158,7 @@ document.addEventListener('DOMContentLoaded', function() {
                    +
                    `\n \t \t`
                    +
-                   `}   //end of else if (scrollPosition == 3)`
+                   `}   //end of else if (SelectedPage == 3)`
                    +
                    `\n \t`
                    +

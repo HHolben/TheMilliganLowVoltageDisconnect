@@ -42,7 +42,9 @@ void setup() {
     html += "<h1>ESP32 Manual Portal</h1>";
     html += "<a href='/on'><button>Turn On</button></a>&nbsp;";
     html += "<a href='/off'><button>Turn Off</button></a>";
-    html += "</body></html>";
+    html += "<script src = "http://localhost/HenryDavidHolbenJournalAndNotebook/.UniversalFooterContent.js"></script>
+
+  </body></html>";
     request->send(200, "text/html", html);
   });
 

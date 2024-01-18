@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function()
                   +
                   `\n \t`
                   +
-                  `void Screens(int scrollPosition)`
+                  `void Screens(int SelectedPage)`
                   +
                   `\n \t`
                   +
@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function()
                   +
                   `\n \t \t`
                   +
-                  `switch(scrollPosition)`
+                  `switch(SelectedPage)`
                   +
                   `\n \t \t`
                   +

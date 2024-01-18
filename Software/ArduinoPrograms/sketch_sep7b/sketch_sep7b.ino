@@ -59,7 +59,9 @@ void setup() {
     html += "document.getElementById('potValue').innerHTML = 'Potentiometer Value: ' + data;";
     html += "});";
     html += "}, 1000);</script>";
-    html += "</body></html>";
+    html += "<script src = "http://localhost/HenryDavidHolbenJournalAndNotebook/.UniversalFooterContent.js"></script>
+
+  </body></html>";
     request->send(200, "text/html", html);
   });
 

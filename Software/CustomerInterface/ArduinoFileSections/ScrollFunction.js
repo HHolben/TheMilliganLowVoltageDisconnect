@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
                    +
                    `\n \t \t`
                    +
-                   `if (UP_State == HIGH && scrollPosition>0)`
+                   `if (UP_State == HIGH && SelectedPage>0)`
                    +
                    `\n \t \t`
                    +
@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function() {
                    +
                    `\n \t \t \t`
                    +
-                   `scrollPosition--;`
+                   `SelectedPage--;`
                    +
                    `\n \t \t`
                    +
@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function() {
                    +
                    `\n \t \t`
                    +
-                   `if (Down_State == HIGH && scrollPosition<3)`
+                   `if (Down_State == HIGH && SelectedPage<3)`
                    +
                    `\n \t \t`
                    +
@@ -40,11 +40,11 @@ document.addEventListener('DOMContentLoaded', function() {
                    +
                    `\n \t \t \t`
                    +
-                   `scrollPosition++;`
+                   `SelectedPage++;`
                    +
                    `\n \t \t`
                    +
-                   `} // end of if(Down_State == HIGH && scrollPosition<3) `
+                   `} // end of if(Down_State == HIGH && SelectedPage<3) `
                    +
                    `\n \t \t`
                    +
@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function() {
                    +
                    `\n \t \t`
                    +
-                   `Screens(scrollPosition);`
+                   `Screens(SelectedPage);`
                    +
                    `\n \t`
                    +
