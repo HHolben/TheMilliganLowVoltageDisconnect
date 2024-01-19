@@ -1,5 +1,59 @@
-document.addEventListener('DOMContentLoaded', function() {
-    /*Void Write User Input*/const WriteUserInputMemoryFunction =
+/*Void Read User Input*/const ReadUserInputMemoryFunction =
+                   `void readUserInput()`
+                   +
+                   `\n`
+                   +
+                   `{`
+                   +
+                   `\n \t`
+                   +
+                   `// Read user input from EEPROM and load it into the userInput buffer`
+                   +
+                   `\n \t`
+                   +
+                   `for (int i = 0; i < MAX_INPUT_LENGTH; i++)`
+                   +
+                   `{`
+                   +
+                   `\n \t \t`
+                   +
+                   `char c = EEPROM.read(EEPROM_ADDR + i);`
+                   +
+                   `\n \t \t`
+                   +
+                   `if (c ==`
+                   +
+                   String.raw`'\0'`
+                   +
+                   `)`
+                   +
+                   `\n \t \t`
+                   +
+                  `{`
+                  +
+                  `\n \t \t \t`
+                  +
+                  `break; // End of stored data`
+                  +
+                  `\n \t \t`
+                  +
+                  `} //End of if statement`
+                  +
+                  `\n \t \t`
+                  +
+                  `userInput[i] = c;`
+                  +
+                  `\n \t`
+                  +
+                  `}//end of for loop`
+                  +
+                  `\n`
+                  +
+                  `} //end of Read User Input`
+                  +
+                  `\n \n`
+                  ;
+/*Void Write User Input*/const WriteUserInputMemoryFunction =
                   `void writeUserInput()`
                   +
                   `\n`
@@ -62,47 +116,3 @@ document.addEventListener('DOMContentLoaded', function() {
                   +
                   `\n \n`
                   ;
-/*TimeSinceBoot*/ const TimeSinceBootFunction =
-                  `//Find the time since the Low Voltage Disconnect was turned on`
-                  +
-                  `\n \t`
-                  +
-                  `unsigned long TimeSinceBoot()`
-                  +
-                  `\n \t`
-                  +
-                  `{`
-                  +
-                  `\n \t`
-                  +
-                  `unsigned long SystemTime = millis()+TimerOffset; // TimerOffset allows manipulating timers for testing purposes (you can start the timer at a much later time than the actual time since starting)`
-                  +
-                  `\n \t`
-                  +
-                  `Serial.print("System Time: ");`
-                  +
-                  `\n \t`
-                  +
-                  `Serial.print(SystemTime/1000);`
-                  +
-                  `\n \t`
-                  +
-                  `Serial.print(" seconds");`
-                  +
-                  `\n \t`
-                  +
-                  `Serial.print(`
-                  +
-                  String.raw`'\n'`
-                  +
-                  `);`
-                  +
-                  `\n \t`
-                  +
-                  `return(SystemTime);`
-                  +
-                  `\n \t`
-                  +
-                  `} //end of TimeSinceBoot() function`
-                  ;
-});

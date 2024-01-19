@@ -1,5 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
-    /*Voltage Measurement*/const VoltageMeasurementFunction =
+/*Voltage Measurement*/const VoltageMeasurementFunction =
                   `float MeasureVoltage()`
                   +
                   `\n`
@@ -8,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
                   +
                   `\n \t`
                   +
-                  `float VoltageMeasurement = analogRead(VoltageProbe)*5/1023; //The ratio is 5 Volts (max voltage that can go into a pin)/ 1023 (AnalogRead() measures between 0 and 1023`
+                  `float VoltageMeasurement= analogRead(VoltageProbe)*5/1023; //The ratio is 5 Volts (max voltage that can go into a pin)/ 1023 (AnalogRead() measures between 0 and 1023`
                   +
                   `\n \t`
                   +
@@ -16,7 +15,8 @@ document.addEventListener('DOMContentLoaded', function() {
                   +
                   `\n \t`
                   +
-                  `Serial.print("Voltage measured at probe = ");`
+                  /*
+                  `Serial.print(DeviceName +"Voltage measured at probe = ");`
                   +
                   `\n \t`
                   +
@@ -34,7 +34,8 @@ document.addEventListener('DOMContentLoaded', function() {
                   +
                   `\n \t`
                   +
-                  `Serial.print("Battery Voltage = ");` 
+                  
+                  `Serial.print(DeviceName +"Battery Voltage = ");` 
                   +
                   `\n \t`
                   +
@@ -48,6 +49,7 @@ document.addEventListener('DOMContentLoaded', function() {
                   +
                   `);`
                   +
+                  */
                   `\n \t`
                   +
                   `return(BatteryVoltage);`
@@ -58,4 +60,3 @@ document.addEventListener('DOMContentLoaded', function() {
                   +
                   `\n \n`
                   ;
-});

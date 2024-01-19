@@ -1,5 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
-    /*Void Setup*/    const SetupFunction =
+/*Void Setup*/    const SetupFunction =
                   `void setup()`
                   +
                   `\n`
@@ -12,42 +11,54 @@ document.addEventListener('DOMContentLoaded', function() {
                   +
                   `\n \t`
                   +
-                  `lcd.init(); // initialize the lcd` 
+                  `lcd.init(); // initialize the lcd`
                   +
                   `\n \t`
                   +
                   `lcd.backlight();`
                   +
                   `\n \t`
-                  + 
+                  +
                   `\n \t`
                   +
                   `//Button Initialization`
                   +
                   `\n \t`
                   +
-                  `pinMode(InputUp, INPUT);`
-                  + 
+                    //Button Initialization
+                  +
                   `\n \t`
                   +
-                  `pinMode(InputDown, INPUT);`    
-                  + 
+                  `pinMode(InputUp, INPUT_PULLUP);`
+                  +
                   `\n \t`
                   +
-                  `pinMode(InputLeft, INPUT);`
-                  + 
+                  `pinMode(InputDown, INPUT_PULLUP);`
+                  +
                   `\n \t`
                   +
-                  `pinMode(InputRight, INPUT);` 
-                  + 
+                  `pinMode(InputLeft, INPUT_PULLUP);`
+                  +
                   `\n \t`
                   +
-                  `pinMode(InputSelect, INPUT);`  
-                  + 
+                  `pinMode(InputRight, INPUT_PULLUP);`
+                  +
                   `\n \t`
                   +
-                  `selectPressed = false;`  // Initialize the select button latch
-                  + 
+                  `pinMode(InputSelect, INPUT_PULLUP);`
+                  +
+                  `\n \t`
+                  +
+                  `pinMode(OverrideDelayButton, INPUT_PULLUP);`
+                  +
+                  `\n \t`
+                  +
+                  `pinMode(OverrideLight, OUTPUT);`
+                  +
+                  `\n \t`
+                  +
+                  `selectPressed = true;`  // Initialize the select button latch
+                  +
                   `\n \t`
                   +
                   `Serial.begin(9600);`
@@ -66,4 +77,3 @@ document.addEventListener('DOMContentLoaded', function() {
                   +
                   `\n \n`
                   ;
-});
