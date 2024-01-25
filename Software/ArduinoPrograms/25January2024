@@ -1,167 +1,230 @@
 void loop()
- 	{
- 	 	int lastSwitchState;
- 	 	int EncoderSelectState = digitalRead(EncoderSW);
- 	 	int SELECT_State = digitalRead(InputSelect);
- 	 	if (EncoderSelectState == LOW && lastEncoderSelectState == HIGH || SELECT_State == LOW)
- 	 	{
- 	 	 	// Update the switch state
- 	 	 	selectPressed = !selectPressed;
- 	 	 	// Toggle the latched state
- 	 	} //end if (EncoderSelectState == LOW && lastEncoderSelectState == HIGH || SELECT_State == LOW)
- 	// Update the last state
- 	lastEncoderSelectState = EncoderSelectState;
- 	// Check if the encoder button is pressed
- 	
- 	if (selectPressed)
- 	{
- 	 	if (currentPage==STATUS_PAGE && lastEncoderSelectState == LOW || (currentPage==STATUS_PAGE && SELECT_State == LOW))
- 	 	{
- 	 	 	currentPage = MENU_PAGE;
- 	 	currentState = SCROLLING;
- 	 	}
- 	}
- 	else if (currentPage == MENU_PAGE && scrollPosition == 0)
- 	{
- 	if (!selectPressed)
- 	{
- 	 	currentPage = NOMINAL_VOLTAGE_PAGE;
- 	currentState = SELECTING;
- 	SelectedPage = 0;
- 	 	}
- 	}
- 	else if (currentPage == MENU_PAGE && scrollPosition == 1)
- 	{
- 	 	if (!selectPressed)
- 	 	{
- 	 	 	currentPage = CUT_OFF_VOLTAGE_PAGE;
- 	currentState = SELECTING;
- 	SelectedPage = 1;
- 	 	 	}
- 	 	}
- 	 	else if (currentPage == MENU_PAGE && scrollPosition == 2)
- 	 	{
- 	 	if (!selectPressed)
- 	 	{currentPage = RECONNECT_VOLTAGE_PAGE;
- 	currentState = SELECTING;
- 	SelectedPage = 2;} //end if (!selectPressed)
- 	} // end else if (currentPage == MENU_PAGE && scrollPosition == 2)
- 	else if (currentPage == MENU_PAGE && scrollPosition == 3)
- 	{
- 	if (!selectPressed)
- 	{
- 	currentPage = OVERRIDE_TIME_PAGE;
- 	currentState = SELECTING;
- 	SelectedPage = 3;} //if (!selectPressed)
- 	}// else if
- 	else if( currentPage == NOMINAL_VOLTAGE_PAGE || currentPage == CUT_OFF_VOLTAGE_PAGE || currentPage == RECONNECT_VOLTAGE_PAGE || currentPage == OVERRIDE_TIME_PAGE)
- 	 	{
- 	 	 	ReturnToStatusPage = true;
- 	 	} //end else if
- 	if(selectPressed && ReturnToStatusPage == true)
- 	{
- 	currentPage = STATUS_PAGE;
- 	currentState = SCROLLING;
- 	EncoderSelectState = HIGH;
- 	ReturnToStatusPage = false;
- 	} //end if
- 	switch (currentPage)
- 	{case STATUS_PAGE:
- 	 	StatusPageScreen();
- 	 	break;
- 	 	case MENU_PAGE:
- 	 	MenuPageScreens(scrollPosition);
- 	 	break;
- 	 	case NOMINAL_VOLTAGE_PAGE:
- 	 	AdjustNominalVoltage();
- 	 	break;
- 	 	case CUT_OFF_VOLTAGE_PAGE:
- 	 	AdjustCutOffVoltagePage();
- 	 	break;
- 	 	case RECONNECT_VOLTAGE_PAGE:
- 	 	AdjustReconnectVoltagePage();
- 	 	break;
- 	 	case OVERRIDE_TIME_PAGE:
- 	 	AdjustOverrideTimePage();
- 	 	break;
- 	 	}
- 	//----------This Section of the arduino software is created by index.html using VoltageCheckRoutine.js----------
- 	//Low voltage disconnection: If the battery voltage is lower than the cut off voltage, turn off the load when the override period expires
- 	static unsigned long StartTime = 0;
- 	static unsigned long EndTime = 0;
- 	static bool TimerHasStarted = false;
- 	
- 	if (OverrideDelayLatch == true)   //If Override Button is pressed
- 	{
- 	digitalWrite(12, HIGH);
- 	if (OutputState = 0 && OverrideWhileOffAllowed){       //If system is off (AND has been off) and Override allowed
- 	TurnOnOutput();
- 	} // end of if
- 	else if (OutputState = 0 && (OverrideWhileOffAllowed == false)){    //If system is off (AND has been off) and Override NOT allowed
- 	//Don't do anything or flash a message saying "Not Permitted"
- 	}
- 	else if(OutputState = 1){
- 	if (MeasureVoltage() < ShutOffVoltage)  
- 	{
- 	StartTime = TimeSinceBoot();  //millis();
- 	EndTime = DisconnectBufferTimerEnd();     //We DONT want to interrupt the 30 second buffer time to make sure load is truly about to shutoff due to low voltage.
- 	unsigned long currentTime = TimeSinceBoot();
- 	if (currentTime < EndTime)
- 	{
- 	// Other tasks can run here while the timer is active
- 	} // end of if(currentTime < EndTime)
- 	else
- 	{
- 	unsigned long OverrideCurrentTime = TimeSinceBoot();    //New Report of Millis()      //I am not sure if the count will be kept correctly
- 	if (OverrideCurrentTime > OverrideTimerEnd())
- 	{
- 	TurnOffOutput();
- 	}
- 	} // end of else statement
- 	} // end of if MeasureVoltage()<ShutOffVoltage
- 	}
- 	}
- 	else      //Normal Operation when Override is NOT Active
- 	{
- 	digitalWrite(12,LOW);
- 	if (MeasureVoltage() < ShutOffVoltage)
- 	{
- 	StartTime = TimeSinceBoot();
- 	EndTime = DisconnectBufferTimerEnd();
- 	unsigned long currentTime = TimeSinceBoot();
- 	if (currentTime < EndTime)
- 	{
- 	unsigned long remainingTime = EndTime - currentTime;
- 	// Other tasks can run here while the timer is active
- 	}   // end of if(currentTime < EndTime)
- 	else
- 	{
- 	TurnOffOutput();
- 	} // end of else statement
- 	} // end of if MeasureVoltage()<ShutOffVoltage
- 	}
+{
 
- 	//Reconnection: If the battery voltage has been recharged over the set reconnect voltage, turn the load back on  (NEED A DELAY TO MAKE SURE IT SHOULD BE ON)
- 	if (MeasureVoltage()>TurnBackOnVoltage && OutputState == 0)
- 	{
- 	 TurnOnOutput();
- 	} //end of if statement
- 	if (digitalRead(OverrideDelayButton) == LOW)
- 	{
- 	OverrideDelayLatch = !OverrideDelayLatch;
- 	}
- 	 	
- 	EncoderSelectState = digitalRead(EncoderSW);
- 	SELECT_State = digitalRead(InputSelect);
- 	 switch (currentState)
- 	{
- 	case SCROLLING:
- 	Scroll();
- 	break;
- 	case SELECTING:
- 	// Perform actions when the select is pressed
- 	Select(SelectedPage);
- 	// Transition back to SCROLLING state if select is released
- 	break;
- 	} //end of case SELECTING
- 	} //End of Void Loop
+  
+  int SensorValue = analogRead(A0);
+  
+  int lastSwitchState;
+  int EncoderSelectState = digitalRead(EncoderSW);
+  int SELECT_State = digitalRead(InputSelect);
+
+  if (EncoderSelectState == LOW && lastEncoderSelectState == HIGH || SELECT_State == LOW)
+    {
+    // Update the switch state
+    selectPressed = !selectPressed;
+    // Toggle the latched state
+  }
+  // Update the last state
+  lastEncoderSelectState = EncoderSelectState;
+  // Check if the encoder button is pressed
+  
+  if (selectPressed)
+  {
+    if (currentPage==STATUS_PAGE && lastEncoderSelectState == LOW || (currentPage==STATUS_PAGE && SELECT_State == LOW))
+    {
+    currentPage = MENU_PAGE;
+    currentState = SCROLLING;
+    }
+  }
+  else if (currentPage == MENU_PAGE && scrollPosition == 0)
+  {
+  if (!selectPressed)
+  {
+    currentPage = NOMINAL_VOLTAGE_PAGE;
+  currentState = SELECTING;
+  SelectedPage = 0;
+    }
+  }
+  else if (currentPage == MENU_PAGE && scrollPosition == 1)
+  {
+    if (!selectPressed)
+    {
+  currentPage = CUT_OFF_VOLTAGE_PAGE;
+  currentState = SELECTING;
+  SelectedPage = 1;
+      }
+    }
+    else if (currentPage == MENU_PAGE && scrollPosition == 2)
+    {
+    if (!selectPressed)
+    {currentPage = RECONNECT_VOLTAGE_PAGE;
+  currentState = SELECTING;
+  SelectedPage = 2;} //end if (!selectPressed)
+  } // end else if (currentPage == MENU_PAGE && scrollPosition == 2)
+  else if (currentPage == MENU_PAGE && scrollPosition == 3)
+  {
+  if (!selectPressed)
+  {
+  currentPage = OVERRIDE_TIME_PAGE;
+  currentState = SELECTING;
+  SelectedPage = 3;} //if (!selectPressed)
+  }// else if
+  else if( currentPage == NOMINAL_VOLTAGE_PAGE || currentPage == CUT_OFF_VOLTAGE_PAGE || currentPage == RECONNECT_VOLTAGE_PAGE || currentPage == OVERRIDE_TIME_PAGE)
+    {
+      ReturnToStatusPage = true;
+    } //end else if
+  if(selectPressed && ReturnToStatusPage == true)
+  {
+  currentPage = STATUS_PAGE;
+  currentState = SCROLLING;
+  EncoderSelectState = HIGH;
+  ReturnToStatusPage = false;
+  } //end if
+  switch (currentPage)
+  {case STATUS_PAGE:
+    StatusPageScreen();
+    break;
+    case MENU_PAGE:
+    MenuPageScreens(scrollPosition);
+    break;
+    case NOMINAL_VOLTAGE_PAGE:
+    AdjustNominalVoltage();
+    break;
+    case CUT_OFF_VOLTAGE_PAGE:
+    AdjustCutOffVoltagePage();
+    break;
+    case RECONNECT_VOLTAGE_PAGE:
+    AdjustReconnectVoltagePage();
+    break;
+    case OVERRIDE_TIME_PAGE:
+    AdjustOverrideTimePage();
+    break;
+    }
+  //Scroll();
+  //Low voltage disconnection: If the battery voltage is lower than the cut off voltage, turn off the load when the override period expires       //Comment needs to change
+  static unsigned long StartTime = 0;
+  static unsigned long EndTime = 0;
+  static bool TimerHasStarted = false;
+
+
+
+//I took out the readings of the encoder states that were here which might becausing fast turning and skipping numbers
+
+
+
+   switch (currentState)
+  {
+  case SCROLLING:
+  Scroll();
+  break;
+  case SELECTING:
+  // Perform actions when the select is pressed
+  Select(SelectedPage);
+  // Transition back to SCROLLING state if select is released
+  break;
+  } //end of case SELECTING
+
+
+
+
+
+
+  
+
+  if (OverrideDelayLatch == true)   //If Override Button is pressed
+  {
+    digitalWrite(12, HIGH);
+    if (OutputState = 0 && OverrideWhileOffAllowed){             //If system is off (AND has been off) and Override allowed
+      TurnOnOutput();
+    } // end of if
+  
+    else if (OutputState = 0 && (OverrideWhileOffAllowed == false)){    //If system is off (AND has been off) and Override NOT allowed
+        //Don't do anything or flash a message saying "Not Permitted"
+    }
+
+    else if(OutputState = 1){
+    if (MeasureVoltage() < ShutOffVoltage)      
+    {
+      StartTime = TimeSinceBoot();  //millis();
+      EndTime = DisconnectBufferTimerEnd();     //We DONT want to interrupt the 30 second buffer time to make sure load is truly about to shutoff due to low voltage.
+      
+       
+      unsigned long currentTime = TimeSinceBoot();
+      if (currentTime < EndTime)
+      {
+        // Other tasks can run here while the timer is active
+      } // end of if(currentTime < EndTime)
+    
+      else
+      {
+        unsigned long OverrideCurrentTime = TimeSinceBoot();    //New Report of Millis()      //I am not sure if the count will be kept correctly
+        if (OverrideCurrentTime > OverrideTimerEnd())       //if 14,15
+        {
+          TurnOffOutput();
+        }
+      } // end of else statement
+    } // end of if MeasureVoltage()<ShutOffVoltage
+    }
+    else
+    {
+      //Do nothing
+    }
+
+
+  }
+  else      //Normal Operation when Override is NOT Active
+    {
+      
+      digitalWrite(12,LOW);   //OverrideLightOff
+      if (MeasureVoltage() < ShutOffVoltage)      
+      {
+        if (TimerHasStarted ==false){
+        
+        StartTime = TimeSinceBoot();
+        EndTime = DisconnectBufferTimerEnd();   //e.g. 22seconds runtime + 30seconds = static 55seconds
+        TimerHasStarted = true;
+        
+        }
+ 
+        unsigned long currentTime = TimeSinceBoot();
+        
+        if (currentTime < EndTime)
+        {
+          unsigned long remainingTime = EndTime - currentTime;  //55seconds - 25seconds = 20seconds remain
+          Serial.print(remainingTime);
+
+          Serial.print("\n");          
+          // Other tasks can run here while the timer is active
+        }   // end of if(currentTime < EndTime)
+        else
+        {
+        
+          TurnOffOutput();
+          
+          
+        } // end of else statement
+      } // end of if MeasureVoltage()<ShutOffVoltage
+      else
+      {
+        TimerHasStarted = false;      //This resets the timer if the voltage goes back to stable state.
+      }
+    
+    }
+ 
+
+//Reconnection: If the battery voltage has been recharged over the set reconnect voltage, turn the load back on  (NEED A DELAY TO MAKE SURE IT SHOULD BE ON)
+  if (MeasureVoltage()>TurnBackOnVoltage && OutputState == 0)
+  {
+    TurnOnOutput();
+      
+  } //end of if statement
+
+
+  if (digitalRead(OverrideDelayButton) == LOW)
+    {
+
+    OverrideDelayLatch = !OverrideDelayLatch;
+
+  }
+
+
+
+
+
+
+
+
+
+
+
+  } //End of Void Loop
