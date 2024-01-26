@@ -1,4 +1,8 @@
 /*Voltage Measurement*/const VoltageMeasurementFunction =
+                  `//----------This Section of the arduino software is created by index.html using MeasurementFunction.js----------`
+                  +
+                  `\n \t`
+                  +
                   `float MeasureVoltage()`
                   +
                   `\n`
@@ -7,11 +11,11 @@
                   +
                   `\n \t`
                   +
-                  `float VoltageMeasurement= analogRead(VoltageProbe)*5/1023; //The ratio is 5 Volts (max voltage that can go into a pin)/ 1023 (AnalogRead() measures between 0 and 1023`
+                  `float VoltageMeasurement = analogRead(VoltageProbe)*24.00/1023.00; //The ratio is 12 Volts (max voltage that can go into a pin)/ 1023 (AnalogRead() measures between 0 and 1023`
                   +
                   `\n \t`
                   +
-                  `float BatteryVoltage = VoltageMeasurement*(Resistor1+Resistor2)/(Resistor2); //This uses voltage divider math to caclulate the battery voltage.`
+                  `float BatteryVoltage = VoltageMeasurement;`
                   +
                   `\n \t`
                   +
