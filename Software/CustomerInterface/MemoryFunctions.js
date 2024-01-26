@@ -1,4 +1,8 @@
 /*Void Read User Input*/const ReadUserInputMemoryFunction =
+                   `//----------This Section of the arduino software is created by index.html using MemoryFunctions.js----------`
+                   +
+                   `\n \t`
+                   +
                    `void readUserInput()`
                    +
                    `\n`
