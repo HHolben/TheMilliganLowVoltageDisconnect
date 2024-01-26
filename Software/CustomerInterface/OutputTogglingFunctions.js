@@ -1,4 +1,8 @@
 /*Turn off output*/const TurnOffOutputFunction =
+                  `//----------This Section of the arduino software is created by index.html using OutputTogglingFunctions.js----------`
+                  +
+                  `\n \t`
+                  +
                   `void TurnOffOutput()`
                   +
                   `\n`
@@ -13,10 +17,6 @@
                   +
                   `OutputState = 0;`
                   +
-                  `\n \t`
-                  //+
-                  //`Serial.print(DeviceName +"Output disconnected.");`
-                  +
                   `\n`
                   +
                   `} //end of function, TurnOffOutput()`
@@ -24,6 +24,10 @@
                   `\n`
                   ;
 /*Turn on output*/const TurnOnOutputFunction =
+                  `//----------This Section of the arduino software is created by index.html using MemoryFunctions.js----------`
+                  +
+                  `\n \t`
+                  +
                   `void TurnOnOutput() `
                   +
                   `\n`
