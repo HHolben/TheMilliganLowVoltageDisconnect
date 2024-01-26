@@ -1,5 +1,9 @@
                                     
-/*Low Voltage Check*/const LowVoltageCheck =
+/*Low Voltage Check*/const LowVoltageCheck =                  
+                  `//----------This Section of the arduino software is created by index.html using VoltageCheckRoutine.js----------`
+                  +
+                  `\n \t`
+                  +
                   `//Low voltage disconnection: If the battery voltage is lower than the cut off voltage, turn off the load when the override period expires`
                   +
                   `\n \t`
@@ -15,6 +19,16 @@
                   `static bool TimerHasStarted = false;`
                   +
                   `\n \t`
+                  +
+                  `unsigned long OverrideCurrentTime = 0; `
+                  +
+                  `\n \t`
+                  +
+                  `unsigned long OverrideEndTime = 0;`
+                  +
+                  `\n \t`
+                  +
+                  `static bool OverrideTimerHasStarted = false;`
                   +
                   `\n \t`
                   +
@@ -68,13 +82,27 @@
                       +
                       `\n \t`
                       +
+                      `if(TimerHasStarted == false)`
+                      +
+                  `\n \t`
+                  +
+                  `{`
+                  +
+                  `\n \t`
+                  +
                       `StartTime = TimeSinceBoot();  //millis();`
                       +
                       `\n \t`
                       +
                       `EndTime = DisconnectBufferTimerEnd();     //We DONT want to interrupt the 30 second buffer time to make sure load is truly about to shutoff due to low voltage.`
-                
-                
+                      +
+                      `\n \t`
+                      +
+                `TimerHasStarted = true;`
+                +
+                  `\n \t`
+                  +
+                  `}// end if(TimerHasStarted == false)`
                       +
                       `\n \t`
                       +
@@ -107,11 +135,36 @@
                         +
                         `\n \t`
                         +
-                        `unsigned long OverrideCurrentTime = TimeSinceBoot();    //New Report of Millis()      //I am not sure if the count will be kept correctly`
+                        `if(OverrideTimerHasStarted == false)`
+                        +
+                  `\n \t`
+                  +
+                  `{`
+                  +
+                  `\n \t`
+                  +
+                  `unsigned long OverrideCurrentTime = TimeSinceBoot();    //New Report of Millis()      //I am not sure if the count will be kept correctly`
                         +
                         `\n \t`
                         +
-                        `if (OverrideCurrentTime > OverrideTimerEnd())`       //if 14,15
+                        `unsigned long OverrideEndTime = OverrideTimerEnd();`
+                        +
+                        `\n \t`
+                  +
+                  `OverrideTimerHasStarted = true;`
+                  +
+                  `\n \t`
+                  +
+                  `}`
+                  +
+                  `\n \t`
+                  +
+                  `unsigned long remainingTime = OverrideEndTime - OverrideCurrentTime;`
+                  +
+                  `\n \t`
+                  +
+                        +
+                        `if (OverrideCurrentTime < OverrideTimerEnd())`       //if 14,15
                         +
                         `\n \t`
                         +
@@ -119,12 +172,34 @@
                           +
                           `\n \t`
                           +
-                          `TurnOffOutput();`
+                          `//do nothing;`
                         +
                         `\n \t`
                         +
                         `}`
                       +
+                      `\n \t`
+                  +
+                  `else`
+                  +
+                  `\n \t`
+                  +
+                  `{`
+                  +
+                  `\n \t`
+                  +
+                  `TurnOffOutput();`
+                  +
+                  `\n \t`
+                  +
+                  `OverrideDelayLatch = !OverrideDelaylatch;`
+                  +
+                  `\n \t`
+                  +
+                  `} // end else`
+                  +
+
+                  +
                       `\n \t`
                       +
                       `} // end of else statement`
@@ -134,6 +209,41 @@
                     `} // end of if MeasureVoltage()<ShutOffVoltage`
                     +
                     `\n \t`
+
+                    +
+                    `\n \t`
+
+                    +
+                    `else`
+                    +
+                    `\n \t`
+
+                    +
+                    
+                    `{`
+                    +
+                    `\n \t`
+
+                    +
+                    `OverrideTimerHasStarted = false;`
+
+                    +
+                    `\n \t`
+
+                    +
+                    `TimerHasStarted = false;`
+                    +
+                    `\n \t`
+
+                    +
+                    `}//end else`
+
+                   
+                    +
+                    `\n \t`
+
+                    +
+                   
                     +
                     `}`
                 
@@ -159,6 +269,7 @@
                       +
                       `if (MeasureVoltage() < ShutOffVoltage)`     
                       +
+                      
                       `\n \t`
                       +
                       `{`
@@ -166,11 +277,31 @@
                         +
                         `\n \t`
                         +
+                        `if(TimerHasStarted == false)`
+                        +
+                        `\n \t`
+
+                        +
+                        `{`
+                        +
+                        `\n \t`
+                    +
                         `StartTime = TimeSinceBoot();`
                         +
                         `\n \t`
                         +
-                        `EndTime = DisconnectBufferTimerEnd();`                
+                        `EndTime = DisconnectBufferTimerEnd();`    
+                        +
+                        `\n \t`
+
+                    + 
+                     `TimerHasStarted = true;`
+                    +
+                    `\n \t`
+
+                    +`} // end if(TimerHasStarted == false)`
+
+                    +          
                         +
                         `\n \t`
                         +
@@ -220,13 +351,33 @@
                 
                     +
                     `\n \t`
+
+                    +
+                    `else`
+                    +
+                    `\n \t`
+
+                    +`{`
+
+                    +
+                    `TimerHasStarted = false;`
+                  
+                    +
+                    `\n \t`
+                    +
+                    `}//end else`
+                    +
+                    `\n \t`
                     +
                     `}`
                 
                 
                 +
-                `\n \t`
-                    +
+                `\n`
+                  ;
+
+                  /*Low Voltage Check*/const ReconnectVoltageCheck =
+  
                 `//Reconnection: If the battery voltage has been recharged over the set reconnect voltage, turn the load back on  (NEED A DELAY TO MAKE SURE IT SHOULD BE ON)`
                   +
                   `\n \t`
