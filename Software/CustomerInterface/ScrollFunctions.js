@@ -1,6 +1,10 @@
       
       
     /*Void Scroll*/   const ButtonScrollFunction =
+                      `//----------This Section of the arduino software is created by index.html using ScrollFunctions.js----------`
+                      +
+                      `\n \t`
+                      +
                       `\t`
                       +
                       `void Scroll()`
@@ -11,23 +15,23 @@
                       +
                       `\n \t \t`
                       +
-                      `if ( digitalRead(InputUp) == LOW && scrollPositon >0)`
-                      +
-                      `\n \t`
-                      +
-                      `{`
+                      `if (digitalRead(InputUp) == LOW && scrollPosition >0)`
                       +
                       `\n \t \t`
                       +
+                      `{`
+                      +
+                      `\n \t \t \t`
+                      +
                       `scrollPosition--;`
                       +
+                      `\n \t \t`
+                      +
+                      `} //if (digitalRead(InputUp) == LOW && scrollPosition >0)`
+                      +
                       `\n \t`
                       +
-                      `}`
-                      +
-                      `\n \t`
-                      +
-                      `if ( digitalRead(InputDown) == LOW && scrollPositon <3)`
+                      `if (digitalRead(InputDown) == LOW && scrollPosition <3)`
                       +
                       `\n \t`
                       +
@@ -42,54 +46,6 @@
                       `}`
                       +
                       `\n \t`
-                      +
-                      `int UP_State = digitalRead(InputUp);`
-                       +
-                       `\n \t \t`
-                       +
-                       `int Down_State = digitalRead(InputDown);`
-                       +
-                       `\n \t \t`
-                       +
-                       `if (UP_State == HIGH && scrollPosition>0)`
-                       +
-                       `\n \t \t`
-                       +
-                       `{`
-                       +
-                       `\n \t \t \t`
-                       +
-                       `scrollPosition--;`
-                       +
-                       `\n \t \t`
-                       +
-                       `} //End of ButtonScroll()`
-                       +
-                       `\n \t \t`
-                       +
-                       `if (Down_State == HIGH && scrollPosition<3)`
-                       +
-                       `\n \t \t`
-                       +
-                       `{`
-                       +
-                       `\n \t \t \t`
-                       +
-                       `scrollPosition++;`
-                       +
-                       `\n \t \t`
-                       +
-                       `} // end of if(Down_State == HIGH && scrollPosition<3) `
-                       +
-                       `\n \t \t`
-                       +
-                       `//Might need to add to where it doesn't change multiple lines on holding buttons.`
-                       +
-                       `\n \t \t`
-                       +
-                       `MenuPageScreens(scrollPosition);`
-                       +
-                       `\n \t`
                        +
                        `} // end void Scroll()`
                        + 
