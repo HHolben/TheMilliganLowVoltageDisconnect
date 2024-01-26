@@ -1,169 +1,213 @@
 /*Void Select*/const ButtonSelectFunction =
-                   `void Select()`
-                   +
-                   `\n \t`
-                   +
-                   `{`
-                   +
-                   `\n \t \t`
-                   +
-                   `int RIGHT_State = digitalRead(InputRight);`
-                   +
-                   `\n \t \t`
-                   +
-                   `int LEFT_State = digitalRead(InputLeft);`
-                   +
-                   `\n \t \t`
-                   +
-                   `\n \t \t`
-                   +
-                   `if (scrollPosition == 1)`
-                   +
-                   `\n \t \t`
-                   +
-                   `{`
-                   +
-                   `\n \t \t \t`
-                   +
-                   `MenuPageScreens(scrollPosition);    // Keep updating the screen`
-                   +
-                   `\n \t \t \t`
-                   +
-                   `if ((RIGHT_State == HIGH)&&(EnableShutOffVoltageBoolean == true))`
-                   +
-                   `\n \t \t \t`
-                   +
-                   `{`
-                   +
-                   `\n \t \t \t \t`
-                   +
-                   `ShutOffVoltage = ShutOffVoltage + 0.1;`
-                   +
-                   `\n \t \t \t`
-                   +
-                   `} //end if((RIGHT_State == HIGH)&&(EnableShutOffVoltageBoolean == true))`
-                   +
-                   `\n \t \t \t`
-                   +
-                   `if ((LEFT_State == HIGH)&&(EnableShutOffVoltageBoolean == true))`
-                   +
-                   `\n \t \t \t`
-                   +
-                   `{`
-                   +
-                   `\n \t \t \t \t`
-                   +
-                   `ShutOffVoltage = ShutOffVoltage - 0.1;`
-                   +
-                   `\n \t \t \t`
-                   +
-                   `} // end if((LEFT_State == HIGH)&&(EnableShutOffVoltageBoolean == true))`
-                   +
-                   `\n \t \t`
-                   +
-                   `} //end (if ScrollPosition==1)`
-                   +  
-                   `\n \t \t`
-                   +
-                   `else if (scrollPosition == 2)`
-                   +  
-                   `\n \t \t`
-                   +
-                   `{`
-                   +
-                   `\n \t \t \t`
-                   +
-                   `MenuPageScreens(scrollPosition);`
-                   +
-                   `\n \t \t \t`
-                   +
-                   `if ((RIGHT_State == HIGH)&&(EnableTurnBackOnVoltageInterface == true))`
-                   +
-                   `\n \t \t \t`
-                   +
-                   `{`
-                   +
-                   `\n \t \t \t \t`
-                   +
-                   `TurnBackOnVoltage = TurnBackOnVoltage + 0.1;`
-                   +
-                   `\n \t \t \t`
-                   +
-                   `} //if ((RIGHT_State == HIGH)&&(EnableTurnBackOnVoltageInterface == true))`
-                   +
-                   `\n \t \t \t`
-                   +
-                   `if ((LEFT_State == HIGH)&&(EnableTurnBackOnVoltageInterface == true))`
-                   +  
-                   `\n \t \t \t`
-                   +
-                   `{`
-                   +
-                   `\n \t \t \t \t`
-                   +
-                   `TurnBackOnVoltage = TurnBackOnVoltage - 0.1;`
-                   +
-                   `\n \t \t \t`
-                   +
-                   `} //end of  if((LEFT_State == HIGH)&&(EnableTurnBackOnVoltageInterface == true))`
-                   +
-                   `\n \t \t`
-                   +
-                   `} //end of else if (scrollPosition == 2)`
-                   +
-                   `\n \t \t`
-                   +
-                   `else if (scrollPosition == 3)`
-                   +
-                   `\n \t \t`
-                   +
-                   `{`
-                   +
-                   `\n \t \t \t`
-                   +
-                   `MenuPageScreens(scrollPosition);`
-                   +
-                   `\n \t \t \t`
-                   +
-                   `if ((RIGHT_State == HIGH)&&(EnableOverrideChange == true))`
-                   +
-                   `\n \t \t \t`
-                   +
-                   `{`
-                   +
-                   `\n \t \t \t \t`
-                   +
-                   `OverrideDelay = OverrideDelay + (5*60000);`
-                   +
-                   `\n \t \t \t`
-                   +
-                   `} //end if ((RIGHT_State == HIGH)&&(EnableOverrideChange == true))`
-                   +
-                   `\n \t \t \t`
-                   +
-                   `if ((LEFT_State == HIGH)&&(EnableOverrideChange == true))`
-                   +
-                   `\n \t \t \t`
-                   +
-                   `{`
-                   +
-                   `\n \t \t \t \t`
-                   +
-                   `OverrideDelay = OverrideDelay - (5*60000);`
-                   +
-                   `\n \t \t \t`
-                   +
-                   `} //end of if ((LEFT_State == HIGH)&&(EnableOverrideChange == true))`
-                   +
-                   `\n \t \t`
-                   +
-                   `}   //end of else if (scrollPosition == 3)`
-                   +
-                   `\n \t`
-                   +
-                   `} //end void Select()` 
-                   +
-                   `\n \t`
+`//----------This Section of the arduino software is created by index.html using SelectFunctions.js----------`
++
+`\n \t`
++
+`void Select(int SelectedPage)`
++
+`\n \t`
++
+`{`
++
+`\n \t \t`
++
+`if (SelectedPage == 0)`
++
+`\n \t \t`
++
+`{`
++
+`\n \t \t \t`
++
+`AdjustNominalVoltage();    // Keep updating the screen`
++
+`\n \t \t \t`
++
+`if (digitalRead(InputRight) == LOW && NominalVoltage <48.0)`
++
+`\n \t \t \t`
++
+`{`
++
+`\n \t \t \t \t`
++
+`NominalVoltage = NominalVoltage + 12;`
++
+`\n \t \t \t`
++
+`} //end if (digitalRead(InputRight) == LOW && NominalVoltage <48.0)`
++
+`\n \t \t \t`
++
+`if (digitalRead(InputLeft) == LOW && NominalVoltage > 12)`
++
+`\n \t \t \t`
++
+`{`
++
+`\n \t \t \t \t`
++
+`NominalVoltage = NominalVoltage - 12;`
++
+`\n \t \t \t`
++
+`} //end if (digitalRead(InputLeft) == LOW && NominalVoltage > 12)`
++
+`\n \t \t`
++
+`} //end if (SelectedPage == 0)`
++
+`\n \t \t`
++
+`if (SelectedPage == 1)`
++
+`\n \t \t`
++
+`{`
++
+`\n \t \t`
++
+`AdjustCutOffVoltagePage();`
++
+`\n \t \t`
++
+`if (digitalRead(InputRight) == LOW) `
++
+`\n \t \t`
++
+`{`
++
+`\n \t \t`
++
+`ShutOffVoltage = ShutOffVoltage + 0.1;`
++
+`\n \t`
++
+`} //end if`
++
+`\n \t`
++
+`if (digitalRead(InputLeft) == LOW)`
++
+`\n \t`
++
+`{`
++
+`\n \t`
++
+`ShutOffVoltage = ShutOffVoltage - 0.1;`
++
+`\n \t`
++
+`} //end (if SelectedPage==1)`
++
+`\n \t`
++
+`if (SelectedPage == 2)`
++
+`\n \t`
++
+`{`
++
+`\n \t`
++
+`AdjustReconnectVoltagePage();`
++
+`\n \t`
++
+`if (digitalRead(InputRight) == LOW)`
++
+`\n \t`
++
+`{`
++
+`\n \t`
++
+`TurnBackOnVoltage = TurnBackOnVoltage + 0.1;`
++
+`\n \t`
++
+`} //if (RIGHT_State == HIGH)`
++
+`\n \t`
++
+`if (digitalRead(InputLeft) == LOW)`
++
+`\n \t`
++
+`{`
++
+`\n \t`
++
+`TurnBackOnVoltage = TurnBackOnVoltage - 0.1;`
++
+`\n \t`
++
+`} //end of  if(LEFT_State == HIGH)`
++
+`\n \t`
++
+`} //end of else if (SelectedPage == 2)`
++
+`\n \t`
++
+`if (SelectedPage == 3)`
++
+`\n \t`
++
+`{`
++
+`\n \t`
++
+`AdjustOverrideTimePage();`
++
+`\n \t`
++
+`if (digitalRead(InputRight) == LOW && OverrideDelay < MaxOverrideDelay)`
++
+`\n \t`
++
+`{`
++
+`\n \t`
++
+`OverrideDelay = OverrideDelay + (5*60000);`
++
+`\n \t`
++
+`}`
++
+`\n \t`
++
+`if (digitalRead(InputLeft) == LOW && (OverrideDelay > 0))`
++
+`\n \t`
++
+`{`
++
+`\n \t`
++
+`OverrideDelay = OverrideDelay - (5*60000);`
++
+`\n \t`
++
+`} //end of if (LEFT_State == HIGH)`
++
+`\n \t`
++
+`}`
++
+`\n \t`
++
+`\n \t`
++
+`\n \t`
++
+`}`
++
+`\n \t`
++
+`}`
                    ;
                                     
 /*Void Encoder Select*/const EncoderSelectFunction =
@@ -309,7 +353,7 @@
                    +
                    `\n \t`
                    +
-                   `else if (SelectedPage == 1)`
+                   `if (SelectedPage == 1)`
                    +
                    `\n \t`
                    +
@@ -357,7 +401,7 @@
                    +
                    `\n \t`
                    +
-                   `else if (SelectedPage == 2)`
+                   `if (SelectedPage == 2)`
                    +
                    `\n \t`
                    +
@@ -397,15 +441,15 @@
                    +
                    `\n \t`
                    +
-                   `} //end of  if(LEFT_State == HIGH)`
+                   `} //end of if(LEFT_State == HIGH)`
                    +
                    `\n \t`
                    +
-                   `} //end of else if (SelectedPage == 2)`
+                   `} //end of if (SelectedPage == 2)`
                    +
                    `\n \t`
                    +
-                   `else if (SelectedPage == 3)`
+                   `if (SelectedPage == 3)`
                    +
                    `\n \t`
                    +
