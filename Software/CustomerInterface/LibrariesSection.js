@@ -1,6 +1,10 @@
  
                 /*Libraries*/     
                     const LibrariesSectionEncoder =
+                      `//----------This Section of the arduino software is created by index.html using LibrariesSection.js----------`
+                      +
+                      `\n \t`
+                      +
                       `//Specify Libraries for a device with an encoder`
                       +
                       `\n \t`
@@ -35,6 +39,7 @@
                       ;
                                     
                 /*Libraries for device with button array*/     
+                      const LibrariesSectionButtonArray =
                       `//Specify Libraries for a device with an array of 5 buttons for control input`
                       +
                       `\n \t`
@@ -62,8 +67,5 @@
                       `\n \t`
                       +
                       `char userInput[MAX_INPUT_LENGTH] = {0}; // Buffer to store user input`
-                    const LibrariesSectionButtonArray =
-                      +
-                      `\n \t`
                       ;
             
