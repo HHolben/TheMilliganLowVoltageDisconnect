@@ -90,7 +90,7 @@
             
             if(document.getElementById("EnableTurnBackOnVoltageInterface").checked == true)
             {
-                 Adjustables.push(["CutOn Voltage", "Encendido Voltaje"]);
+                 Adjustables.push(["CutOn Voltage      ", "Encendido Voltaje  "]);
             }// end if
             
             if(document.getElementById("override").checked == true)
