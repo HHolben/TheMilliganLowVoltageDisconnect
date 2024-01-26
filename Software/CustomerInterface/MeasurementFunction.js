@@ -1,9 +1,64 @@
-/*Voltage Measurement*/const VoltageMeasurementFunction =
-                  `//----------This Section of the arduino software is created by index.html using MeasurementFunction.js----------`
+/*Void Read User Input*/const ReadUserInputMemoryFunction =
+                   `//----------This Section of the arduino software is created by index.html using MemoryFunctions.js----------`
+                   +
+                   `\n \t`
+                   +
+                   `void readUserInput()`
+                   +
+                   `\n`
+                   +
+                   `{`
+                   +
+                   `\n \t`
+                   +
+                   `// Read user input from EEPROM and load it into the userInput buffer`
+                   +
+                   `\n \t`
+                   +
+                   `for (int i = 0; i < MAX_INPUT_LENGTH; i++)`
+                   +
+                   `{`
+                   +
+                   `\n \t \t`
+                   +
+                   `char c = EEPROM.read(EEPROM_ADDR + i);`
+                   +
+                   `\n \t \t`
+                   +
+                   `if (c ==`
+                   +
+                   String.raw`'\0'`
+                   +
+                   `)`
+                   +
+                   `\n \t \t`
+                   +
+                  `{`
+                  +
+                  `\n \t \t \t`
+                  +
+                  `break; // End of stored data`
+                  +
+                  `\n \t \t`
+                  +
+                  `} //End of if statement`
+                  +
+                  `\n \t \t`
+                  +
+                  `userInput[i] = c;`
                   +
                   `\n \t`
                   +
-                  `float MeasureVoltage()`
+                  `}//end of for loop`
+                  +
+                  `\n`
+                  +
+                  `} //end of Read User Input`
+                  +
+                  `\n \n`
+                  ;
+/*Void Write User Input*/const WriteUserInputMemoryFunction =
+                  `void writeUserInput()`
                   +
                   `\n`
                   +
@@ -11,56 +66,57 @@
                   +
                   `\n \t`
                   +
-                  `float VoltageMeasurement = analogRead(VoltageProbe)*24.00/1023.00; //The ratio is 12 Volts (max voltage that can go into a pin)/ 1023 (AnalogRead() measures between 0 and 1023`
+                  `// Write user input from the userInput buffer to EEPROM`
                   +
                   `\n \t`
                   +
-                  `float BatteryVoltage = VoltageMeasurement;`
+                  `for (int i = 0; i < MAX_INPUT_LENGTH; i++)`
                   +
                   `\n \t`
                   +
-                  /*
-                  `Serial.print(DeviceName +"Voltage measured at probe = ");`
+                  `{`
+                  +
+                  `\n \t \t`
+                  +
+                  `if (userInput[i] == `
+                  +
+                  String.raw`'\0'`
+                  +
+                  `)`
+                  +
+                  `\n \t \t`
+                  +
+                  `{`
+                  +
+                  `\n \t \t \t`
+                  +
+                  `break; // End of input`
+                  +
+                  `\n \t \t`
+                  +
+                  `} //end of if statment`
                   +
                   `\n \t`
                   +
-                   `Serial.print(VoltageMeasurement);`
+                  `EEPROM.write(EEPROM_ADDR + i, userInput[i]);`
                   +
                   `\n \t`
                   +
-                  `\n \t`
-                  +
-                  `Serial.print(`
-                  +
-                  String.raw`'\n'`
-                  +
-                  `);`
+                  `} //end of for loop`
                   +
                   `\n \t`
                   +
-                  
-                  `Serial.print(DeviceName +"Battery Voltage = ");` 
+                  `EEPROM.write(EEPROM_ADDR + MAX_INPUT_LENGTH, `
                   +
-                  `\n \t`
+                  String.raw`'\0'`
                   +
-                  `Serial.print(BatteryVoltage);`
-                  +
-                  `\n \t`
-                  +
-                  `Serial.print(`
-                  +
-                  String.raw`'\n'`
-                  +
-                  `);`
-                  +
-                  */
-                  `\n \t`
-                  +
-                  `return(BatteryVoltage);`
+                  `); // Null-terminate the string`
                   +
                   `\n`
                   +
-                  `} //end of function, MeasureVoltage()`
+                  `} //end of writeUserInput`
+                  +
+                  `\n`
                   +
                   `\n \n`
                   ;
