@@ -1,4 +1,6 @@
 /*Void Default Screen State*/const DefaultMenuPageScreenstate =
+                  `//----------This Section of the arduino software is created by index.html using DefaultMenuPageScreenstate.js----------`
+                  +
                   `\n \t`
                   +
                   `enum State`
@@ -89,7 +91,7 @@
                        +
                        `\n \t \t`
                        +
-                       `String ConnectionStatus[][2] = {{"Load Disonnected    ", "Carga Desconectada  "}, {"Load Connected      ", "Carga Conectada     "}};`
+                       `String ConnectionStatus[][2] = {{"Load Disconnected   ", "Carga Desconectada  "}, {"Load Connected      ", "Carga Conectada     "}};`
                        +
                        `\n \t \t`
                        +
@@ -157,7 +159,7 @@
  	 	                 +
                          `lcd.setCursor(0,0);`
  	 	                 +
-                         `lcd.print(NominalVoltagePageItems[0][LanguageSetting]+":");`
+                         `lcd.print(NominalVoltagePageItems[0][LanguageSetting]);`
  	 	                 +
                          `lcd.setCursor(0,1);`
  	 	                 +
@@ -340,7 +342,7 @@
                          +
                          `\n \t \t`
                          +
-                         `lcd.print(NominalVoltagePageItems[0][LanguageSetting]+":");`//print the menu title "Battery Voltage"
+                         `lcd.print(NominalVoltagePageItems[0][LanguageSetting]);`//print the menu title "Battery Voltage"
                          +
                          `\n \t \t`
                          +
@@ -388,7 +390,7 @@
                          +
                          `\n \t`
                          +
-                         `lcd.print(ShutOffVoltagePageItems[0][LanguageSetting]+":");`
+                         `lcd.print(ShutOffVoltagePageItems[0][LanguageSetting]);`
  	                     +
                          `\n`
                         +
@@ -434,7 +436,7 @@
  	                    +
                         `\n \t `
                         +
-                        `lcd.print(ReconnectVoltagePageItems[0][LanguageSetting]+":");`
+                        `lcd.print(ReconnectVoltagePageItems[0][LanguageSetting]);`
  	                    +
                         `\n \t `
                         +
@@ -482,7 +484,7 @@
  	                    +
                         `\n \t `
                         +
-                        `lcd.print(OverrideTimePageItems[0][LanguageSetting]+":");`
+                        `lcd.print(OverrideTimePageItems[0][LanguageSetting]);`
  	                    +
                         `\n \t `
                         +
