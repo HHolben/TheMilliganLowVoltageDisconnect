@@ -24,11 +24,11 @@
                       +
                       `\n \t`
                       +
-                      `const float Resistor1 = 1.35e6; //ohms`
+                      `const float Resistor1 = 8200; //ohms`
                       +
                       `\n \t`
                       +
-                      `const float Resistor2 = 750e3; //ohms`
+                      `const float Resistor2 = 2200; //ohms`
                       +
                       `\n \n`
                       ;
@@ -100,6 +100,10 @@
                       +
                       `bool OverrideWhileOffAllowed = true;`
                       +
+                      `\n \t`
+                      +
+                      `unsigned long MaxOverrideDelay = 90*60000; //puts limit of 90 minutes`
+                      +
                       `\n`
                       ;
           
@@ -114,11 +118,7 @@
                       +
                       `unsigned long RolloverTime = (pow(2,32)-1);// Set an interval in milliseconds to ensure that millis() rollover (happens once approximately every 50 days when millis() resets to zero) is never an issue for more than 10 minutes`
                       +
-                      `\n \n`
-                      +
-                      `unsigned long MaxOverrideDelay = 90*60000 //puts limit of 90 minutes`
-                      +
-                      `\n \n`
+                      `\n`
                       ;
 /*Pin Assignments*/const GetPinAssignments =
                       `//Get Pin Assignments:`
@@ -153,6 +153,10 @@
                       +
                       `\n \t`
                       +
+                      `int OverrideLight = ${PinData[DeviceSelection-1].OverrideLight};`
+                      +
+                      `\n \t`
+                      +
                       `int RelayOutput = ${PinData[DeviceSelection-1].RelayOutput};`
                       +
                       `\n \t`
@@ -177,3 +181,46 @@
                       +
                       `\n `
                       ;                        
+
+/*Encoder Related Global Variables*/const EncoderRelatedGlobalVariables =
+                      `\n \t`
+                      +
+                      `Encoder myEncoder(2, 3);`
+                      +
+                      `\n \t`
+                      +
+                      `long oldPosition = -999;`
+                      +
+                      `\n \t`
+                      +
+                      `int EncoderDirection = 0;`
+                      +
+                      `\n \t`
+                      +
+                      `const int scrollThreshold = 5;`
+                      +
+                      `\n \t`
+                      +
+                      `int ChangeInPosition = 0;`
+                      +
+                      `\n \t`
+                      +
+                      `int EncoderSelectState = HIGH;`
+                      +
+                      `\n \t`
+                      +
+                      `static int lastEncoderSelectState = HIGH;`
+                      ;
+
+
+/*Button Related Global Variables*/const ButtonRelatedGlobalVariables =
+                      `\n \t`                      
+                      +
+                      `long oldPosition = -999;`
+                      +
+                      `\n \t`
+                      +
+                      `static int lastEncoderSelectState = HIGH;`
+                      +
+                      `\n \t`
+                      ;
