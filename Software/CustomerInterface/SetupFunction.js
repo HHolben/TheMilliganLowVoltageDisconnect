@@ -51,6 +51,10 @@
                   +
                   `\n \t`
                   +
+                  `pinMode(RelayOutput, OUTPUT);`
+                  +
+                  `\n \t`
+                  +
                   `selectPressed = true;`  // Initialize the select button latch
                   +
                   `\n \t`
@@ -97,6 +101,10 @@
                   `\n \t`
                   +
                   `pinMode(OverrideLight, OUTPUT);`
+                  +
+                  `\n \t`
+                  +
+                  `pinMode(RelayOutput, OUTPUT);`
                   +
                   `\n \t`
                   +

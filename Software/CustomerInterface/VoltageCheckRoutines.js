@@ -4,10 +4,6 @@
                   +
                   `\n \t`
                   +
-                  `//Low voltage disconnection: If the battery voltage is lower than the cut off voltage, turn off the load when the override period expires`
-                  +
-                  `\n \t`
-                  +
                   `static unsigned long StartTime = 0;`
                   +
                   `\n \t`
@@ -32,49 +28,57 @@
                   +
                   `\n \t`
                   +
-                  `if (OverrideDelayLatch == true)   //If Override Button is pressed`
+                  `if (OverrideDelayLatch)   //If Override Button is pressed`
                   +
                   `\n \t`
                   +
-                  `{`
+                  `Serial.print("Override");`
+                  +
+                  `\n \t`
+                  +
+                  `Serial.print("\n");`
+                  +
+                  `\n \t`
+                  +
+                  `digitalWrite(OverrideLight, HIGH);`
+                  +
+                  `\n \t`
+                  +
+                  `if (OutputState = 0 && OverrideWhileOffAllowed){             //If system is off (AND has been off) and Override allowed`
                     +
                     `\n \t`
                     +
-                    `digitalWrite(12, HIGH);`
-                    +
-                    `\n \t`
-                    +
-                    `if (OutputState = 0 && OverrideWhileOffAllowed){       //If system is off (AND has been off) and Override allowed`
-                      +
-                      `\n \t`
-                      +
-                      `TurnOnOutput();`
-                    +
-                    `\n \t`
-                    +
-                    `} // end of if`
-                
-                    +
-                    `\n \t`
-                    +
-                    `else if (OutputState = 0 && (OverrideWhileOffAllowed == false)){    //If system is off (AND has been off) and Override NOT allowed`
-                        +
-                        `\n \t`
-                        +
-                        `//Don't do anything or flash a message saying "Not Permitted"`
+                    `TurnOnOutput();`
                     +
                     `\n \t`
                     +
                     `}`
+                   +
+                   `\n \t`
+                   +
+                   `// end of if`
                 
-                    +
-                    `\n \t`
-                    +
-                    `else if(OutputState = 1){`
-                    +
-                    `\n \t`
-                    +
-                    `if (MeasureVoltage() < ShutOffVoltage)  `    
+                  +
+                  `\n \t`
+                  +
+                  `if (OutputState = 0 && (OverrideWhileOffAllowed == false)){    //If system is off (AND has been off) and Override NOT allowed`
+                   +
+                   `\n \t`
+                   +
+                   `   //Don't do anything or flash a message saying "Not Permitted"`
+                  +
+                  `\n \t`
+                  +
+                  `}`
+              
+                  +
+                  `\n \t`
+                  +
+                  `if(OutputState = 1){`
+                      +
+                      `\n \t`
+                      +
+                      `if (MeasureVoltage() < ShutOffVoltage)   //Probably need to combine OutputState = 1 && Voltage < Cutoff, then have an else if OutputState = 1 && Voltage > Cutoff(Do Nothing)  ` 
                     +
                     `\n \t`
                     +
@@ -82,31 +86,169 @@
                       +
                       `\n \t`
                       +
-                      `if(TimerHasStarted == false)`
-                      +
-                  `\n \t`
-                  +
-                  `{`
-                  +
-                  `\n \t`
-                  +
-                      `StartTime = TimeSinceBoot();  //millis();`
+                      `if (OverrideTimerHasStarted ==false){`
+                      
                       +
                       `\n \t`
                       +
-                      `EndTime = DisconnectBufferTimerEnd();     //We DONT want to interrupt the 30 second buffer time to make sure load is truly about to shutoff due to low voltage.`
+                      `StartTime = TimeSinceBoot();`
                       +
                       `\n \t`
                       +
-                `TimerHasStarted = true;`
-                +
-                  `\n \t`
-                  +
-                  `}// end if(TimerHasStarted == false)`
+                      `EndTime = OverrideTimerEnd();   //e.g. 22seconds runtime + 30seconds = static 55seconds`
+                      +
+                      `\n \t`
+                      +
+                      `OverrideTimerHasStarted = true;`
+                      
+                      +
+                      `\n \t`
+                      +
+                      `}`
+                      +
+                      `\n \t`
+                      +
+                      `TurnOnOutput();   //Keep the output on, might not be what we want here.`
                       +
                       `\n \t`
                       +
                       `unsigned long currentTime = TimeSinceBoot();`
+                      +
+                      `\n \t`
+                      +
+                      `if(currentTime < EndTime)`
+                      +
+                      `\n \t`                      
+                      +
+                      `{`
+                      +
+                      `\n \t`
+                      +
+                      `unsigned long remainingTime = EndTime - currentTime;  //55seconds - 25seconds = 20seconds remain`
+                      +
+                      `\n \t`
+                      +
+                      `  Serial.print(remainingTime);`
+                      +
+                      `\n \t`
+                      +
+                      `  Serial.print("\n");`
+              +
+              `\n \t`
+                       +
+                       ` // Other tasks can run here while the timer is active`
+                      +
+                      `\n \t`
+                      +
+                      `}   // end of if(currentTime < EndTime)`
+                      +
+                      `\n \t`
+                      +
+                      `else`
+                      +
+                      `\n \t`
+                      +
+                      `{`
+                      
+                        +
+                        `\n \t`
+                        +
+                        `TurnOffOutput();`
+                        +
+                        `\n \t`
+                        +
+                        `OverrideDelayLatch = false;`
+                        +
+                        `\n \t`
+                        +
+                        `OverrideTimerHasStarted = false;`
+                        
+                      +
+                      `\n \t`
+                      +
+                      `} // end of else statement`
+                    +
+                    `\n \t`
+                    +
+                    `} // end of if MeasureVoltage()<ShutOffVoltage`
+                    +
+                    `\n \t`
+                    +
+                    `else`
+                    +
+                    `\n \t`
+                    +
+                    `{`
+                    +
+                    `\n \t`
+                    +
+                    `  OverrideTimerHasStarted = false;      //This resets the timer if the voltage goes back to stable state.`
+            
+                    +
+                    `\n \t`
+                    +
+                    `}`
+                  
+                  +
+                  `\n \t`
+                  +
+                  `}`
+              
+              
+              
+               +
+               `\n \t`
+               +
+               ` }`
+               +
+               `\n \t`
+               +
+               ` else      //Normal Operation when Override is NOT Active`
+                  +
+                  `\n \t`
+                  +
+                  `{`
+              
+                   +
+                   `\n \t`
+                   +
+                   ` digitalWrite(OverrideLight,LOW);   //OverrideLightOff`
+                   +
+                   `\n \t`
+                   +
+                   ` if (MeasureVoltage() < ShutOffVoltage)  `    
+                   +
+                   `\n \t`
+                   +
+                   ` {`
+                      +
+                      `\n \t`
+                      +
+                      `if (TimerHasStarted ==false){`
+                      
+                      +
+                      `\n \t`
+                      +
+                      `StartTime = TimeSinceBoot();`
+                      +
+                      `\n \t`
+                      +
+                      `EndTime = DisconnectBufferTimerEnd();   //e.g. 22seconds runtime + 30seconds = static 55seconds`
+                      +
+                      `\n \t`
+                      +
+                      `TimerHasStarted = true;`
+                      
+                      +
+                      `\n \t`
+                      +
+                      `}`
+               
+                      +
+                      `\n \t`
+                      +
+                      `unsigned long currentTime = TimeSinceBoot();`
+                      
                       +
                       `\n \t`
                       +
@@ -118,12 +260,16 @@
                         +
                         `\n \t`
                         +
+                        `unsigned long remainingTime = EndTime - currentTime;  //55seconds - 25seconds = 20seconds remain`
+              
+                        +
+                        `\n \t`
+                        +
                         `// Other tasks can run here while the timer is active`
                       +
                       `\n \t`
                       +
-                      `} // end of if(currentTime < EndTime)`
-                
+                      `}   // end of if(currentTime < EndTime)`
                       +
                       `\n \t`
                       +
@@ -132,74 +278,14 @@
                       `\n \t`
                       +
                       `{`
+                      
                         +
                         `\n \t`
                         +
-                        `if(OverrideTimerHasStarted == false)`
-                        +
-                  `\n \t`
-                  +
-                  `{`
-                  +
-                  `\n \t`
-                  +
-                  `unsigned long OverrideCurrentTime = TimeSinceBoot();    //New Report of Millis()      //I am not sure if the count will be kept correctly`
-                        +
-                        `\n \t`
-                        +
-                        `unsigned long OverrideEndTime = OverrideTimerEnd();`
-                        +
-                        `\n \t`
-                  +
-                  `OverrideTimerHasStarted = true;`
-                  +
-                  `\n \t`
-                  +
-                  `}`
-                  +
-                  `\n \t`
-                  +
-                  `unsigned long remainingTime = OverrideEndTime - OverrideCurrentTime;`
-                  +
-                  `\n \t`
-                  +
-                        +
-                        `if (OverrideCurrentTime < OverrideTimerEnd())`       //if 14,15
-                        +
-                        `\n \t`
-                        +
-                        `{`
-                          +
-                          `\n \t`
-                          +
-                          `//do nothing;`
-                        +
-                        `\n \t`
-                        +
-                        `}`
+                        `TurnOffOutput();`
+                        
+                        
                       +
-                      `\n \t`
-                  +
-                  `else`
-                  +
-                  `\n \t`
-                  +
-                  `{`
-                  +
-                  `\n \t`
-                  +
-                  `TurnOffOutput();`
-                  +
-                  `\n \t`
-                  +
-                  `OverrideDelayLatch = !OverrideDelaylatch;`
-                  +
-                  `\n \t`
-                  +
-                  `} // end else`
-                  +
-
-                  +
                       `\n \t`
                       +
                       `} // end of else statement`
@@ -209,172 +295,26 @@
                     `} // end of if MeasureVoltage()<ShutOffVoltage`
                     +
                     `\n \t`
-
-                    +
-                    `\n \t`
-
                     +
                     `else`
                     +
                     `\n \t`
-
                     +
-                    
                     `{`
+                      +
+                      `\n \t`
+                      +
+                      `TimerHasStarted = false;      //This resets the timer if the voltage goes back to stable state.`
                     +
                     `\n \t`
-
-                    +
-                    `OverrideTimerHasStarted = false;`
-
-                    +
-                    `\n \t`
-
-                    +
-                    `TimerHasStarted = false;`
-                    +
-                    `\n \t`
-
-                    +
-                    `}//end else`
-
-                   
-                    +
-                    `\n \t`
-
-                    +
-                   
                     +
                     `}`
-                
-                
+                  
                   +
                   `\n \t`
                   +
                   `}`
-                  +
-                  `\n \t`
-                  +
-                  `else      //Normal Operation when Override is NOT Active`
-                    +
-                    `\n \t`
-                    +
-                    `{`
-                      +
-                      `\n \t`
-                      +
-                      `digitalWrite(12,LOW);`
-                      +
-                      `\n \t`
-                      +
-                      `if (MeasureVoltage() < ShutOffVoltage)`     
-                      +
-                      
-                      `\n \t`
-                      +
-                      `{`
-                
-                        +
-                        `\n \t`
-                        +
-                        `if(TimerHasStarted == false)`
-                        +
-                        `\n \t`
-
-                        +
-                        `{`
-                        +
-                        `\n \t`
-                    +
-                        `StartTime = TimeSinceBoot();`
-                        +
-                        `\n \t`
-                        +
-                        `EndTime = DisconnectBufferTimerEnd();`    
-                        +
-                        `\n \t`
-
-                    + 
-                     `TimerHasStarted = true;`
-                    +
-                    `\n \t`
-
-                    +`} // end if(TimerHasStarted == false)`
-
-                    +          
-                        +
-                        `\n \t`
-                        +
-                        `unsigned long currentTime = TimeSinceBoot();`
-                
-                        +
-                        `\n \t`
-                        +
-                        `if (currentTime < EndTime)`
-                        +
-                        `\n \t`
-                        +
-                        `{`
-                          +
-                          `\n \t`
-                          +
-                          `unsigned long remainingTime = EndTime - currentTime;`
-                          +
-                          `\n \t`
-                          +
-                          `// Other tasks can run here while the timer is active`
-                        +
-                        `\n \t`
-                        +
-                        `}   // end of if(currentTime < EndTime)`
-                        +
-                        `\n \t`
-                        +
-                        `else`
-                        +
-                        `\n \t`
-                        +
-                        `{`
-                
-                          +
-                          `\n \t`
-                          +
-                          `TurnOffOutput();`
-                        +
-                        `\n \t`
-                        +
-                        `} // end of else statement`
-                      +
-                      `\n \t`
-                      +
-                      `} // end of if MeasureVoltage()<ShutOffVoltage`
-                
-                    +
-                    `\n \t`
-
-                    +
-                    `else`
-                    +
-                    `\n \t`
-
-                    +`{`
-
-                    +
-                    `TimerHasStarted = false;`
-                  
-                    +
-                    `\n \t`
-                    +
-                    `}//end else`
-                    +
-                    `\n \t`
-                    +
-                    `}`
-                
-                
-                +
-                `\n`
-                  ;
+                          ;
 
                   /*Low Voltage Check*/const ReconnectVoltageCheck =
   
@@ -415,8 +355,12 @@
                   +
                   `\n \t`
                     +
-                `}`
+                `} // end of if statement`
                 +
+                `\n \t`
+                    +
+                    `LastOverrideButtonState = OverrideSelectState;`
+                    +
                   `\n \t \t`
                   ;                
                              

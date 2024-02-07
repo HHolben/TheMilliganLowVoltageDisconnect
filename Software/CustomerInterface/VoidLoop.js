@@ -11,6 +11,14 @@
                   +
                   `\n \t \t`
                   +
+                  `//Initalization of Variables`
+                  +
+                  `\n \t \t`
+                  +
+                  `  int OverrideSelectState = digitalRead(OverrideDelayButton);`
+                  +
+                  `\n \t \t`
+                  +
                   `int lastSwitchState;`
  	              +
                   `\n \t \t`

@@ -17,35 +17,33 @@
                       +
                       `if (digitalRead(InputUp) == LOW && scrollPosition >0)`
                       +
-                      `\n \t \t`
-                      +
-                      `{`
-                      +
-                      `\n \t \t \t`
-                      +
-                      `scrollPosition--;`
-                      +
-                      `\n \t \t`
-                      +
-                      `} //if (digitalRead(InputUp) == LOW && scrollPosition >0)`
+                    `\n \t`
+                    +
+                    `{`
                       +
                       `\n \t`
                       +
-                      `if (digitalRead(InputDown) == LOW && scrollPosition <3)`
-                      +
-                      `\n \t`
-                      +
-                      `{`
-                      +
-                      `\n \t \t`
-                      +
-                      `scrollPosition++;`
+                      `  scrollPosition--;`
                       +
                       `\n \t`
                       +
                       `}`
                       +
                       `\n \t`
+                      +
+                      `if(digitalRead(InputDown) == LOW && scrollPosition <3)     //Also The issue with the button array is that we had an else if here, so if the Input Up wasn't being pressed, then the else if was executed regardless.  Need an else or replace with if `
+                      +
+                      `\n \t`
+                      +
+                      `{`
+                      +
+                      `\n \t`
+                      +
+                      `  scrollPosition++;`
+                      +
+                      `\n \t`
+                      +
+                      `}`
                        +
                        `} // end void Scroll()`
                        + 

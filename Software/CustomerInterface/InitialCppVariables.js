@@ -18,6 +18,9 @@
                       `\n`
                       ;       
                       
+
+
+
 /*Voltage Probe Related*/
                 const VoltageProbeSpecifications =
 					  `//Voltage Probe related variables`
@@ -104,6 +107,34 @@
                       +
                       `unsigned long MaxOverrideDelay = 90*60000; //puts limit of 90 minutes`
                       +
+                      `\n \t`
+                      +
+                      `static int scrollPosition = 0;`     
+                      +
+                      `\n \t`
+                      +
+                      `bool selectPressed = false; // Select button latch`
+                      +
+                      `\n \t`
+                      +
+                      `int ReturnToStatusPage = false;`
+                      +
+                      `\n \t`
+                      +
+                      `bool OverrideDelayLatch = false;`
+                      +
+                      `\n \t`
+                      +
+                      `int LastOverrideButtonState = HIGH;`
+                      +
+                      `\n \t`
+                      +
+                      `bool OverridePressed = false;`
+                      +
+                      `\n \t`
+                      +
+                      `bool OverrideWhileOffAllowed = true;`
+                      +
                       `\n`
                       ;
           
@@ -178,6 +209,10 @@
                       `\n \t`
                       +             
                       `int InputSelect = ${PinData[DeviceSelection-1].InputSelect};`
+                      +
+                      `\n \t`
+                      +
+                      `int OverrideLight = ${PinData[DeviceSelection-1].OverrideLight}`
                       +
                       `\n `
                       ;                        

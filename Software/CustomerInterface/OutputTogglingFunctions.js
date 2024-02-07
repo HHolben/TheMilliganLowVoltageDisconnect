@@ -11,7 +11,7 @@
                   +
                   `\n \t`
                   +
-                  `digitalWrite(RelayOutput, LOW);  // sets the relay output off`
+                  `digitalWrite(RelayOutput, HIGH);  // sets the relay output off`
                   +                  
                   `\n \t`
                   +
@@ -36,7 +36,7 @@
                   +
                   `\n \t`
                   +
-                  `digitalWrite(RelayOutput, HIGH);  // sets the relay output on`
+                  `digitalWrite(RelayOutput, LOW);  // sets the relay output on`
                   +
                   `\n \t`
                   +

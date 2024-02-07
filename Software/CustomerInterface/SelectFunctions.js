@@ -3,87 +3,82 @@
 +
 `\n \t`
 +
-`void Select(int SelectedPage)`
+`if (SelectedPage == 0)`
 +
 `\n \t`
 +
 `{`
+  +
+  `\n \t`
+  +
+  `AdjustNominalVoltage();    // Keep updating the screen`
+  +
+  `\n \t`
+  +
+  `if (digitalRead(InputRight) == LOW && NominalVoltage <48.0)`
+  +
+  `\n \t`
+  +
+  `{`
+    +
+    `\n \t`
+    +
+    `NominalVoltage = NominalVoltage + 12;`
+
+  +
+  `\n \t`
+  +
+  `} //end if(RIGHT_State == HIGH)`
+ +
+ `\n \t`
+ +
+ ` if (digitalRead(InputLeft) == LOW && NominalVoltage > 12)`
+  +
+  `\n \t`
+  +
+  `{`
+
+    +
+    `\n \t`
+    +
+    `NominalVoltage = NominalVoltage - 12;`
+
+  +
+  `\n \t`
+  +
+  `}`
 +
-`\n \t \t`
+`\n \t`
 +
-`if (SelectedPage == 0)`
+`}`
 +
-`\n \t \t`
-+
-`{`
-+
-`\n \t \t \t`
-+
-`AdjustNominalVoltage();    // Keep updating the screen`
-+
-`\n \t \t \t`
-+
-`if (digitalRead(InputRight) == LOW && NominalVoltage <48.0)`
-+
-`\n \t \t \t`
-+
-`{`
-+
-`\n \t \t \t \t`
-+
-`NominalVoltage = NominalVoltage + 12;`
-+
-`\n \t \t \t`
-+
-`} //end if (digitalRead(InputRight) == LOW && NominalVoltage <48.0)`
-+
-`\n \t \t \t`
-+
-`if (digitalRead(InputLeft) == LOW && NominalVoltage > 12)`
-+
-`\n \t \t \t`
-+
-`{`
-+
-`\n \t \t \t \t`
-+
-`NominalVoltage = NominalVoltage - 12;`
-+
-`\n \t \t \t`
-+
-`} //end if (digitalRead(InputLeft) == LOW && NominalVoltage > 12)`
-+
-`\n \t \t`
-+
-`} //end if (SelectedPage == 0)`
-+
-`\n \t \t`
+`\n \t`
 +
 `if (SelectedPage == 1)`
 +
-`\n \t \t`
-+
-`{`
-+
-`\n \t \t`
-+
-`AdjustCutOffVoltagePage();`
-+
-`\n \t \t`
-+
-`if (digitalRead(InputRight) == LOW) `
-+
-`\n \t \t`
-+
-`{`
-+
-`\n \t \t`
-+
-`ShutOffVoltage = ShutOffVoltage + 0.1;`
-+
 `\n \t`
 +
-`} //end if`
+`{`
+  +
+  `\n \t`
+  +
+  `AdjustCutOffVoltagePage();`
+  +
+  `\n \t`
+  +
+  `if (digitalRead(InputRight) == LOW) //clockwise`
+  +
+  `\n \t`
+  +
+  `{`
+  +
+  `\n \t`
+  +
+  `ShutOffVoltage = ShutOffVoltage + 0.1;`
+  +
+  `\n \t`
+  +
+  `} //end if(RIGHT_State == HIGH)`
 +
 `\n \t`
 +
@@ -96,6 +91,10 @@
 `\n \t`
 +
 `ShutOffVoltage = ShutOffVoltage - 0.1;`
++
+`\n \t`
++
+`} // end if(LEFT_State == HIGH)`
 +
 `\n \t`
 +
@@ -159,11 +158,21 @@
 +
 `\n \t`
 +
-`AdjustOverrideTimePage();`
+`  //Serial.print("Hello");`
 +
 `\n \t`
 +
-`if (digitalRead(InputRight) == LOW && OverrideDelay < MaxOverrideDelay)`
+`  //Serial.print("\n");`
++
+`\n \t`
++
+`AdjustOverrideTimePage();`
+
+
++
+`\n \t`
++
+`if (digitalRead(InputRight) == LOW && OverrideDelay<MaxOverrideDelay)`
 +
 `\n \t`
 +
@@ -175,19 +184,32 @@
 +
 `\n \t`
 +
+`AdjustOverrideTimePage();`
+
+
+
++
+`\n \t`
++
 `}`
 +
 `\n \t`
 +
-`if (digitalRead(InputLeft) == LOW && (OverrideDelay > 0))`
+`if (digitalRead(InputLeft) == LOW && OverrideDelay > 0)`
 +
 `\n \t`
 +
 `{`
+
 +
 `\n \t`
 +
 `OverrideDelay = OverrideDelay - (5*60000);`
++
+`\n \t`
++
+`AdjustOverrideTimePage();`
+
 +
 `\n \t`
 +
@@ -196,10 +218,8 @@
 `\n \t`
 +
 `}`
-+
-`\n \t`
-+
-`\n \t`
+
+
 +
 `\n \t`
 +

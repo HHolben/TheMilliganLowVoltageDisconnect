@@ -48,7 +48,7 @@
                                 "InputRight": "8",//Pin D8
                                 "InputLeft": "10",//Pin 10     
                                 "InputSelect": "9",//Pin D9
-                                "OverrideLight": "12"//Pin D9
+                                "OverrideLight": "4"//Pin D9
 
 
                             },
