@@ -26,10 +26,12 @@ bool OverrideWhileOffAllowed = true;
 
 
 
+
 //Voltage Probe related variables
-  const float Resistor1 = 10000; //ohms
-  const float Resistor2 = 10000; //ohms
- 
+  const float Resistor1 = 11100; //ohms
+  const float Resistor2 = 2210; //ohms
+
+  
 //Global Variables:
   String DeviceName = "Theophilus";
   float NominalVoltage = 12;
