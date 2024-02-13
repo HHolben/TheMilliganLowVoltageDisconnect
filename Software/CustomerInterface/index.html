@@ -169,7 +169,7 @@
               //  ExtractVariablesScript.defer = true;
               //  document.head.appendChild(ExtractVariablesScript);
 
-                            //Convert the menu items selected by the user to a string
+            //Convert the menu items selected by the user to a string
                // let ConvertMenuToStringScript = document.createElement('script');
                // ConvertMenuToStringScript.src ="ConvertMenuItemsToString.js";
                // ConvertMenuToStringScript.defer = true;
@@ -270,47 +270,47 @@
 
 
 
-                     //Check that inputs are valid       
-                                const NominalVoltageError = document.getElementById('NominalVoltageError');
-                                const ShutOffVoltageError = document.getElementById('ShutOffVoltageError');
+        //Check that inputs are valid       
+                const NominalVoltageError = document.getElementById('NominalVoltageError');
+                const ShutOffVoltageError = document.getElementById('ShutOffVoltageError');
 
             
-                                NominalVoltageError.textContent = '';
-                                ShutOffVoltageError.textContent = '';
+                NominalVoltageError.textContent = '';
+                ShutOffVoltageError.textContent = '';
 
-                                if (!NominalVoltage) 
-                                {
+                if (!NominalVoltage) 
+                {
 
-                                    alert("Please enter a positive integer multiple of 12 for Nominal Voltage.");
-                                }
+       alert("Please enter a positive integer multiple of 12 for Nominal Voltage.");
+                }
             
-                                else if (NominalVoltage % 12 !== 0) 
-                                {
-                                    NominalVoltageError.textContent = 'Please enter a positive integer multiple of 12 for Nominal Voltage.';
-                                    alert("Nominal Voltage must be a positive integer multiple of 12.");
-                                }
+                else if (NominalVoltage % 12 !== 0) 
+                {
+       NominalVoltageError.textContent = 'Please enter a positive integer multiple of 12 for Nominal Voltage.';
+       alert("Nominal Voltage must be a positive integer multiple of 12.");
+                }
 
-                                else if (isNaN(ShutOffVoltage) || ShutOffVoltage <= 0) 
-                                {
-                                     alert("Please enter a positive number for Shut Off VOltage (decimal values allowed");
-                                }
-                                
-                                else if (isNaN(TurnBackOnVoltage) || TurnBackOnVoltage <= 0) 
-                                {
-                                     alert("Please enter a positive number for Turn Back On Voltage(decimal values allowed");
-                                }
-                                else if (isNaN(OverrideDelay) || TurnBackOnVoltage <= 0) 
-                                {
-                                     alert("Please enter a positive number for override delay (decimal values allowed");
-                                }
-                                else
-                                {
+                else if (isNaN(ShutOffVoltage) || ShutOffVoltage <= 0) 
+                {
+        alert("Please enter a positive number for Shut Off VOltage (decimal values allowed");
+                }
+                
+                else if (isNaN(TurnBackOnVoltage) || TurnBackOnVoltage <= 0) 
+                {
+        alert("Please enter a positive number for Turn Back On Voltage(decimal values allowed");
+                }
+                else if (isNaN(OverrideDelay) || TurnBackOnVoltage <= 0) 
+                {
+        alert("Please enter a positive number for override delay (decimal values allowed");
+                }
+                else
+                {
             
 
 
 
        
-                          
+          
             
         //select the control scheme to put into the Blob     
         
@@ -359,8 +359,14 @@
             + 
             MenuPage 
             + 
-            NominalVoltagePage 
+            AdjustNominalVoltagePage 
             + 
+            AdjustCutOffVoltagePage
+            +
+            AdjustReconnectVoltagePage
+            +
+            AdjustOverrideTimePage
+            +
             ScrollFunction 
             + 
             SelectFunction 
