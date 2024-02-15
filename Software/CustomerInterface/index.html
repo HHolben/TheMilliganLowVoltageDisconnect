@@ -31,7 +31,7 @@
             <br>
             <span class="error" id="NominalVoltageError" style="color:red"></span><br><br>
             <br>
-            <input type="checkbox" id="EnableNominalVoltageInterface" name="EnableNominalVoltageInterface" value="true" checked="checked">Allow the user to change the nominal voltage <br>
+            <input type="checkbox" id="EnableNominalVoltageInterface" name="EnableNominalVoltageInterface" value="true" checked="checked"> <!-- selected by default-->Allow the user to change the nominal voltage <br>
             <br>
         
         <!--Shut off Voltage Form-->
@@ -39,7 +39,7 @@
             <label for="ShutOffVoltage">Enter ShutOffVoltage Value:</label> volts
             <input type="number" id="ShutOffVoltage" name="ShutOffVoltage" value="6" required> volts
             <span class="error" id="ShutOffVoltageError"></span><br><br><br>
-            <input type="checkbox" id="EnableShutOffVoltageInterface" name="EnableShutOffVoltageInterface" value="ShutOffEnabled">Allow the user to change the turn-back-on voltage <br>
+            <input type="checkbox" id="EnableShutOffVoltageInterface" name="EnableShutOffVoltageInterface" value="ShutOffEnabled"  checked="checked"> <!-- selected by default-->Allow the user to change the turn-back-on voltage <br>
 <br>
         <!-- Shut Off Voltage Timer-->
             <h3>Shut Off Voltage Timer:</h3>
@@ -54,7 +54,7 @@
             <h3>Turn-back on Voltage:</h3>
             <input type="number" id="TurnBackOnVoltage" name="TurnBackOnVoltage" value="10"> volts
             <br>
-            <input type="checkbox" id="EnableTurnBackOnVoltageInterface" name="EnableTurnBackOnVoltageInterface" value="TurnBackOnEnabled">
+            <input type="checkbox" id="EnableTurnBackOnVoltageInterface" name="EnableTurnBackOnVoltageInterface" value="TurnBackOnEnabled" checked="checked"> <!-- selected by default-->
             <label for="TurnBackOnVoltage">Allow the user to change the turn-back-on voltage</label><br>
         
 
@@ -62,7 +62,7 @@
             <h3>Overide:</h3>
             <input type="number" id="OverrideDelay" name="OverrideDelay" value="20"> minutes
             <br>
-            <input type="checkbox" id="override" name="override" value="TRUE">
+            <input type="checkbox" id="override" name="override" value="TRUE" checked="checked"> <!-- selected by default-->
             <label for="override">Check to change overide delay time</label><br>
             <br>
             <br>
@@ -78,7 +78,7 @@
             <h3>Language:</h3>
             Default Language:
             <br>
-            <input type="radio" id="english" name="LanguageSetting" value="english" checked="checked">
+            <input type="radio" id="english" name="LanguageSetting" value="english" checked="checked"> <!-- selected by default-->
             <label for="english">English</label> 
             <input type="radio" id="spanish" name="LanguageSetting" value="spanish">
             <label for="spanish">Spanish</label><br>
@@ -92,13 +92,13 @@
             <h3>Board:</h3>
             Select a device:
             <br>
-            <input type="radio" id="ArduinoNano" name="DeviceSetting" value="ArduinoNano" checked="checked">
+            <input type="radio" id="ArduinoNano" name="DeviceSetting" value="ArduinoNano">
             <label for="ArduinoNano">Arduino Nano</label> 
             <br>
             <input type="radio" id="ArduinoNanoESP32" name="DeviceSetting" value="ArduinoNanoESP32">
             <label for="ArduinoNanoEsp32">Arduino Nano ESP 32</label>
             <br>
-            <input type="radio" id="ArduinoUno" name="DeviceSetting" value="ArduinoUno">
+            <input type="radio" id="ArduinoUno" name="DeviceSetting" value="ArduinoUno" checked="checked"> <!-- selected by default-->
             <label for="ArduinoUno">Arduino Uno</label> 
             <br>
             <input type="radio" id="ArduinoMega" name="DeviceSetting" value="ArduinoMega">
@@ -108,11 +108,22 @@
             <h3>Controller type:</h3>
             Select a controller type:
             <br>
-            <input type="radio" id="ButtonArray" name="ControlTypeSetting" value="ButtonArray" checked="checked">
+            <input type="radio" id="ButtonArray" name="ControlTypeSetting" value="ButtonArray" checked="checked"> <!-- selected by default-->
             <label for="ButtonArray">Array of 5  push buttons</label> 
             <br>
             <input type="radio" id="Encoder" name="ControlTypeSetting" value="Encoder">
-            <label for="Encoder">RotaryEncoder</label><br>
+            <label for="Encoder">Rotary Encoder</label><br>
+            <br>
+
+        <!-- Output type-->
+            <h3>Output Type:</h3>
+            Select what hardware is to be to be used to power on the load:
+            <br>
+            <input type="radio" id="RelayOutput" name="OutputType" value="RelayOutput" checked="checked"> <!-- default-->
+            <label for="RelayOutput">Mechanical Relay</label> 
+            <br>
+            <input type="radio" id="InverterControl" name="OutputType" value="InverterControl">
+            <label for="InverterControl">Inverter Data Cable</label><br>
             <br>
 
         <!--Buttons to begin the generation of the arduino file:-->
@@ -268,13 +279,9 @@
         function generateCode() 
         {
 
-
-
-        //Check that inputs are valid       
+            //Check that inputs are valid       
                 const NominalVoltageError = document.getElementById('NominalVoltageError');
                 const ShutOffVoltageError = document.getElementById('ShutOffVoltageError');
-
-            
                 NominalVoltageError.textContent = '';
                 ShutOffVoltageError.textContent = '';
 
@@ -303,103 +310,96 @@
                 {
         alert("Please enter a positive number for override delay (decimal values allowed");
                 }
-                else
+                else //allow the code to run as normal
                 {
-            
+                    //select the control scheme to put into the Blob     
+                    if(ControlSelection == 1)
+                    {
+                        var ScrollFunction = ButtonScrollFunction;
+                        var SelectFunction = ButtonSelectFunction;
+                        var LibrariesSection = LibrariesSectionButtonArray; 
+                        var SetUpFunction = SetupFunctionButtons;
+                        var ControlSchemeGlobalVariables = ButtonRelatedGlobalVariables;
+                    }
+                    else if(ControlSelection ==2)
+                    {
+                        var ScrollFunction = EncoderScrollFunction;
+                        var SelectFunction = EncoderSelectFunction;
+                        var LibrariesSection = LibrariesSectionEncoder;
+                        var SetUpFunction = SetupFunctionEncoder;
+                        var ControlSchemeGlobalVariables = EncoderRelatedGlobalVariables;
+                    }
 
+                    // Create a Blob containing the Arduino code
+                    const blob = new Blob(
+                    [
+                        CodeHead 
+                        + 
+                        LibrariesSection 
+                        + 
+                        MenuItems 
+                        + 
+                        LiquidCrystalDisplayVariablesSection 
+                        + 
+                        VoltageProbeSpecifications 
+                        + 
+                        GlobalVariables 
+                        + 
+                        TimerRelatedVariables 
+                        + 
+                        GetPinAssignments 
+                        + 
+                        ControlSchemeGlobalVariables 
+                        + 
+                        VoltageMeasurementFunction 
+                        + 
+                        StatusPage 
+                        + 
+                        MenuPage 
+                        + 
+                        AdjustNominalVoltagePage 
+                        + 
+                        AdjustCutOffVoltagePage
+                        +
+                        AdjustReconnectVoltagePage
+                        +
+                        AdjustOverrideTimePage
+                        +
+                        ScrollFunction 
+                        + 
+                        SelectFunction 
+                        + 
+                        ReadUserInputMemoryFunction 
+                        + 
+                        WriteUserInputMemoryFunction 
+                        + 
+                        TimeSinceBootFunction 
+                        + 
+                        DisconnectBufferTimerEnd 
+                        + 
+                        OverrideTimerEnd 
+                        +
+                        TurnOffOutputFunction 
+                        + 
+                        TurnOnOutputFunction 
+                        + 
+                        SetUpFunction 
+                        + 
+                        DefaultMenuPageScreenState  
+                        +
+                        LoopFunctionStart
+                        +
+                        LoopFunctionPages
+                    ], { type: 'text/plain' });
 
+                    // Create a download link
+                    const downloadLink = document.getElementById("downloadLink");
+                    downloadLink.href = URL.createObjectURL(blob);
+                    downloadLink.download = "arduino_code.ino"; // Set the filename
 
-       
-          
-            
-        //select the control scheme to put into the Blob     
-        
-        if(ControlSelection == 1)
-        {
-            var ScrollFunction = ButtonScrollFunction;
-            var SelectFunction = ButtonSelectFunction;
-            var LibrariesSection = LibrariesSectionButtonArray; 
-            var SetUpFunction = SetupFunctionButtons;
-            var ControlSchemeGlobalVariables = ButtonRelatedGlobalVariables;
-   
-        }
-        else if(ControlSelection ==2)
-        {
-            var ScrollFunction = EncoderScrollFunction;
-            var SelectFunction = EncoderSelectFunction;
-            var LibrariesSection = LibrariesSectionEncoder;
-            var SetUpFunction = SetupFunctionEncoder;
-            var ControlSchemeGlobalVariables = EncoderRelatedGlobalVariables;
-
-        }
-            
-        // Create a Blob containing the Arduino code
-        const blob = new Blob([
-            CodeHead 
-            + 
-            LibrariesSection 
-            + 
-            MenuItems 
-            + 
-            LiquidCrystalDisplayVariablesSection 
-            + 
-            VoltageProbeSpecifications 
-            + 
-            GlobalVariables 
-            + 
-            TimerRelatedVariables 
-            + 
-            GetPinAssignments 
-            + 
-            ControlSchemeGlobalVariables 
-            + 
-            VoltageMeasurementFunction 
-            + 
-            StatusPage 
-            + 
-            MenuPage 
-            + 
-            AdjustNominalVoltagePage 
-            + 
-            AdjustCutOffVoltagePage
-            +
-            AdjustReconnectVoltagePage
-            +
-            AdjustOverrideTimePage
-            +
-            ScrollFunction 
-            + 
-            SelectFunction 
-            + 
-            ReadUserInputMemoryFunction 
-            + 
-            WriteUserInputMemoryFunction 
-            + 
-            TimeSinceBootFunction 
-            + 
-            DisconnectBufferTimerEnd 
-            + 
-            OverrideTimerEnd 
-            +
-            TurnOffOutputFunction 
-            + 
-            TurnOnOutputFunction 
-            + 
-            SetUpFunction 
-            + 
-            DefaultMenuPageScreenstate  
-            + 
-            LoopFunction
-        ], { type: 'text/plain' });
-
-        // Create a download link
-        const downloadLink = document.getElementById("downloadLink");
-        downloadLink.href = URL.createObjectURL(blob);
-        downloadLink.download = "arduino_code.ino"; // Set the filename
-
-        downloadLink.style.display = "block";
-        }//end else
-    }//end function generate code     
+                    downloadLink.style.display = "block";
+                }//end else
+        }//end function generate code     
     </script>
 
 

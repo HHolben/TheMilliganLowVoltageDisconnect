@@ -33,7 +33,7 @@
         var LanguageSetting = 1;
        }// end if
            
-                //Device JS Variables
+                //Microcontroller JS Variables
        if(document.getElementById("ArduinoNano").checked==true)
        {
         var DeviceSelection = 1;
@@ -64,15 +64,38 @@
        {
         var ControlSelection = 2;
        }// end if
-       
-            
-            
+
+       //Output Type JS Variables
+       if(document.getElementById("RelayOutput").checked == true)
+       {
+            var OutputSelection = 1;
+       }// end if
+                  
+       if(document.getElementById("InverterControl").checked == true)
+       {
+            var OutputSelection = 2;
+       }// end if
+     
             //User-adjustables: in this section, we will create an array to represent all items the customer has decided to allow the end user to change using the end-user interface. We wil then create a string full of arduino code related to creating the end-user interface's menu which we can later inject into the final arduino program
             
             
             const MaximumRowNumber = 4;//this is because we are using an LCD screen with 4 rows. If that changes, you will want to change this constant right here.
+                        
+
+          var DefaultMenuPageScreenStateEnumItems = //initialize this variable to later add pages to an enum in the arduino code
+            `\n \t \t`
+            +
+            `STATUS_PAGE,`
+            +
+            `\n \t \t`
+            +
+            `MENU_PAGE,`
+            ;
             
+
+
           var Adjustables = [];
+          var EnumAdjustables =[];
             if(document.getElementById("EnableNameChange").checked == true)
             {
                  Adjustables.push(["Device Name", "Nombre Dispositivo"]);
@@ -81,21 +104,49 @@
             if(document.getElementById("EnableNominalVoltageInterface").checked == true)
             {
                  Adjustables.push(["Batt. Bank Voltage ", "Voltaje Bateria    "]);
+                 EnumAdjustables.push("NOMINAL_VOLTAGE_PAGE");
+                 DefaultMenuPageScreenStateEnumItems = DefaultMenuPageScreenStateEnumItems
+                 +
+                 `\n \t \t`
+                 +
+                 `NOMINAL_VOLTAGE_PAGE,`
+                 ;
             }// end if
             
             if(document.getElementById("EnableShutOffVoltageInterface").checked == true)
             {
                  Adjustables.push(["CutOff Voltage", "Voltaje de Cortar  "]);
+                 EnumAdjustables.push("CUT_OFF_VOLTAGE_PAGE");
+                 DefaultMenuPageScreenStateEnumItems = DefaultMenuPageScreenStateEnumItems
+                 +
+                 `\n \t \t`
+                 +
+                 `CUT_OFF_VOLTAGE_PAGE,`
+                 ;
             }// end if
             
             if(document.getElementById("EnableTurnBackOnVoltageInterface").checked == true)
             {
                  Adjustables.push(["CutOn Voltage      ", "V. de Reconectar   "]);
+                 EnumAdjustables.push("RECONNECT_VOLTAGE_PAGE");
+                 DefaultMenuPageScreenStateEnumItems = DefaultMenuPageScreenStateEnumItems
+                 +
+                 `\n \t \t`
+                 +
+                 `RECONNECT_VOLTAGE_PAGE,`
+                 ;
             }// end if
             
             if(document.getElementById("override").checked == true)
             {
                  Adjustables.push(["Override Time", "Tiempo de anulacion "]);
+                 EnumAdjustables.push("OVERRIDE_TIME_PAGE");
+                 DefaultMenuPageScreenStateEnumItems = DefaultMenuPageScreenStateEnumItems
+                 +
+                 `\n \t \t`
+                 +
+                 `OVERRIDE_TIME_PAGE`
+                 ;
             }// end if
             
             if(document.getElementById("EnableTimerOffsetBoolean").checked == true)
