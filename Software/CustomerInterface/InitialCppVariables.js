@@ -14,7 +14,7 @@
       +
       `\n \t`
       +
-      `int ReturnToStatusPage = false;`
+      `static bool ReturnToStatusPage = false;`
       +
       `\n`
       ;       
@@ -148,6 +148,10 @@
       +
       `static bool OverrideTimerHasStarted = false;`
       +
+      `\n \t`
+      +
+      `static bool ReconnectTimerHasStarted = false;`
+      +
       `\n`
       ;
 
@@ -163,6 +167,8 @@
       `\n \t`
       +
       `unsigned long RolloverTime = (pow(2,32)-1);// Set an interval in milliseconds to ensure that millis() rollover (happens once approximately every 50 days when millis() resets to zero) is never an issue for more than 10 minutes`
+      +
+      `\n \t`
       +
       `\n`
       ;

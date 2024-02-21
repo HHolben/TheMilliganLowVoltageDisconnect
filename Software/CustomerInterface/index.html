@@ -157,6 +157,7 @@
 <script src = "TimerFunctions.js" defer></script>
 <script src = "OutputTogglingFunctions.js" defer></script>
 <script src = "VoltageCheckRoutines.js" defer></script>
+<script src = "LatchesSection.js" defer></script>
 <script src = "SetupFunction.js" defer></script>
 <script src = "VoidLoop.js" defer></script>
 
@@ -349,8 +350,8 @@
                         + 
                         GetPinAssignments 
                         + 
-                        ControlSchemeGlobalVariables 
-                        + 
+                        ControlSchemeGlobalVariables                    
+                        +
                         VoltageMeasurementFunction 
                         + 
                         StatusPage 
@@ -368,7 +369,7 @@
                         ScrollFunction 
                         + 
                         SelectFunction 
-                        + 
+                        +
                         ReadUserInputMemoryFunction 
                         + 
                         WriteUserInputMemoryFunction 
@@ -379,13 +380,21 @@
                         + 
                         OverrideTimerEnd 
                         +
+                        ReconnectTimerEnd
+                        +
                         TurnOffOutputFunction 
                         + 
                         TurnOnOutputFunction 
                         + 
-                        SetUpFunction 
-                        + 
-                        DefaultMenuPageScreenState  
+                        DefaultMenuPageScreenState
+                        +
+                        VoidOverride
+                        +
+                        VoidLVDMode
+                        +
+                        SwitchPage
+                        +
+                        SetUpFunction                      
                         +
                         LoopFunctionStart
                         +

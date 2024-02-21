@@ -6,54 +6,69 @@
        +
        `\n \t`
        +
-       `enum State`//THIS IS WHERE WE WANT TO DO DYNAMIC PAGES
-       +
-       `\n \t`
-       +
-       `{`
+       `enum MODE`
        +
        `\n \t \t`
        +
-       `SCROLLING,`
+        `{`
        +
        `\n \t \t`
        +
-       `SELECTING`
+       `LVD,`
        +
-       `\n \t`
+       `\n \t \t`
+       +
+       `OVERRIDE`
+       +
+       `\n \t \t`
        +
        `};`
        +
+       `\n \t \t`
+       +
+       `MODE currentMode = LVD; //default mode`    
+       +
        `\n \t`
        +
-       `State currentState = SCROLLING;`
+       `//add more modes as needed`
+       ;
+
+            
+           
+
+       DefaultMenuPageScreenState = DefaultMenuPageScreenState
        +
-       `\n \t`
+       `\n \t \t`      
        +
        `enum Page`
        +
-       `\n \t`
-       + 
+       `\n \t \t`
+       +
        `{`
-       ;
+       +DefaultMenuPageScreenStateEnumItems
+        ;
+
        
 
-       DefaultMenuPageScreenState = DefaultMenuPageScreenState + DefaultMenuPageScreenStateEnumItems
+
+        DefaultMenuPageScreenState = DefaultMenuPageScreenState
+        +       
+        `\n \t \t`
        +
-       `\n \t \t`
-       +
-       `// Add more pages as needed`
-       +
-       `\n \t \t`
-       +
-       `}; // end enum State;`
+       `}; // end enum Page;`
        +
        `\n \t`
        +
-       `Page currentPage = STATUS_PAGE;`
+       `Page currentPage = STATUS_PAGE; //default page`
+       +
+       
+       `\n \t`
+       +
+       `//add more pages as needed`
        +
        `\n`
        ;
+       
 
 /*Status Pages*/       var StatusPage =
        `\n`
@@ -225,28 +240,32 @@
                 ;
                 for (var j = 0; j < MaximumRowNumber; j++) 
                 {
-       var MenuPage = MenuPage+
-       `lcd.setCursor(0,`+j+`);`
-       +
-       `\n \t \t \t`
-       ;
-       if (j==i)
-       {
-           var MenuPage = MenuPage+
-           `lcd.print(">"+`
-           ;
-       }//end if j=i
-       else
-       {
-           var MenuPage = MenuPage+
-           `lcd.print(" "+`
-           ;        
-       }//end else
-       var MenuPage = MenuPage+
-       `InterfaceItems[`+j+`][LanguageSetting]);`
-       +
-       `\n \t \t \t`
-       ;
+                    var MenuPage = MenuPage
+                    +
+                    `lcd.setCursor(0,`+j+`);`
+                    +
+                    `\n \t \t \t`
+                    ;
+                    if (j==i)//this is for the line on the string that shows which option the arrow goes on
+                    {
+                        var MenuPage = MenuPage
+                        +
+                        `lcd.print(">"+`
+                         ;
+                    }//end if j=i
+                    else //this is for leaving a space for the arrow to go
+                    {
+                        var MenuPage = MenuPage
+                        +
+                        `lcd.print(" "+`
+                        ;        
+                    }//end else
+                    var MenuPage = MenuPage
+                    +
+                    `InterfaceItems[`+j+`][LanguageSetting]);`
+                    +
+                    `\n \t \t \t`
+                    ;
                 }//end for j = 0
                 var MenuPage = MenuPage
                 +
@@ -254,7 +273,7 @@
                 +
                 `\n \n \t \t \t`
                 ;
-            }//end if i<4
+            }//end (if i<MaximumRowNumber)
             else
             {
                 var MenuPage = MenuPage
@@ -265,32 +284,34 @@
                 ;
                 for (var j = i-MaximumRowNumber+1; j <= i; j++) 
                 {
-       var MenuPage = MenuPage+
-       `lcd.setCursor(0,`+j+`);`
-       +
-       `\n \t \t \t`
-       ;
-       if (j==i)
-       {
-           var MenuPage = MenuPage+
-           `NextPage = InterfaceItems[j][LanguageSetting]);`
-           +
-           `\n \t \t \t`
-           +
-           `lcd.print(">"+`
-           ;
-       }//end if j=3
-       else
-       {
-           var MenuPage = MenuPage+
-           `lcd.print(" "+`
-           ;        
-       }//end else
-       var MenuPage = MenuPage+
-       `InterfaceItems[`+j+`][LanguageSetting]);`
-       +
-       `\n \t \t \t`
-       ;
+                    var MenuPage = MenuPage
+                    +
+                    `lcd.setCursor(0,`+j+`);`
+                    +
+                    `\n \t \t \t`
+                    ;
+                    if (j==i)
+                    {
+                        var MenuPage = MenuPage
+                        +
+                        `\n \t \t \t`
+                        +
+                        `lcd.print(">"+`
+                        ;
+                    }//end if j==i
+                    else
+                    {
+                        var MenuPage = MenuPage
+                        +
+                        `lcd.print(" "+`
+                        ;        
+                    }//end else
+                    var MenuPage = MenuPage
+                    +
+                    `InterfaceItems[`+j+`][LanguageSetting]);`
+                    +
+                    `\n \t \t \t`
+                    ;
                 }//end for j = 0
                 var MenuPage = MenuPage
                 +
@@ -314,7 +335,6 @@
          ;
 
 /*Nominal Voltage End-user interface menu*/var AdjustCutOffVoltagePage = 
-
          `\n \t`
          +
          `void AdjustCutOffVoltagePage()`

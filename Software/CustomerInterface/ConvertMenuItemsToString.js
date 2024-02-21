@@ -9,7 +9,7 @@
         "//Menu Items: \n \t String InterfaceItems[][2] = {"
         ;
                 
-    for (var i = 0; i < Adjustables.length; i++) 
+    for (var i = 2; i < Adjustables.length; i++) 
     {
     
         MenuItems += "{\"" + Adjustables[i][0];

@@ -94,8 +94,13 @@
             
 
 
-          var Adjustables = [];
-          var EnumAdjustables =[];
+          var Adjustables = ["", ""];
+          var EnumAdjustables =["STATUS_PAGE","MENU_PAGE"];
+          var PageNamesAdjustables = ["StatusPageScreen()", "MenuPageScreens(scrollPosition)"];
+
+        
+
+
             if(document.getElementById("EnableNameChange").checked == true)
             {
                  Adjustables.push(["Device Name", "Nombre Dispositivo"]);
@@ -105,6 +110,7 @@
             {
                  Adjustables.push(["Batt. Bank Voltage ", "Voltaje Bateria    "]);
                  EnumAdjustables.push("NOMINAL_VOLTAGE_PAGE");
+                 PageNamesAdjustables.push("AdjustNominalVoltage")
                  DefaultMenuPageScreenStateEnumItems = DefaultMenuPageScreenStateEnumItems
                  +
                  `\n \t \t`
@@ -117,6 +123,7 @@
             {
                  Adjustables.push(["CutOff Voltage", "Voltaje de Cortar  "]);
                  EnumAdjustables.push("CUT_OFF_VOLTAGE_PAGE");
+                 PageNamesAdjustables.push("AdjustCutOffVoltagePage")
                  DefaultMenuPageScreenStateEnumItems = DefaultMenuPageScreenStateEnumItems
                  +
                  `\n \t \t`
@@ -129,6 +136,7 @@
             {
                  Adjustables.push(["CutOn Voltage      ", "V. de Reconectar   "]);
                  EnumAdjustables.push("RECONNECT_VOLTAGE_PAGE");
+                 PageNamesAdjustables.push("AdjustReconnectVoltagePage")
                  DefaultMenuPageScreenStateEnumItems = DefaultMenuPageScreenStateEnumItems
                  +
                  `\n \t \t`
@@ -141,6 +149,7 @@
             {
                  Adjustables.push(["Override Time", "Tiempo de anulacion "]);
                  EnumAdjustables.push("OVERRIDE_TIME_PAGE");
+                 PageNamesAdjustables.push("AdjustOverrideTimePage")
                  DefaultMenuPageScreenStateEnumItems = DefaultMenuPageScreenStateEnumItems
                  +
                  `\n \t \t`
@@ -165,7 +174,7 @@
             {
                 for(i=Adjustables.length; i<MaximumRowNumber; i++)
                 {
-       Adjustables.push(["      ", "      "]);
+                    Adjustables.push(["                   ", "                   "]);
                 }
 
             }
