@@ -13,7 +13,7 @@
      +
      `\n \t \t`
      +
-     `//Initalization of Variables`
+     `//Initialization of Variables`
      +
      `\n \t \t`
           +

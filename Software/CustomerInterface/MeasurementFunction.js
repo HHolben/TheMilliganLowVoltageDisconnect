@@ -13,11 +13,11 @@
      +
      `\n \t \t`
      +
-     `float VoltageMeasurement = ((analogRead(VoltageProbe))*5.096/1023.00)/0.16604057; //The ratio is 5 Vo*0.16604057lts (max voltage that can go into a pin)/ 1023 (AnalogRead() measures between 0 and 1023`
+     `float VoltageMeasurement = (analogRead(VoltageProbe)/33); //The factor should probably be based on values of the voltage sensor resistors`
      +
      `\n \t \t`
      +
-     `float BatteryVoltageUndrounded = VoltageMeasurement; //This uses voltage divider math to caclulate the battery voltage.`
+     `float BatteryVoltageUnrounded = VoltageMeasurement; //This uses voltage divider math to caclulate the battery voltage.`
      +
      `\n \t \t`
      +

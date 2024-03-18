@@ -91,26 +91,50 @@
             +
             `MENU_PAGE,`
             ;
-            
-
+           
+//initialize the js arrays we need to store information related to items the customer chose to be adjustable
 
           var Adjustables = ["", ""];
           var EnumAdjustables =["STATUS_PAGE","MENU_PAGE"];
           var PageNamesAdjustables = ["StatusPageScreen()", "MenuPageScreens(scrollPosition)"];
+          var AdjustablesValueLimit = [[0,0],[0,0]]; //lower and upper limit for the values which van be saved to these adjustables
+          var AdjustablesTargetVariables = ["",""]; //lower and upper limit for the values which van be saved to these adjustables
+          var AdjustablesTargetTempVariables = ["",""]; //temp values are values that are displayed on screens
+          var AdjustablesTargetStepSize = [0,0]; //lower and upper limit for the values which van be saved to these adjustables
+          var TargetMemoryLocations =[0,0];
 
-        
+//create a javascript array of the variable names and types associated with each address
 
-
+     //Nominal Voltage Adjustable Arrays
             if(document.getElementById("EnableNameChange").checked == true)
             {
                  Adjustables.push(["Device Name", "Nombre Dispositivo"]);
+                 EnumAdjustables.push("DEVICE_NAME_PAGE");
+                 PageNamesAdjustables.push("");//we need a page function for this to go here
+                 AdjustablesValueLimit.push(["0", "37"]);
+                 AdjustablesTargetVariables.push("DeviceName");
+                 AdjustablesTargetTempVariables.push("TempDeviceName");
+                 AdjustablesTargetStepSize.push(1);
+                 TargetMemoryLocations.push(LVDnameAddress.value);
+                 DefaultMenuPageScreenStateEnumItems = DefaultMenuPageScreenStateEnumItems
+                 +
+                 `\n \t \t`
+                 +
+                 `DEVICE_NAME_PAGE,`
+                 ;
             }// end if
             
+     //Nominal Voltage Adjustable Arrays
             if(document.getElementById("EnableNominalVoltageInterface").checked == true)
             {
                  Adjustables.push(["Batt. Bank Voltage ", "Voltaje Bateria    "]);
                  EnumAdjustables.push("NOMINAL_VOLTAGE_PAGE");
-                 PageNamesAdjustables.push("AdjustNominalVoltage")
+                 PageNamesAdjustables.push("AdjustNominalVoltage");
+                 AdjustablesValueLimit.push(["12.0", "48.0"]);
+                 AdjustablesTargetVariables.push("NominalVoltage");
+                 AdjustablesTargetTempVariables.push("TempNominalVoltage");
+                 AdjustablesTargetStepSize.push(12);
+                 TargetMemoryLocations.push(NominalVoltageAddress.value);
                  DefaultMenuPageScreenStateEnumItems = DefaultMenuPageScreenStateEnumItems
                  +
                  `\n \t \t`
@@ -118,12 +142,22 @@
                  `NOMINAL_VOLTAGE_PAGE,`
                  ;
             }// end if
-            
+
+
+            //TargetMemoryLocations.push(DisconnectTimeAddress.value);
+           // AdjustablesTargetVariables.push("DisconnectBufferTime");
+
+
             if(document.getElementById("EnableShutOffVoltageInterface").checked == true)
             {
                  Adjustables.push(["CutOff Voltage", "Voltaje de Cortar  "]);
                  EnumAdjustables.push("CUT_OFF_VOLTAGE_PAGE");
-                 PageNamesAdjustables.push("AdjustCutOffVoltagePage")
+                 PageNamesAdjustables.push("AdjustCutOffVoltagePage");
+                 AdjustablesValueLimit.push(["0","48.0"]);
+                 AdjustablesTargetVariables.push("ShutOffVoltage");
+                 AdjustablesTargetTempVariables.push("TempShutOffVoltage");
+                 AdjustablesTargetStepSize.push(1.0);
+                 TargetMemoryLocations.push(ShutOffVoltageAddress.value);
                  DefaultMenuPageScreenStateEnumItems = DefaultMenuPageScreenStateEnumItems
                  +
                  `\n \t \t`
@@ -136,7 +170,12 @@
             {
                  Adjustables.push(["CutOn Voltage      ", "V. de Reconectar   "]);
                  EnumAdjustables.push("RECONNECT_VOLTAGE_PAGE");
-                 PageNamesAdjustables.push("AdjustReconnectVoltagePage")
+                 PageNamesAdjustables.push("AdjustReconnectVoltagePage");
+                 AdjustablesValueLimit.push(["0","48.0"]);
+                 AdjustablesTargetVariables.push("TurnBackOnVoltage");
+                 AdjustablesTargetTempVariables.push("TempTurnBackOnVoltage");
+                 AdjustablesTargetStepSize.push(1.0);
+                 TargetMemoryLocations.push(TurnOnVoltageAddress.value);
                  DefaultMenuPageScreenStateEnumItems = DefaultMenuPageScreenStateEnumItems
                  +
                  `\n \t \t`
@@ -150,6 +189,11 @@
                  Adjustables.push(["Override Time", "Tiempo de anulacion "]);
                  EnumAdjustables.push("OVERRIDE_TIME_PAGE");
                  PageNamesAdjustables.push("AdjustOverrideTimePage")
+                 AdjustablesValueLimit.push(["0","1000"]);
+                 AdjustablesTargetVariables.push("OverrideDelay");
+                 AdjustablesTargetTempVariables.push("TempOverrideDelay");
+                 AdjustablesTargetStepSize.push(1.0);
+                 TargetMemoryLocations.push(OverrideTimeAddress.value);
                  DefaultMenuPageScreenStateEnumItems = DefaultMenuPageScreenStateEnumItems
                  +
                  `\n \t \t`
@@ -161,11 +205,33 @@
             if(document.getElementById("EnableTimerOffsetBoolean").checked == true)
             {
                  Adjustables.push(["Timer Offset", "Despl. Temporizador"]);
+                 EnumAdjustables.push("TIMER_OFFSET_PAGE");
+                 PageNamesAdjustables.push("TimerOffset")
+                 AdjustablesValueLimit.push(["0","1000"]);
+                 AdjustablesTargetStepSize.push(1.0);
+                 TargetMemoryLocations.push(TimerOffsetAddress.value);
+                 AdjustablesTargetVariables.push("TimerOffset");
+                 AdjustablesTargetTempVariables.push("TempTimerOffset");
+                 DefaultMenuPageScreenStateEnumItems = DefaultMenuPageScreenStateEnumItems
+                 +
+                 `\n \t \t`
+                 +
+                 `TIMER_OFFSET_PAGE`
+                 ;
             }// end if
             
             if(document.getElementById("EnableLanguageInterface").checked == true)
             {
-                 Adjustables.push(["Language/Lengua", "Language/Lengua"]);
+                 Adjustables.push(["Language/Lengua", "Language/Lengua"]);                 
+                 EnumAdjustables.push("SWITCH_LANGUAGE_PAGE");
+                 PageNamesAdjustables.push("LanguageSetting")
+                 AdjustablesValueLimit.push(["0","1"]);
+                 AdjustablesTargetStepSize.push(1);
+                 TargetMemoryLocations.push(LanguageAddress.value);
+                 AdjustablesTargetVariables.push("LanguageSetting");
+                 AdjustablesTargetTempVariables.push("TempLanguageSetting");
+
+
             }//end if
 
             const NumberOfOptions = Adjustables.length; //we are about to change Adjustables.length, so we need to save this value for later
@@ -178,3 +244,4 @@
                 }
 
             }
+            

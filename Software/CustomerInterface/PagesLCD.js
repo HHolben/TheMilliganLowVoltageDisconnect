@@ -97,7 +97,7 @@
        +
        `\n \t \t`
        +
-       `String OverrideStatus[][2] = {{"Override: On        ", "Con Anular          "}, {"Override: Off       ", "Sin Anular"}};`
+       `    String OverrideStatus[2][2] = {{"Override: Off", "Sin Anular"}, {"Override: On   ", "Con Anular"}};`
        +
        `\n \t \t`
        +
@@ -137,7 +137,7 @@
        +
        `\n \t \t`
        +
-       `lcd.print(OverrideStatus[!OverrideDelayLatch][LanguageSetting]);`//print the menu title "Status:"
+       `lcd.print(OverrideStatus[OverrideDelayLatch][LanguageSetting]);`//print the menu title "Status:"
        +
        `\n \t`
        +
@@ -177,7 +177,11 @@
         +
         `\n \t \t`
         +
-        `lcd.print(NominalVoltage + NominalVoltagePageItems[1][LanguageSetting]);`
+        `lcd.print(TempNominalVoltage);`
+        +
+        `\n \t \t`
+        +         
+        `lcd.print(NominalVoltagePageItems[1][LanguageSetting]);`
  	 	+
         `\n \t \t`
         +
@@ -361,8 +365,12 @@
         +
         `\n \t \t`
        +
-        `lcd.print(ShutOffVoltage+ShutOffVoltagePageItems[1][LanguageSetting]);`
- 	       +
+        `lcd.print(TempShutOffVoltage);`
+        +
+        `\n \t \t`
+        +
+        `lcd.print(ShutOffVoltagePageItems[1][LanguageSetting]);`
+ 	    +
         `\n \t \t`
         +
         `lcd.setCursor(0,2);`
@@ -413,7 +421,11 @@
  	       +
         `\n \t \t`
         +
-        `lcd.print(TurnBackOnVoltage + ReconnectVoltagePageItems[1][LanguageSetting]);`
+        `lcd.print(TempTurnBackOnVoltage);`
+        +
+        `\n \t \t`
+        +
+        `lcd.print(ReconnectVoltagePageItems[1][LanguageSetting]);`
  	       +
         `\n \t \t`
         +
@@ -465,7 +477,11 @@
  	       +
         `\n \t \t`
         +
-        `lcd.print(OverrideDelay/60000+ OverrideTimePageItems[1][LanguageSetting]); //the divide by 60000 converts to minutes` 
+        `lcd.print(TempOverrideDelay/60000);`
+        +
+        `\n \t \t`
+        +
+        `lcd.print(OverrideTimePageItems[1][LanguageSetting]); //the divide by 60000 converts to minutes` 
  	       +
         `\n \t \t`
         +

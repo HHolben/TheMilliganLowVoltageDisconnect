@@ -6,11 +6,23 @@
 
 -->
 
+
+
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Arduino Code Generator</title>
+
+    <h1>Milligan Engineering Low Voltage Disconnect Software Generator</h1>
+</head>
+<img src="LVDCpreliminarylogoV2.png" alt="Picture of a buff battery in a life preserver." width="460" height="345">
+
+
+<img src="LVDteamPhoto22Feb2024.jpg" alt="Picture of a professor and some dumb undergrands linking arms with eachother and with a junction box that looks way to big for what it is." width="460" height="345">
+
+
 
 		<form>
 
@@ -79,7 +91,6 @@
             Default Language:
             <br>
             <input type="radio" id="english" name="LanguageSetting" value="english" checked="checked"> <!-- selected by default-->
-            <label for="english">English</label> 
             <input type="radio" id="spanish" name="LanguageSetting" value="spanish">
             <label for="spanish">Spanish</label><br>
             <br>
@@ -88,6 +99,37 @@
             <label for="EnableLanguageInterface">Check to enable language selection</label><br>
             <br>
         
+        <!--Memory Addresses-->
+        <h3>Device Memory Addresses:</h3>
+        <p>You can use this section to select which memory locations are to be used for each variable. If an address has worn out on your device you can use this section to choose an alternative address. Valid values are 0 to 511, but no two variables may be assigned to the same address. Listed addresses must be at least 5 addresses apart to prevent overlapping when memory is used.</p>
+        <input type="number" id="LVDnameAddress" name="LVDnameAddress" min="0" max="511" value="1" required>
+        <label for="LVDnameAddress">Specify address for the device name</label> 
+        <br>
+        <!---->
+        <input type="number" id="NominalVoltageAddress" name="NominalVoltageAddress" min="0" max="511" value="11" required>
+        <label for="NominalVoltageAddress">Specify address for the nominal voltage.</label> 
+        <br>
+        <input type="number" id="ShutOffVoltageAddress" name="ShutOffVoltageAddress" min="0" max="511" value="21" required>
+        <label for="ShutOffVoltageAddress">Specify address for the shut-off voltage</label> 
+        <br>
+        <input type="number" id="DisconnectTimeAddress" name="DisconnectTimeAddress" min="0" max="511" value="31" required>
+        <label for="DisconnectTimeAddress">Specify address for the disconnect timer's time</label> 
+        <br>
+        <input type="number" id="TurnOnVoltageAddress" name="TurnOnVoltageAddress" min="0" max="511" value="41" required>
+        <label for="TurnOnVoltageAddress">Specify address for the turn-back-on voltage</label> 
+        <br>
+        <input type="number" id="OverrideTimeAddress" name="OverrideTimeAddress" min="0" max="511" value="51" required>
+        <label for="OverrideTimeAddress">Specify address for the turn-back-on voltage</label>
+        <br>
+        <input type="number" id="TimerOffsetAddress" name="TimerOffsetAddress" min="0" max="511" value="61" required>
+        <label for="TimerOffsetAddress">Specify address for the timer's offset time</label>
+        <br>
+        <input type="number" id="LanguageAddress" name="LanguageAddress" min="0" max="511" value="71" required>
+        <label for="LanguageAddress">Specify address for the timer's language setting</label>
+        <br>
+        
+
+
         <!-- Board-->
             <h3>Board:</h3>
             Select a device:
@@ -163,156 +205,77 @@
 
 
 
-    <script type="text/javascript">
+    <script type="text/javascript">  
+    
+    
+
+    
+        //Generate the arduino Code
+        function generateCode()
+        {
+            //end function generate code  
+
+
+  // Fetch input values
+  const NominalVoltage = parseInt(document.getElementById('NominalVoltage').value);
+    const ShutOffVoltage = parseFloat(document.getElementById('ShutOffVoltage').value);
+    const TurnBackOnVoltage = parseFloat(document.getElementById('TurnBackOnVoltage').value);
+    const OverrideDelay = parseFloat(document.getElementById('OverrideDelay').value);
+    const NominalVoltageAddress =parseFloat(document.getElementById('NominalVoltageAddress').value);
+    const ShutOffVoltageAddress =parseFloat(document.getElementById('ShutOffVoltageAddress').value);
+    const DisconnectTimeAddress =parseFloat(document.getElementById('DisconnectTimeAddress').value);
+    const TurnOnVoltageAddress =parseFloat(document.getElementById('TurnOnVoltageAddress').value);
+    const OverrideTimeAddress =parseFloat(document.getElementById('OverrideTimeAddress').value);
+    const TimerOffsetAddress =parseFloat(document.getElementById('TimerOffsetAddress').value);
+    const LanguageAddress =parseFloat(document.getElementById('LanguageAddress').value);
+
+
+    
+
+    // Check that inputs are valid       
+    const NominalVoltageError = document.getElementById('NominalVoltageError');
+    const ShutOffVoltageError = document.getElementById('ShutOffVoltageError');
+    NominalVoltageError.textContent = '';
+    ShutOffVoltageError.textContent = '';
+
+    if (isNaN(NominalVoltage) || NominalVoltage <= 0) {
+        alert("Please enter a positive integer multiple of 12 for Nominal Voltage.");
+    } else if (NominalVoltage % 12 !== 0) {
+        NominalVoltageError.textContent = 'Please enter a positive integer multiple of 12 for Nominal Voltage.';
+        alert("Nominal Voltage must be a positive integer multiple of 12.");
+    } else if (isNaN(ShutOffVoltage) || ShutOffVoltage <= 0) {
+        alert("Please enter a positive number for Shut Off Voltage (decimal values allowed).");
+    } else if (isNaN(TurnBackOnVoltage) || TurnBackOnVoltage <= 0) {
+        alert("Please enter a positive number for Turn Back On Voltage (decimal values allowed).");
+    } else if (isNaN(OverrideDelay) || OverrideDelay <= 0) {
+        alert("Please enter a positive number for override delay (decimal values allowed).");
+    } else {
+        // Integer validation
+        const inputs = [NominalVoltageAddress, ShutOffVoltageAddress, DisconnectTimeAddress, TurnOnVoltageAddress, OverrideTimeAddress, TimerOffsetAddress, LanguageAddress];
+
+
         
 
-  //A potential alternative to running the scripts as we did above, is to combine them into one large script:     
-        /* Pure Javascript work*/
-
-            //Set pin assignments
-              //  let PinDataScript = document.createElement('script');
-               // PinDataScript.src ="PinData.js";
-                //PinDataScript.defer = true;
-               // document.head.appendChild(PinDataScript);
-
-            //Extract Variables from the HTML form
-             //   let ExtractVariablesScript = document.createElement('script');
-              //  ExtractVariablesScript.src ="ExtractFormVariables.js";
-              //  ExtractVariablesScript.defer = true;
-              //  document.head.appendChild(ExtractVariablesScript);
-
-            //Convert the menu items selected by the user to a string
-               // let ConvertMenuToStringScript = document.createElement('script');
-               // ConvertMenuToStringScript.src ="ConvertMenuItemsToString.js";
-               // ConvertMenuToStringScript.defer = true;
-               // document.head.appendChild(ConvertMenuToStringScript);
-
-            //Explanations to potentially appear on the index page as a guide for the user
-               // let ExplanationsScript = document.createElement('script');
-                //ExplanationsScript.src ="Explanations.js";
-                //ExplanationsScript.defer = true;
-               // document.head.appendChild(ExplanationsScript);
 
 
+        const tolerance = 5;
+        let isValid = true;
 
-
-        /*Javascripts that declare strings of C++: */
-
-
-            //Code Head
-                //let CodeHeadscript = document.createElement('script');
-                //CodeHeadscript.src ="CodeHead.js";
-                //CodeHeadscript.defer = true;
-                //document.head.appendChild(CodeHeadscript);
-
-            //Libraries Section
-              // let LibrariesSectionScript = document.createElement('script');
-              //  LibrariesSectionScript.src ="LibrariesSection.js";
-              //  LibrariesSectionScript.defer = true;
-              // document.head.appendChild(LibrariesSectionScript);
-
-            //Initial Variables
-              //  let InitialCppVariablesScript = document.createElement('script');
-              //  InitialCppVariablesScript.src ="InitialCppVariables.js";
-              //  InitialCppVariablesScript.defer = true;
-              //  document.head.appendChild(InitialCppVariablesScript);
-
-            //LCD Pages
-              //  let LCDpagesScript = document.createElement('script');
-               // LCDpagesScript.src ="PagesLCD.js";
-              //  LCDpagesScript.defer = true;
-              //  document.head.appendChild(LCDpagesScript);
-
-            //Scroll Functions
-               // let ScrollFunctionsScript = document.createElement('script');
-               // ScrollFunctionsScript.src ="ScrollFunctions.js";
-               // ScrollFunctionsScript.defer = true;
-                //document.head.appendChild(ScrollFunctionsScript);
-
-            //Select Functions
-               // let SelectFunctionsScript = document.createElement('script');
-               // SelectFunctionsScript.src ="SelectFunctions.js";
-                //SelectFunctionsScript.defer = true;
-                //document.head.appendChild(SelectFunctionsScript);
-
-            //Memory Functions
-               // let MemoryFunctionsScript = document.createElement('script');
-               // MemoryFunctionsScript.src ="MemoryFunctions.js";
-              //  MemoryFunctionsScript.defer = true;
-               // document.head.appendChild(MemoryFunctionsScript);
-
-            //Timer Functions
-                //let TimerFunctionsScript = document.createElement('script');
-               // TimerFunctionsScript.src ="TimerFunctions.js";
-               // TimerFunctionsScript.defer = true;
-               // document.head.appendChild(TimerFunctionsScript);
-
-            //Votlage Measurement Function
-              //let VoltageMeasurementScript = document.createElement('script');
-            //  VoltageMeasurementScript.src ="MeasurementFunction.js";
-           //  VoltageMeasurementScript.defer = true;
-          //  document.head.appendChild(VoltageMeasurementScript);
-  
-            //Functions for turning the output on or off
-              // let OutputTogglingFunctionsScript = document.createElement('script');
-              // OutputTogglingFunctionsScript.src ="OutputTogglingFunctions.js";
-              // OutputTogglingFunctionsScript.defer = true;
-              // document.head.appendChild(OutputTogglingFunctionsScript);
-
-            //Voltage Check Routines
-              //  let VoltageCheckRoutinesScript = document.createElement('script');
-          //  VoltageCheckRoutinesScript.src ="VoltageCheckRoutines.js";
-          //      VoltageCheckRoutinesScript.defer = true;
-          //      document.head.appendChild(VoltageCheckRoutinesScript);
-            
-            //Setup Function
-           //     SetupFunctionScript = document.createElement('script');
-           //     SetupFunctionScript.src ="SetupFunction.js";
-           //     SetupFunctionScript.defer = true;
-           //     document.head.appendChild(SetupFunctionScript);
-
-
-
-
-
-            
-        //Generate the arduino Code
-        function generateCode() 
-        {
-
-            //Check that inputs are valid       
-                const NominalVoltageError = document.getElementById('NominalVoltageError');
-                const ShutOffVoltageError = document.getElementById('ShutOffVoltageError');
-                NominalVoltageError.textContent = '';
-                ShutOffVoltageError.textContent = '';
-
-                if (!NominalVoltage) 
-                {
-
-       alert("Please enter a positive integer multiple of 12 for Nominal Voltage.");
+        for (let i = 0; i < inputs.length; i++) {
+            for (let j = i + 1; j < inputs.length; j++) {
+                if (Math.abs(inputs[i] - inputs[j]) < tolerance) {
+                    alert(inputs[i] + " should be at least 5 apart from all other EEPROM addresses.");
+                    isValid = false;
+                    break;
                 }
-            
-                else if (NominalVoltage % 12 !== 0) 
-                {
-       NominalVoltageError.textContent = 'Please enter a positive integer multiple of 12 for Nominal Voltage.';
-       alert("Nominal Voltage must be a positive integer multiple of 12.");
-                }
+            }
+            if (!isValid) {
+                break;
+            }
+        }
 
-                else if (isNaN(ShutOffVoltage) || ShutOffVoltage <= 0) 
-                {
-        alert("Please enter a positive number for Shut Off VOltage (decimal values allowed");
-                }
-                
-                else if (isNaN(TurnBackOnVoltage) || TurnBackOnVoltage <= 0) 
-                {
-        alert("Please enter a positive number for Turn Back On Voltage(decimal values allowed");
-                }
-                else if (isNaN(OverrideDelay) || TurnBackOnVoltage <= 0) 
-                {
-        alert("Please enter a positive number for override delay (decimal values allowed");
-                }
-                else //allow the code to run as normal
-                {
+        // If all inputs are valid, proceed with code generation
+        if (isValid) {
                     //select the control scheme to put into the Blob     
                     if(ControlSelection == 1)
                     {
@@ -339,16 +302,16 @@
                         LibrariesSection 
                         + 
                         MenuItems 
-                        + 
-                        LiquidCrystalDisplayVariablesSection 
-                        + 
-                        VoltageProbeSpecifications 
-                        + 
+                        +
+                        GetPinAssignments 
+                        +
                         GlobalVariables 
                         + 
                         TimerRelatedVariables 
                         + 
-                        GetPinAssignments 
+                        VoltageProbeSpecifications
+                        +
+                        LiquidCrystalDisplayVariablesSection 
                         + 
                         ControlSchemeGlobalVariables                    
                         +
@@ -370,10 +333,6 @@
                         + 
                         SelectFunction 
                         +
-                        ReadUserInputMemoryFunction 
-                        + 
-                        WriteUserInputMemoryFunction 
-                        + 
                         TimeSinceBootFunction 
                         + 
                         DisconnectBufferTimerEnd 
@@ -407,7 +366,9 @@
                     downloadLink.download = "arduino_code.ino"; // Set the filename
 
                     downloadLink.style.display = "block";
+        }//end if
                 }//end else
+            
         }//end function generate code     
     </script>
 

@@ -1,3 +1,4 @@
+
 /*Libraries*/const LibrariesSectionEncoder =
       `\n`
       +
@@ -18,6 +19,8 @@
       `\n \t`
       +
       `#include <Encoder.h> //This library is necesary for using rotary encoders as inputs`
+      +
+      `\n \t`
       +
       `\n \t`
       +

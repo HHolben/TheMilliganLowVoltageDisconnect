@@ -1,6 +1,6 @@
       
       
-    /*Void Scroll*/   const ButtonScrollFunction =
+/*Void Scroll*/const ButtonScrollFunction =
       `\n`
       +
       `//*************** Button Scroll Function: *************** This Section of the arduino software is created by index.html using ScrollFunctions.js ***************`

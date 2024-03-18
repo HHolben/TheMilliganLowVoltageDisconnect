@@ -1,3 +1,7 @@
+
+
+
+
 /*Void Setup Buttons*/    const SetupFunctionButtons =
      `\n`
      +
@@ -65,7 +69,7 @@
      +
      `\n \t \t`
      +
-     `readUserInput();`
+     DetectFlashingMode
      +
      `\n \t`
      +
@@ -109,7 +113,7 @@
      +
      `\n \t \t`
      +
-     `readUserInput();`
+     DetectFlashingMode
      +
      `\n \t`
      +
