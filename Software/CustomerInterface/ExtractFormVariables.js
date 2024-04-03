@@ -76,6 +76,8 @@
             var OutputSelection = 2;
        }// end if
      
+console.log("Output Selection: " + OutputSelection);
+
             //User-adjustables: in this section, we will create an array to represent all items the customer has decided to allow the end user to change using the end-user interface. We wil then create a string full of arduino code related to creating the end-user interface's menu which we can later inject into the final arduino program
             
             
