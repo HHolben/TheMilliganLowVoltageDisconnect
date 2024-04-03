@@ -52,7 +52,7 @@ var DetectFlashingMode =`//*************** Flashing Mode Section ***************
 
 
     //Here we want to set EEPROM values to whatever was set in the customer web form
-    for(i=2; i<Adjustables.length; i++)
+    for(i=2; i<NumberOfOptions; i++)
     {
       DetectFlashingMode = DetectFlashingMode
       +
@@ -78,7 +78,7 @@ var DetectFlashingMode =`//*************** Flashing Mode Section ***************
     ;
     
 
-    for(i=2; i<Adjustables.length; i++)
+    for(i=2; i<NumberOfOptions; i++)
     {
       DetectFlashingMode = DetectFlashingMode
       +

@@ -25,3 +25,23 @@
     }//end for
 
     MenuItems += "}; \n";
+
+    var PageHeaderString =`"${DeviceName}` + ` Status:", ` + `"${DeviceName}` + ` Estado:"`;
+
+    var StatusMenuItems =
+    `String PageHeader[2] = {${PageHeaderString}};`
+    +
+    `\n \t \t`
+    +
+    `String ConnectionStatus[][2] = {{"Load Disconnected   ", "Carga Desconectada  "}, {"Load Connected      ", "Carga Conectada     "}};`
+    +
+    `\n \t \t`
+    +
+    `String BatteryVoltageStatus[2] = {"Measurement(v):", "Voltaje Medido:"};`
+    +
+    `\n \t \t`
+    +
+    `String OverrideStatus[2][2] = {{"Override: Off", "Sin Anular"}, {"Override: On   ", "Con Anular"}};`
+    +
+    `\n`
+    ;

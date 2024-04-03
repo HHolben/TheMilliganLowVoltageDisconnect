@@ -54,7 +54,7 @@
      ;
 
 
-     for(i=0; i<Adjustables.length; i++)
+     for(i=0; i<NumberOfOptions; i++)
      {
         LowVoltageCheck = LowVoltageCheck
         +

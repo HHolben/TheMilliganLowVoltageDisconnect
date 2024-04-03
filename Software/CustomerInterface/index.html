@@ -13,27 +13,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arduino Code Generator</title>
-
+    <title>LVD Code Generator</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
     <h1>Milligan Engineering Low Voltage Disconnect Software Generator</h1>
+    <h2>By the Milligan Engineering Low Voltage Disconnect Crew</h2>
 </head>
 <img src="LVDCpreliminarylogoV2.png" alt="Picture of a buff battery in a life preserver." width="460" height="345">
 
 
 <img src="LVDteamPhoto22Feb2024.jpg" alt="Picture of a professor and some dumb undergrands linking arms with eachother and with a junction box that looks way to big for what it is." width="460" height="345">
 
-
+<link rel="icon" type="image/x-icon" href="/images/favicon.ico">
 
 		<form>
 
         
         <!--Device Name-->
             <h3>Device Name</h3>
+            <p>Personalize your LVD by giving it a name! This will be used in the filename of your arduino code and on the Status page of your user interface. It must be 11 characters or fewer.</p>
+
             <label for="DeviceName">Device Name:</label>
             <br>
             <input type="text" id="DeviceName" name="DeviceName" value="Theophilus">
             <br>
-            <input type="checkbox" id="EnableNameChange" name="EnableNameChange" value="true">Allow the user to change the name of their low voltage disconnect
+            <!--<input type="checkbox" id="EnableNameChange" name="EnableNameChange" value="true">Allow the user to change the name of their low voltage disconnect-->
             <br>
         
         <!--Nominal Voltage-->
@@ -179,6 +182,21 @@
     
     <a id="downloadLink" style="display: none" download="arduino_code.ino">Download Arduino Code</a>
     
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
 
 <!--Rhe javascript files that are stored in this folderun t-->
 <script src = "PinData.js" defer></script>
@@ -294,6 +312,17 @@
                         var ControlSchemeGlobalVariables = EncoderRelatedGlobalVariables;
                     }
 
+
+
+
+                 DefaultMenuPageScreenStateEnumItems =
+                 DefaultMenuPageScreenStateEnumItems
+                 +
+                 `\n \t \t`
+                 +
+                 `${EnumAdjustables[i]}`
+                 ;
+
                     // Create a Blob containing the Arduino code
                     const blob = new Blob(
                     [
@@ -328,6 +357,9 @@
                         AdjustReconnectVoltagePage
                         +
                         AdjustOverrideTimePage
+                        /*
+                        +
+                        ChangeLanguagePage*/
                         +
                         ScrollFunction 
                         + 
@@ -361,11 +393,15 @@
                     ], { type: 'text/plain' });
 
                     // Create a download link
+
+                    const FileName = DeviceName + '_LVD_Program.ino'; 
+
                     const downloadLink = document.getElementById("downloadLink");
                     downloadLink.href = URL.createObjectURL(blob);
-                    downloadLink.download = "arduino_code.ino"; // Set the filename
+                    downloadLink.download = FileName; // Set the filename
 
                     downloadLink.style.display = "block";
+
         }//end if
                 }//end else
             

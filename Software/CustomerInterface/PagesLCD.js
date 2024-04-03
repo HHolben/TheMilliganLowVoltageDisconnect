@@ -85,27 +85,13 @@
        +
        `\n \t \t`
        +
-       `String PageHeader[2] = {"       Status:      ", "       Estado:      "};`
-       +
-       `\n \t \t`
-       +
-       `String ConnectionStatus[][2] = {{"Load Disconnected   ", "Carga Desconectada  "}, {"Load Connected      ", "Carga Conectada     "}};`
-       +
-       `\n \t \t`
-       +
-       `String BatteryVoltageStatus[2] = {"Measurement(v):", "Voltaje Medido:"};`
-       +
-       `\n \t \t`
-       +
-       `    String OverrideStatus[2][2] = {{"Override: Off", "Sin Anular"}, {"Override: On   ", "Con Anular"}};`
-       +
-       `\n \t \t`
+       StatusMenuItems
        +
        `lcd.setCursor(0,0);`
        +
        `\n \t \t`
        +
-       `lcd.print(PageHeader[LanguageSetting]);`//print the menu title "Status:"
+       `lcd.print(PageHeader[LanguageSetting]);`//print the Device name followed by the menu title "Status:"
        +
        `\n \t \t`
        +
@@ -121,7 +107,7 @@
        +
        `\n \t \t`
        +
-       `lcd.print(BatteryVoltageStatus[LanguageSetting]);`//print the measured boltage. The comma after MeasureVoltage indicates to print to only 2 decimal places on the LCD display
+       `lcd.print(BatteryVoltageStatus[LanguageSetting]);`
        +
        `\n \t \t`
        +
@@ -129,7 +115,7 @@
        +
        `\n \t \t`
        +
-       `lcd.print(MeasureVoltage(),1);`
+       `lcd.print(MeasureVoltage(),1);`//print the measured voltage. The comma after MeasureVoltage indicates to print to only 2 decimal places on the LCD display
        +
        `\n \t \t`
        +
@@ -257,7 +243,7 @@
                         `lcd.print(">"+`
                          ;
                     }//end if j=i
-                    else //this is for leaving a space for the arrow to go
+                    else //this is for leaving a space on lines the arrow is not on
                     {
                         var MenuPage = MenuPage
                         +
@@ -527,7 +513,7 @@
         +
         `\n \t \t`
         +
-        `lcd.print(ChangeLanguagePageItems[0][LanguageSetting]+" ");`
+        `lcd.print(ChangeLanguagePageItems[0][TempLanguageSetting]+" ");`
             +
         `\n \t \t`
        +
@@ -535,7 +521,7 @@
        +
        `\n \t \t`
       +
-       `lcd.print(ChangeLanguagePageItems[1][LanguageSetting]);`
+       `lcd.print(ChangeLanguagePageItems[1][TempLanguageSetting]);`
            +
        `\n \t \t`
        +

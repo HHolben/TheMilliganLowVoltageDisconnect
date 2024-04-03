@@ -408,9 +408,14 @@ var VoidOverride =
      `\n \t`
      +
 	`switch (scrollPosition) {`
+     +
+          `\n \t`
+          +
+          `\n \t`
+          
      ;
      
-     for (var i = 2; i < Adjustables.length; i++) 
+     for (var i = 2; i < NumberOfOptions; i++) 
      {
           SwitchPage =SwitchPage 
           +
@@ -459,7 +464,7 @@ var VoidOverride =
      `\n \t`
      ;
      
-     for (var i = 2; i < Adjustables.length-1; i++) 
+     for (var i = 2; i < NumberOfOptions-1; i++) 
      {
           SwitchPage =SwitchPage 
           +

@@ -10,7 +10,7 @@
        const ShutOffVoltage = document.getElementById("ShutOffVoltage").value;
             
                 //Shut off Voltage Timer JS Variable
-       const ShutOffVoltageTimer = document.getElementById("ShutOffVoltageTimer").value;    
+       const ShutOffVoltageTimer = document.getElementById("ShutOffVoltageTimer").value *10000; //convert seconds to milliseconds    
             
             
                 //Turn back on voltage JS Variables
@@ -82,20 +82,10 @@
             const MaximumRowNumber = 4;//this is because we are using an LCD screen with 4 rows. If that changes, you will want to change this constant right here.
                         
 
-          var DefaultMenuPageScreenStateEnumItems = //initialize this variable to later add pages to an enum in the arduino code
-            `\n \t \t`
-            +
-            `STATUS_PAGE,`
-            +
-            `\n \t \t`
-            +
-            `MENU_PAGE,`
-            ;
-           
 //initialize the js arrays we need to store information related to items the customer chose to be adjustable
 
-          var Adjustables = ["", ""];
-          var EnumAdjustables =["STATUS_PAGE","MENU_PAGE"];
+          var Adjustables = [["Status            ","Estado            "], ["",""]];
+          var EnumAdjustables =["STATUS_PAGE", "MENU_PAGE"];
           var PageNamesAdjustables = ["StatusPageScreen()", "MenuPageScreens(scrollPosition)"];
           var AdjustablesValueLimit = [[0,0],[0,0]]; //lower and upper limit for the values which van be saved to these adjustables
           var AdjustablesTargetVariables = ["",""]; //lower and upper limit for the values which van be saved to these adjustables
@@ -103,10 +93,13 @@
           var AdjustablesTargetStepSize = [0,0]; //lower and upper limit for the values which van be saved to these adjustables
           var TargetMemoryLocations =[0,0];
 
+
+          console.log(AdjustablesValueLimit);
 //create a javascript array of the variable names and types associated with each address
 
-     //Nominal Voltage Adjustable Arrays
-            if(document.getElementById("EnableNameChange").checked == true)
+     //Name Change Arrays 
+       // This is commented out for now as changing the name of the device using the LCD screen is a feature that will be very hard to implement and seems unlikely to be useful
+            /*if(document.getElementById("EnableNameChange").checked == true)
             {
                  Adjustables.push(["Device Name", "Nombre Dispositivo"]);
                  EnumAdjustables.push("DEVICE_NAME_PAGE");
@@ -116,13 +109,9 @@
                  AdjustablesTargetTempVariables.push("TempDeviceName");
                  AdjustablesTargetStepSize.push(1);
                  TargetMemoryLocations.push(LVDnameAddress.value);
-                 DefaultMenuPageScreenStateEnumItems = DefaultMenuPageScreenStateEnumItems
-                 +
-                 `\n \t \t`
-                 +
-                 `DEVICE_NAME_PAGE,`
-                 ;
+
             }// end if
+            */
             
      //Nominal Voltage Adjustable Arrays
             if(document.getElementById("EnableNominalVoltageInterface").checked == true)
@@ -135,12 +124,7 @@
                  AdjustablesTargetTempVariables.push("TempNominalVoltage");
                  AdjustablesTargetStepSize.push(12);
                  TargetMemoryLocations.push(NominalVoltageAddress.value);
-                 DefaultMenuPageScreenStateEnumItems = DefaultMenuPageScreenStateEnumItems
-                 +
-                 `\n \t \t`
-                 +
-                 `NOMINAL_VOLTAGE_PAGE,`
-                 ;
+
             }// end if
 
 
@@ -158,12 +142,7 @@
                  AdjustablesTargetTempVariables.push("TempShutOffVoltage");
                  AdjustablesTargetStepSize.push(1.0);
                  TargetMemoryLocations.push(ShutOffVoltageAddress.value);
-                 DefaultMenuPageScreenStateEnumItems = DefaultMenuPageScreenStateEnumItems
-                 +
-                 `\n \t \t`
-                 +
-                 `CUT_OFF_VOLTAGE_PAGE,`
-                 ;
+   
             }// end if
             
             if(document.getElementById("EnableTurnBackOnVoltageInterface").checked == true)
@@ -171,17 +150,12 @@
                  Adjustables.push(["CutOn Voltage      ", "V. de Reconectar   "]);
                  EnumAdjustables.push("RECONNECT_VOLTAGE_PAGE");
                  PageNamesAdjustables.push("AdjustReconnectVoltagePage");
-                 AdjustablesValueLimit.push(["0","48.0"]);
+                 AdjustablesValueLimit.push(["0", "48.0"]);
                  AdjustablesTargetVariables.push("TurnBackOnVoltage");
                  AdjustablesTargetTempVariables.push("TempTurnBackOnVoltage");
                  AdjustablesTargetStepSize.push(1.0);
                  TargetMemoryLocations.push(TurnOnVoltageAddress.value);
-                 DefaultMenuPageScreenStateEnumItems = DefaultMenuPageScreenStateEnumItems
-                 +
-                 `\n \t \t`
-                 +
-                 `RECONNECT_VOLTAGE_PAGE,`
-                 ;
+
             }// end if
             
             if(document.getElementById("override").checked == true)
@@ -189,17 +163,14 @@
                  Adjustables.push(["Override Time", "Tiempo de anulacion "]);
                  EnumAdjustables.push("OVERRIDE_TIME_PAGE");
                  PageNamesAdjustables.push("AdjustOverrideTimePage")
-                 AdjustablesValueLimit.push(["0","1000"]);
+                 AdjustablesValueLimit.push(["0", "1000"]);
                  AdjustablesTargetVariables.push("OverrideDelay");
                  AdjustablesTargetTempVariables.push("TempOverrideDelay");
                  AdjustablesTargetStepSize.push(1.0);
                  TargetMemoryLocations.push(OverrideTimeAddress.value);
-                 DefaultMenuPageScreenStateEnumItems = DefaultMenuPageScreenStateEnumItems
-                 +
-                 `\n \t \t`
-                 +
-                 `OVERRIDE_TIME_PAGE`
-                 ;
+
+
+                 
             }// end if
             
             if(document.getElementById("EnableTimerOffsetBoolean").checked == true)
@@ -212,36 +183,70 @@
                  TargetMemoryLocations.push(TimerOffsetAddress.value);
                  AdjustablesTargetVariables.push("TimerOffset");
                  AdjustablesTargetTempVariables.push("TempTimerOffset");
-                 DefaultMenuPageScreenStateEnumItems = DefaultMenuPageScreenStateEnumItems
-                 +
-                 `\n \t \t`
-                 +
-                 `TIMER_OFFSET_PAGE`
-                 ;
+
             }// end if
             
             if(document.getElementById("EnableLanguageInterface").checked == true)
             {
                  Adjustables.push(["Language/Lengua", "Language/Lengua"]);                 
                  EnumAdjustables.push("SWITCH_LANGUAGE_PAGE");
-                 PageNamesAdjustables.push("LanguageSetting")
-                 AdjustablesValueLimit.push(["0","1"]);
+                 PageNamesAdjustables.push("ChangeLanguage")
+                 AdjustablesValueLimit.push(["0", "1"]);
                  AdjustablesTargetStepSize.push(1);
                  TargetMemoryLocations.push(LanguageAddress.value);
                  AdjustablesTargetVariables.push("LanguageSetting");
                  AdjustablesTargetTempVariables.push("TempLanguageSetting");
 
 
+
+                 
+
             }//end if
 
             const NumberOfOptions = Adjustables.length; //we are about to change Adjustables.length, so we need to save this value for later
 
-            if(Adjustables.length < MaximumRowNumber)
+
+            if(NumberOfOptions < MaximumRowNumber)
             {
-                for(i=Adjustables.length; i<MaximumRowNumber; i++)
+               
+                for(i=NumberOfOptions; i<MaximumRowNumber+1; i++) //The +1 is because Menu Items start on the second index of the Adjustables array
                 {
                     Adjustables.push(["                   ", "                   "]);
                 }
 
             }
             
+
+            var DefaultMenuPageScreenStateEnumItems = //initialize this variable to later add pages to an enum in the arduino code
+            `\n \t \t`
+            +
+            `STATUS_PAGE,`
+            +
+            `\n \t \t`
+            +
+            `MENU_PAGE,`
+            ;
+           
+
+            for (var i = 2; i < NumberOfOptions; i++) 
+            {
+            
+               DefaultMenuPageScreenStateEnumItems = 
+               DefaultMenuPageScreenStateEnumItems
+               +
+               `\n \t \t`
+               +
+               `${EnumAdjustables[i]}`;
+               ;
+               
+
+                      
+                if (i < NumberOfOptions - 1) 
+                {
+                    DefaultMenuPageScreenStateEnumItems += ", ";
+                }//end if
+                
+            }//end for
+
+            console.log(EnumAdjustables);
+        
