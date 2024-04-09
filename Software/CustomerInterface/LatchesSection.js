@@ -19,7 +19,7 @@ var LatchesSection =
      +
      `\n \t \t`
      +
-     `if (SELECT_State == LOW){ //Only triggered on inital LOW STATE`		
+     `if (SELECT_State == LOW){ //Only triggered on initial LOW STATE`		
      +
      `\n \t \t`
      +
@@ -35,7 +35,7 @@ var LatchesSection =
      +	
      `\n \t \t`
      +
-     `delay(200); //Change based on sensivity`		
+     `delay(200); //Change based on sensitivity`		
      +	
      `\n \t \t`
      +
@@ -59,7 +59,7 @@ var LatchesSection =
      +
      `\n \t \t`
      +
-     `if (OverrideSelectState == LOW){ //Only triggered on inital LOW STATE	`	
+     `if (OverrideSelectState == LOW){ //Only triggered on initial LOW STATE	`	
      +
      `\n \t \t`
      +
@@ -464,7 +464,7 @@ var VoidOverride =
      `\n \t`
      ;
      
-     for (var i = 2; i < NumberOfOptions-1; i++) 
+     for (var i = 2; i < NumberOfOptions; i++) 
      {
           SwitchPage =SwitchPage 
           +
@@ -531,4 +531,6 @@ var VoidOverride =
           +
           `} //end switch Page`
           ;
+
+
 

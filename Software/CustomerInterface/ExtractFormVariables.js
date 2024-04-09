@@ -208,10 +208,10 @@ console.log("Output Selection: " + OutputSelection);
             const NumberOfOptions = Adjustables.length; //we are about to change Adjustables.length, so we need to save this value for later
 
 
-            if(NumberOfOptions < MaximumRowNumber)
+            if(NumberOfOptions < MaximumRowNumber+2)
             {
                
-                for(i=NumberOfOptions; i<MaximumRowNumber+1; i++) //The +1 is because Menu Items start on the second index of the Adjustables array
+                for(i=NumberOfOptions; i<MaximumRowNumber+2; i++) //The +1 is because Menu Items start on the second index of the Adjustables array
                 {
                     Adjustables.push(["                   ", "                   "]);
                 }
