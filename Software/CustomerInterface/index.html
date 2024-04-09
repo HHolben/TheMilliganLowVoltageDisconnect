@@ -298,7 +298,16 @@
                     if(ControlSelection == 1)
                     {
                         var ScrollFunction = ButtonScrollFunction;
-                        var SelectFunction = ButtonSelectFunction;
+
+                        if(Adjustables.lengtb==2)
+                        {
+                            var SelectFunction ="";
+                        }
+                        else
+                        {
+                            var SelectFunction = ButtonSelectFunction;
+                        }
+                        
                         var LibrariesSection = LibrariesSectionButtonArray; 
                         var SetUpFunction = SetupFunctionButtons;
                         var ControlSchemeGlobalVariables = ButtonRelatedGlobalVariables;
@@ -306,7 +315,14 @@
                     else if(ControlSelection ==2)
                     {
                         var ScrollFunction = EncoderScrollFunction;
-                        var SelectFunction = EncoderSelectFunction;
+                        if(Adjustables.lengtb==2)
+                        {
+                            var SelectFunction ="";
+                        }
+                        else
+                        {
+                            var SelectFunction = EncoderSelectFunction;
+                        }
                         var LibrariesSection = LibrariesSectionEncoder;
                         var SetUpFunction = SetupFunctionEncoder;
                         var ControlSchemeGlobalVariables = EncoderRelatedGlobalVariables;

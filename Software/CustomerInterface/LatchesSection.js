@@ -14,6 +14,13 @@ var LatchesSection =
      `int state = HIGH;`				
      +
      `\n \t \t`
+     ;
+
+
+
+     if(NumberOfOptions>2)
+     {
+          LatchesSection = LatchesSection
      +
      `if (SELECT_State != state) { //IF STATE has Changed`		
      +
@@ -31,7 +38,7 @@ var LatchesSection =
      +
      `\n \t`
      +
-     `}`
+     `}// end if (SELECT_State == LOW){ //Only triggered on initial LOW STATE`
      +	
      `\n \t \t`
      +
@@ -39,12 +46,16 @@ var LatchesSection =
      +	
      `\n \t \t`
      +
-     `}`
+     `} //end if (SELECT_State != state) { //IF STATE has Changed`
      +	
      `\n \t \t`
      +
-     `state = SELECT_State;`		
-     +		
+     `state = SELECT_State;`	
+     ;	
+     }
+     
+     LatchesSection = LatchesSection
+     +
      `\n \t \t`
      +
      `int OverrideSelectState = digitalRead(OverrideDelayButton); //Normally High (INPUT_PULLUP)`		
@@ -394,7 +405,13 @@ var VoidOverride =
      `// Handle cases based on variable definitions and requirements`
      +
      `\n \t`
-     +
+     ;
+
+     
+     if(NumberOfOptions>2)
+     {
+     SwitchPage =
+     SwitchPage +
      `void SwitchPage()`
      +
      `\n \t`
@@ -531,6 +548,7 @@ var VoidOverride =
           +
           `} //end switch Page`
           ;
+}//end of if (Adjustables.lengtb>2)
 
 
 
