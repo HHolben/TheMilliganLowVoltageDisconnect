@@ -53,19 +53,20 @@
 
             },
             {
-                "Name": "ArduinoMega",
+                "Name": "ArduinoMega2560",
                 "VoltageProbe": "A0", //"Pin A0"
-                "lcdSDA": "27",//"Pin A4"
-                "lcdSCL": "19",//"Pin A5"
-                "EncoderCLK": "6",//"Pin D6"
-                "EncoderDT": "7",//"Pin D7"
-                "EncoderSW": "8",//"Pin D8"
-                "OverrideDelayButton": "10",//"Pin D10"
-                "RelayOutput": "2",//"Pin D2 (digital pin 2)"
-                "InputUp": "6",//Pin D2
-                "InputDown": "7",//Pin D3   
-                "InputRight": "8",//Pin D4
-                "InputLeft": "5",//Pin D5     
-                "InputSelect": "10"//Pin D6
+                "lcdSDA": "20",//"Pin 20, for LCD SDA"
+                "lcdSCL": "21",//"Pin 21, for LCD SCL"
+                "EncoderCLK": "2",//"Pin 2"
+                "EncoderDT": "3",//"Pin 3"
+                "EncoderSW": "6",//"Pin 6
+                "OverrideDelayButton": "13",//"Pin 13" This is for the manual Override delay button
+                "RelayOutput": "7",//"Pin 7"
+                "InputUp": "8",//Pin 8
+                "InputDown": "9",//Pin 9   
+                "InputRight": "10",//Pin 10
+                "InputLeft": "11",//Pin 11    
+                "InputSelect": "12",//Pin 12
+                "OverrideLight": "4"//Pin 4
              }
         ];
