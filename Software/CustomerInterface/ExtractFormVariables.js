@@ -1,6 +1,6 @@
             //Extract Variables From the Form
                 //Nominal Battery Voltage JS Variable
-       const DeviceName = document.getElementById("DeviceName").value;
+       var DeviceName = document.getElementById("DeviceName").value;
             
                 //Nominal Battery Voltage JS Variable
        const NominalVoltage = document.getElementById("NominalVoltage").value;
@@ -136,7 +136,7 @@ console.log("Output Selection: " + OutputSelection);
 
             if(document.getElementById("EnableShutOffVoltageInterface").checked == true)
             {
-                 Adjustables.push(["CutOff Voltage", "Voltaje de Cortar  "]);
+                 Adjustables.push(["CutOff Voltage     ", "Voltaje de Cortar  "]);
                  EnumAdjustables.push("CUT_OFF_VOLTAGE_PAGE");
                  PageNamesAdjustables.push("AdjustCutOffVoltagePage");
                  AdjustablesValueLimit.push(["0","48.0"]);
@@ -155,20 +155,20 @@ console.log("Output Selection: " + OutputSelection);
                  AdjustablesValueLimit.push(["0", "48.0"]);
                  AdjustablesTargetVariables.push("TurnBackOnVoltage");
                  AdjustablesTargetTempVariables.push("TempTurnBackOnVoltage");
-                 AdjustablesTargetStepSize.push(1.0);
+                 AdjustablesTargetStepSize.push(0.1);
                  TargetMemoryLocations.push(TurnOnVoltageAddress.value);
 
             }// end if
             
             if(document.getElementById("override").checked == true)
             {
-                 Adjustables.push(["Override Time", "Tiempo de anulacion "]);
+                 Adjustables.push(["Override Time      ", "Tiempo de anulacion "]);
                  EnumAdjustables.push("OVERRIDE_TIME_PAGE");
                  PageNamesAdjustables.push("AdjustOverrideTimePage")
                  AdjustablesValueLimit.push(["0", "1000"]);
                  AdjustablesTargetVariables.push("OverrideDelay");
                  AdjustablesTargetTempVariables.push("TempOverrideDelay");
-                 AdjustablesTargetStepSize.push(1.0);
+                 AdjustablesTargetStepSize.push(300000);
                  TargetMemoryLocations.push(OverrideTimeAddress.value);
 
 
@@ -181,7 +181,7 @@ console.log("Output Selection: " + OutputSelection);
                  EnumAdjustables.push("TIMER_OFFSET_PAGE");
                  PageNamesAdjustables.push("TimerOffset")
                  AdjustablesValueLimit.push(["0","1000"]);
-                 AdjustablesTargetStepSize.push(1.0);
+                 AdjustablesTargetStepSize.push(0.1);
                  TargetMemoryLocations.push(TimerOffsetAddress.value);
                  AdjustablesTargetVariables.push("TimerOffset");
                  AdjustablesTargetTempVariables.push("TempTimerOffset");
