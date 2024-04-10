@@ -39,7 +39,6 @@
 
 
     }
-    console.log(PageHeaderSpaces);       
 
     var PageHeaderString =`"${DeviceName}` + ` Status:` + PageHeaderSpaces + `", ` + `"${DeviceName}` + ` Estado:` + PageHeaderSpaces + `"`;
 

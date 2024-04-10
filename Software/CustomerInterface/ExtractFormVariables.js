@@ -36,22 +36,22 @@
                 //Microcontroller JS Variables
        if(document.getElementById("ArduinoNano").checked==true)
        {
-        var DeviceSelection = 1;
+        var DeviceSelection = 0;
        }// end if
             
        if(document.getElementById("ArduinoNanoESP32").checked == true)
        {
-        var DeviceSelection = 2;
+        var DeviceSelection = 1;
        }// end if
        
        if(document.getElementById("ArduinoUno").checked==true)
        {
-        var DeviceSelection = 3;
+        var DeviceSelection = 2;
        }// end if
             
        if(document.getElementById("ArduinoMega").checked == true)
        {
-        var DeviceSelection = 4;
+        var DeviceSelection = 3;
        }// end if
             
                 //Control Type JS Variables
@@ -76,7 +76,6 @@
             var OutputSelection = 2;
        }// end if
      
-console.log("Output Selection: " + OutputSelection);
 
             //User-adjustables: in this section, we will create an array to represent all items the customer has decided to allow the end user to change using the end-user interface. We wil then create a string full of arduino code related to creating the end-user interface's menu which we can later inject into the final arduino program
             
@@ -96,7 +95,6 @@ console.log("Output Selection: " + OutputSelection);
           var TargetMemoryLocations =[0,0];
 
 
-          console.log(AdjustablesValueLimit);
 //create a javascript array of the variable names and types associated with each address
 
      //Name Change Arrays 
@@ -180,7 +178,7 @@ console.log("Output Selection: " + OutputSelection);
                  Adjustables.push(["Timer Offset", "Despl. Temporizador"]);
                  EnumAdjustables.push("TIMER_OFFSET_PAGE");
                  PageNamesAdjustables.push("TimerOffset")
-                 AdjustablesValueLimit.push(["0","1000"]);
+                 AdjustablesValueLimit.push(["300000","5400000"]);
                  AdjustablesTargetStepSize.push(0.1);
                  TargetMemoryLocations.push(TimerOffsetAddress.value);
                  AdjustablesTargetVariables.push("TimerOffset");
@@ -250,5 +248,4 @@ console.log("Output Selection: " + OutputSelection);
                 
             }//end for
 
-            console.log(EnumAdjustables);
         

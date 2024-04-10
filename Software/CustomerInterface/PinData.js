@@ -15,7 +15,8 @@
                 "InputDown": "3",//Pin 3   
                 "InputRight": "4",//Pin 4
                 "InputLeft": "5",//Pin 5     
-                "InputSelect": "6"//Pin 6
+                "InputSelect": "6",//Pin 6
+                "BaudRate": "9600"
             },   
             {
                 "Name": "ArduinoNanoESP32",
@@ -31,15 +32,16 @@
                 "InputDown": "3",//Pin 3   
                 "InputRight": "4",//Pin 4
                 "InputLeft": "5",//Pin 5     
-                "InputSelect": "6"//Pin 6
+                "InputSelect": "6",//Pin 6
+                "BaudRate": "9600"
             }, 
             {
                 "Name": "ArduinoUno",
                 "VoltageProbe": "A0", //"Pin A0"
                 "lcdSDA": "27",//"Pin A4"
                 "lcdSCL": "19",//"Pin A5 blue 22 AWG"
-                "EncoderCLK": "3",//"Pin 11"
-                "EncoderDT": "2",//"Pin D10"
+                "EncoderCLK": "2",//"Pin 11"
+                "EncoderDT": "3",//"Pin D10"
                 "EncoderSW": "6",//"Pin D9
                 "OverrideDelayButton": "5",//"Pin D13" This is for the manual Override delay button
                 "RelayOutput": "13",//"Pin D3"
@@ -48,7 +50,9 @@
                 "InputRight": "8",//Pin D8
                 "InputLeft": "10",//Pin 10     
                 "InputSelect": "9",//Pin D9
-                "OverrideLight": "4"//Pin D9
+                "OverrideLight": "4",//Pin D9
+                "BaudRate": "9600"
+
 
 
             },
@@ -67,6 +71,7 @@
                 "InputRight": "10",//Pin 10
                 "InputLeft": "11",//Pin 11    
                 "InputSelect": "12",//Pin 12
-                "OverrideLight": "4"//Pin 4
+                "OverrideLight": "4",//Pin 4,
+                "BaudRate": "115200"
              }
         ];

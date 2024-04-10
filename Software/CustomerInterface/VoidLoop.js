@@ -16,14 +16,6 @@
      `//Initialization of Variables`
      +
      `\n \t \t`
-          +
-     `int lastSwitchState;`
- 	+
-     `\n \t \t`
-     +
-     `int EncoderSelectState = digitalRead(EncoderSW);`
-     +
-     `\n \t \t`
  	+
      LatchesSection
      ;

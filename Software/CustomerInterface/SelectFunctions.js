@@ -28,8 +28,6 @@
       {
 
       
-            console.log(AdjustablesValueLimit);
-            console.log(i);
             
             ButtonSelectFunction = ButtonSelectFunction 
             +
@@ -105,92 +103,79 @@
       `{`
       +
       `\n \t \t`
+
+
++
+
+
+  `\n \t`
+  +
+  `long newPosition2 = myEncoder.read();`
+  +
+  `\n \t`
+
+  +
+  `int delta2 = newPosition2 - oldPosition2;  // Calculate change in encoder value`
+  +
+  `\n \t`
+  +
+  `oldPosition2 = newPosition2;              // Update old position for next comparison`
+ 
+
+
+
++
+  
+  `\n \t`
+  +
+  `if (abs(delta2) > scrollThreshold) {  // Check if change exceeds threshold`
       +
-      `long newPosition = myEncoder.read();`
+    `\n \t`
+    +
+    `if (delta2 > 0) {  // CounterClockwise rotation`
       +
-      `\n \t \t`
-      +
-      `if (newPosition != oldPosition)`
-      +
-      `\n \t \t`
-      +
-      `{`
-      +
-      `\n \t \t \t`
-      +
-      `//ChangeInPosition = ChangeInPosition % scrollThreshold;  //Not needed if ChangeInPosition reset`
-      +
-      `\n \t \t \t`
-      +
-      `ChangeInPosition++;`
-      +
-      `\n \t \t \t`
-      +
-      `if (newPosition > oldPosition)`
-      +
-      `\n \t \t \t`
-      +
-      `{`
-      +
-      `\n \t \t \t \t`
+     
+      `\n \t`
       +
       `EncoderDirection = 1;`
       +
-      `\n \t \t \t`
+    `\n \t`
++
+`}`
++
+    `\n \t`
+    +
+    `else if (delta2 < 0) {  // Clockwise rotation`
       +
-      `} // end if (newPosition > oldPosition)`
-      +
-      `\n \t \t \t`
-      +
-      `else if (newPosition < oldPosition)`
-      +
-      `\n \t \t \t`
-      +
-      `{`
-      +
-      `\n \t \t \t \t`
+     
+      `\n \t`
       +
       `EncoderDirection = 2;`
       +
-      `\n \t \t \t`
-      +
-      `} // end else if (newPosition < oldPosition)`
-      +
-      `\n \t \t \t`
-      +
-      `else`
-      +
-      `\n \t \t \t`
-      +
-      `{`
-      +
-      `\n \t \t \t \t`
-      +
-      `EncoderDirection = 0;  //Idle`
-      +
-      `\n \t \t \t`
-      +
-      `}// end else`
-      +
-      `\n \t \t \t`
-      +
-      `\n \t`
-      +
-      `if (SelectedPage == 0) // this happens if the user wants to go back to the select page` 
-      +
-      `\n \t`
-      +
-      `{`
-      +
-      `\n \t \t`
-      +
-      `StatusPageScreen();`
-      +
-      `\n \t`
-      +
-      `}`
-      ;
-
+    `\n \t`
++
+`}`
++
+    `\n \t`
+    +
+    `else`
+    +
+    `\n \t`
+    +
+    `{`
+    +
+     `\n \t`
+     +
+     ` EncoderDirection = 0; //Idle`
+     +
+    `\n \t`
++
+`}`
++
+  `\n \t`
++
+`}`
+;
 
       for (let i = 2; i <= NumberOfOptions -1; i++) 
       {
@@ -207,13 +192,17 @@
             +
             `\n \t \t`
             +
+            `EncoderDirection = 0;`
+            +
+            `\n \t \t`
+            +
             `${PageNamesAdjustables[i]}`
             +
             `();    // Keep updating the screen`
             +
             `\n \t \t`
             +
-            `if ((EncoderDirection == ${i} && abs(ChangeInPosition >= scrollThreshold))&& ${AdjustablesTargetVariables[i]} < ${AdjustablesValueLimit[i][1]})`//check if the variable is less than or equal to its upper limit`
+            `if (EncoderDirection == ${i} && ${AdjustablesTargetVariables[i]} < ${AdjustablesValueLimit[i][1]})`//check if the variable is less than or equal to its upper limit`
             +
             `\n \t \t`
             +
@@ -229,7 +218,7 @@
             +
             `\n \t \t`
             +
-            `if ((EncoderDirection == ${i} && abs(ChangeInPosition >= scrollThreshold))&& ${AdjustablesTargetVariables[i]} > ${AdjustablesValueLimit[i][1]})`//check if the variable is less than or equal to its upper limit`
+            `if (EncoderDirection == ${i} && ${AdjustablesTargetVariables[i]} > ${AdjustablesValueLimit[i][1]})`//check if the variable is less than or equal to its upper limit`
             +
             `\n \t \t`
             +
@@ -248,3 +237,5 @@
             `}// end of if (SelectedPage == ITERATION)`
             ;
       }//end for
+
+      EncoderSelectFunction = EncoderSelectFunction + `\n \t` + '}';

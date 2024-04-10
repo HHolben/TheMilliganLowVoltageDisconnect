@@ -69,29 +69,69 @@
       +
       `{`
       +
-      `\n \t \t`
-      + 
-      `scrollPosition = 3-abs((myEncoder.read()/4)%4);`
-      +
-      '\n \t \t'
-      +
-      `if (scrollPosition > MaximumEncoderPosition)`
-      +
-      `\n \t \t`
-      +
-      `{`
-      +
-      `\n \t \t \t`
-      +
-      `scrollPosition = scrollPosition-MaximumEncoderPosition-1;`
-      +
-      `\n \t \t`
-      +
-      `} // end if (scrollPosition > MaximumEncoderPosition)`
-      +
       `\n \t`
-      + 
-      `} //end Scroll() function`
       +
-      `\n`
-      ;
+        `long newPosition = myEncoder.read();`
+        +
+        `\n \t`
+        +
+        `int delta = newPosition - oldPosition;  // Calculate change in encoder value`
+        +
+        `\n \t`
+        +
+        `oldPosition = newPosition;              // Update old position for next comparison`
+        +
+        `\n \t`
+        +
+      
+        `if (abs(delta) > scrollThreshold) {  // Check if change exceeds threshold`
+            +
+            `\n \t`
+            +
+          `if (delta < 0)`
+          +
+          `\n \t`
+          +
+          `{  // Clockwise rotation`
+            +
+            `\n \t`
+            +
+            `// Increase scrollPosition, but cap at 3`
+            +
+            `\n \t`
+            +
+            `scrollPosition = (scrollPosition + 1) % 4;`
+            +
+            `\n \t`
+            +
+          `} //end (delta < 0)`
+          +
+          `\n \t`
+          + 
+          `else if (delta > 0)`
+          +
+            `\n \t`
+            +
+            `{  // Counterclockwise rotation`
+            +
+            `\n \t`
+            +
+            `// Decrease scrollPosition, but wrap back to 3 if reaching 0`
+            +
+            `\n \t`
+            +
+            `scrollPosition = (scrollPosition - 1 + 4) % 4;`
+            +
+            `\n \t`
+            +
+          `}// end else if`
+          +
+          `\n \t`
+          +
+        `}// end if`
+        +
+        `\n \t`    
+        +
+        `}// void Scroll`   
+        ;
+  
