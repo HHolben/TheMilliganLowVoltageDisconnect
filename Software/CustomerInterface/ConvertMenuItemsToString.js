@@ -24,9 +24,29 @@
         
     }//end for
 
+
+
     MenuItems += "}; \n";
 
-    var PageHeaderString =`"${DeviceName}` + ` Status:", ` + `"${DeviceName}` + ` Estado:"`;
+
+    var PageHeaderSpacesNumber = 20  - 7 - DeviceName.length; //20 spaces per line, 8 characters in the words " Status:" and " Estado:"
+
+    var PageHeaderSpaces="";
+
+    for( i = 1; i<PageHeaderSpacesNumber; i++)
+    {
+        PageHeaderSpaces = PageHeaderSpaces + " ";
+
+
+    }
+    console.log(PageHeaderSpaces);       
+
+    var PageHeaderString =`"${DeviceName}` + ` Status:` + PageHeaderSpaces + `", ` + `"${DeviceName}` + ` Estado:` + PageHeaderSpaces + `"`;
+
+
+
+
+
 
     var StatusMenuItems =
     `String PageHeader[2] = {${PageHeaderString}};`

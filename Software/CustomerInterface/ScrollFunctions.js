@@ -35,7 +35,7 @@
       +
       `\n \t \t`
       +
-      `if(digitalRead(InputDown) == LOW && scrollPosition <3)     //Also The issue with the button array is that we had an else if here, so if the Input Up wasn't being pressed, then the else if was executed regardless.  Need an else or replace with if `
+      `if(digitalRead(InputDown) == LOW && scrollPosition <${NumberOfOptions -3})     //Also The issue with the button array is that we had an else if here, so if the Input Up wasn't being pressed, then the else if was executed regardless.  Need an else or replace with if `
       +
       `\n \t \t`
       +
