@@ -10,7 +10,7 @@
        const ShutOffVoltage = document.getElementById("ShutOffVoltage").value;
             
                 //Shut off Voltage Timer JS Variable
-       const ShutOffVoltageTimer = document.getElementById("ShutOffVoltageTimer").value *10000; //convert seconds to milliseconds    
+       const ShutOffVoltageTimer = document.getElementById("ShutOffVoltageTimer").value *1000; //convert seconds to milliseconds    
             
             
                 //Turn back on voltage JS Variables

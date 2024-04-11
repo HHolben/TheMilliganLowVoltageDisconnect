@@ -39,7 +39,7 @@ bool OverridePressed = false;
 bool OverrideWhileOffAllowed = true;
 unsigned long MaxOverrideDelay = 90 * 60000; // puts limit of 90 minutes
 int ReconnectDelay = 10000;
-const int numReadings = 20; // Adjust the number of readings based on your preferences
+const int numReadings = 10; // Adjust the number of readings based on your preferences
 float readings[numReadings]; // Array to store readings
 int index = 0; // Index for storing new readings
 static unsigned long StartTime = 0;
@@ -134,8 +134,6 @@ int InputSelect = ${PinData[DeviceSelection].InputSelect};
       `long oldPosition = -999;`
       +
       `\n \t`
-      +
-      `static int lastEncoderSelectState = HIGH;`
       +
       `\n`
       ;

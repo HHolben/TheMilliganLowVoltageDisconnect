@@ -48,7 +48,7 @@
             `\n \t \t`
             +
             
-            `if (digitalRead(InputRight) == LOW && ${AdjustablesTargetVariables[i]} < ${AdjustablesValueLimit[i][1]})`//check if the variable is less than or equal to its upper limit
+            `if (digitalRead(InputRight) == LOW && ${AdjustablesTargetTempVariables[i]} < ${AdjustablesValueLimit[i][1]})`//check if the variable is less than or equal to its upper limit
             +
             `\n \t \t`
             +
@@ -64,7 +64,7 @@
             +
             `\n \t \t`
             +
-            `if (digitalRead(InputLeft) == LOW && ${AdjustablesTargetVariables[i]} > ${AdjustablesValueLimit[i][0]})`//check if the variable is greater than its lower limit
+            `if (digitalRead(InputLeft) == LOW && ${AdjustablesTargetTempVariables[i]} > ${AdjustablesValueLimit[i][0]})`//check if the variable is greater than its lower limit
             +
             `\n \t \t`
             +
@@ -202,7 +202,7 @@
             +
             `\n \t \t`
             +
-            `if (EncoderDirection == ${i} && ${AdjustablesTargetVariables[i]} < ${AdjustablesValueLimit[i][1]})`//check if the variable is less than or equal to its upper limit`
+            `if (EncoderDirection == ${i} && ${AdjustablesTargetTempVariables[i]} < ${AdjustablesValueLimit[i][1]})`//check if the variable is less than or equal to its upper limit`
             +
             `\n \t \t`
             +
@@ -218,7 +218,7 @@
             +
             `\n \t \t`
             +
-            `if (EncoderDirection == ${i} && ${AdjustablesTargetVariables[i]} > ${AdjustablesValueLimit[i][1]})`//check if the variable is less than or equal to its upper limit`
+            `if (EncoderDirection == ${i} && ${AdjustablesTargetTempVariables[i]} > ${AdjustablesValueLimit[i][1]})`//check if the variable is less than or equal to its upper limit`
             +
             `\n \t \t`
             +

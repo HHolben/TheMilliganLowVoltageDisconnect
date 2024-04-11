@@ -40,11 +40,11 @@
                 "VoltageProbe": "A0", //"Pin A0"
                 "lcdSDA": "27",//"Pin A4"
                 "lcdSCL": "19",//"Pin A5 blue 22 AWG"
-                "EncoderCLK": "2",//"Pin 11"
-                "EncoderDT": "3",//"Pin D10"
+                "EncoderCLK": "3",//"Pin 11"
+                "EncoderDT": "2",//"Pin D10"
                 "EncoderSW": "6",//"Pin D9
-                "OverrideDelayButton": "5",//"Pin D13" This is for the manual Override delay button
-                "RelayOutput": "13",//"Pin D3"
+                "OverrideDelayButton": "13",//"Pin D13" This is for the manual Override delay button
+                "RelayOutput": "5",//"Pin D3"
                 "InputUp": "11",//Pin D11
                 "InputDown": "7",//Pin D7   
                 "InputRight": "8",//Pin D8

@@ -6,21 +6,47 @@ var LatchesSection =
      `//All Latches should follow a similar structure. If some buttons are sensitive to bounce, add a latch, change temp variable names.` 		
      +
      `\n \t \t`
-     +
-     `int SELECT_State = digitalRead(InputSelect); //Normally High (INPUT_PULLUP)`			
-     +
-     `\n \t \t`
-     +
-     `int EncoderSelectState = digitalRead(EncoderSW);`
-     +
-     `\n \t \t`
-     +
+     ;
+
+     if(ControlSelection ==1)
+     
+     {
+          LatchesSection =
+          LatchesSection
+          +
+          `int SELECT_State = digitalRead(InputSelect); //Normally High (INPUT_PULLUP)`			
+          +
+          `\n \t \t`
+          ;
+     }// end if(ControlSelection ==1)
+
+
+     if(ControlSelection ==2)
+     
+     {
+          LatchesSection =
+          LatchesSection
+          +
+          `int SELECT_State = digitalRead(EncoderSW); //Normally High (INPUT_PULLUP)`			
+          +
+          `\n \t \t`
+          +
+          `int EncoderSelectState = digitalRead(EncoderSW);`
+          +
+          `\n \t \t`
+          ;
+
+
+     }//end if
+
+
+     LatchesSection = 
+     LatchesSection 
+     +           
      `int state = HIGH;`				
      +
      `\n \t \t`
      ;
-
-
 
      if(NumberOfOptions>2)
      {
@@ -63,6 +89,14 @@ var LatchesSection =
      `int stateEncoder = HIGH;`
      +
     `\n \t`
+    ;
+    
+    
+    if(ControlSelection ==2)
+     
+    {
+     
+     LatchesSection = LatchesSection
     +
     ` if (EncoderSelectState != stateEncoder) { //IF STATE has Changed`
      +
@@ -94,7 +128,11 @@ var LatchesSection =
      +
      `stateEncoder = EncoderSelectState;`
      ;
+
+       }//end if (ControlSelection ==2)
        }//end if (NumberOfOptions>2)
+
+
        LatchesSection = LatchesSection
        +
      
@@ -141,6 +179,10 @@ var LatchesSection =
      `\n \t \t`
      +
      `OverrideDelayLatch = false;`
+     +
+     `\n \t \t \t \t \t \t`
+     +
+     `StatusPageScreen();`
      +		
      `\n \t \t`
      +
@@ -274,6 +316,78 @@ var VoidOverride =
      +
      `\n \t \t \t \t \t \t`
      +
+     `\n \t \t \t \t \t \t`
+     +
+     `//Print the Remaining Time on the Screen`
+       +
+     `\n \t \t \t \t \t \t`
+     +
+     `unsigned long seconds = (remainingTime / 1000) % 60;`
+       +
+     `\n \t \t \t \t \t \t`
+     +
+     `unsigned long minutes = ((remainingTime / 1000) / 60);`
+       +
+     `\n \t \t \t \t \t \t`
+     +
+     `Serial.print(minutes);`
+       +
+     `\n \t \t \t \t \t \t`
+     +
+     `lcd.setCursor(15,3);`
+       +
+     `\n \t \t \t \t \t \t`
+     +
+     `lcd.print(minutes);`
+       +
+     `\n \t \t \t \t \t \t`
+     +
+     `lcd.setCursor(16,3);`
+       +
+     `\n \t \t \t \t \t \t`
+     +
+     `lcd.print(":");`
+       +
+     `\n \t \t \t \t \t \t`
+     +
+     `if (seconds < 10){`
+       +
+     `\n \t \t \t \t \t \t`
+     +
+     `lcd.setCursor(17,3);`
+       +
+     `\n \t \t \t \t \t \t`
+     +
+     `lcd.print("0");`
+       +
+     `\n \t \t \t \t \t \t`
+     +
+     `lcd.setCursor(18,3);`
+       +
+     `\n \t \t \t \t \t \t`
+     +
+     `lcd.print(seconds);`
+       +
+     `\n \t \t \t \t \t \t`
+     +
+     `}`
+       +
+     `\n \t \t \t \t \t \t`
+     +
+     `else{`
+       +
+     `\n \t \t \t \t \t \t`
+     +
+     `lcd.setCursor(17,3);`
+       +
+     `\n \t \t \t \t \t \t`
+     +
+     `lcd.print(seconds);`
+       +
+     `\n \t \t \t \t \t \t`
+     +
+     `}`
+       +
      ` // Other tasks can run here while the timer is active`
      +
      `\n \t \t \t \t \t`  
@@ -302,6 +416,16 @@ var VoidOverride =
      +
      `\n \t \t \t \t \t \t`
      +
+     `\n \t \t \t \t \t \t`
+     +
+     `lcd.setCursor(15, 3);`
+     +
+     `\n \t \t \t \t \t \t` 
+     +
+     `lcd.print("     ");`
+      +
+     `\n \t \t \t \t \t \t`
+     +
      `OverrideTimerHasStarted = false;`
      +
      `\n \t \t \t \t \t`
@@ -324,6 +448,14 @@ var VoidOverride =
      +
      `OverrideTimerHasStarted = false;      //This resets the timer if the voltage goes back to stable state.`
      +
+     `\n \t \t \t \t`
+     +
+     `lcd.setCursor(15,3);`
+     +
+     `\n \t \t \t \t`
+     +
+    `lcd.print("     ");`
+    +
      `\n \t \t \t \t`
      +
      `} //end else`
@@ -353,8 +485,6 @@ var VoidOverride =
      `\n \t \t \t`
      +
      `{`
-     +   
-     `if (OutputState() == 1){  `
      +
      `\n \t \t \t \t`
      +
@@ -419,10 +549,6 @@ var VoidOverride =
      `\n \t \t \t \t`
      +
      `} // end of else statement`
-     +
-`\n \t`
-+
-`}`  
      +
      `\n \t \t \t \t`
      +

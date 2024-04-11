@@ -13,7 +13,7 @@
      +
      `\n \t \t`
      +
-     `float VoltageMeasurement = (analogRead(VoltageProbe)/33); //The factor should probably be based on values of the voltage sensor resistors`
+     `float VoltageMeasurement = (analogRead(VoltageProbe)/33.0); //The factor should probably be based on values of the voltage sensor resistors`
      +
      `\n \t \t`
      +

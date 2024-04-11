@@ -60,7 +60,7 @@
     +
     `\n \t \t`
     +
-    `String OverrideStatus[2][2] = {{"Override: Off", "Sin Anular"}, {"Override: On   ", "Con Anular"}};`
+    `String OverrideStatus[2][2] = {{"Override: OFF", "Sin Anular"}, {"Override: ON ", "Con Anular"}};`
     +
     `\n`
     ;
